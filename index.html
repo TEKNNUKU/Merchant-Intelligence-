@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BigScope — Find Local Businesses</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D0D;
+    --surface: #161616;
+    --surface2: #1E1E1E;
+    --border: #2A2A2A;
+    --gold: #F5A623;
+    --gold-dim: #C47F0D;
+    --green: #00A651;
+    --text: #F0EDE8;
+    --muted: #7A7570;
+    --danger: #E05A2B;
+    --radius: 12px;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 22px; font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--text); }
+  .nav-actions { display: flex; gap: 12px; align-items: center; }
+  .btn-outline {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 500;
+    border-radius: 8px; cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-primary {
+    padding: 8px 18px;
+    background: var(--gold);
+    color: #000;
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 700;
+    border-radius: 8px; cursor: pointer;
+    border: none; transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #e09c1a; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 24px 60px;
+    max-width: 960px; margin: 0 auto;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.25);
+    color: var(--gold);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+    position: relative;
+  }
+  .hero p {
+    font-size: 17px; color: var(--muted);
+    max-width: 520px; margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    max-width: 600px; margin: 0 auto 16px;
+    display: flex; gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .search-wrap:focus-within { border-color: var(--gold); }
+  .search-wrap input {
+    flex: 1; padding: 16px 20px;
+    background: transparent; border: none; outline: none;
+    color: var(--text); font-family: var(--font-body); font-size: 15px;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap button {
+    padding: 12px 24px;
+    background: var(--gold); border: none; cursor: pointer;
+    color: #000; font-weight: 700; font-size: 14px;
+    font-family: var(--font-body);
+    margin: 6px; border-radius: 9px;
+    transition: background 0.2s;
+  }
+  .search-wrap button:hover { background: #e09c1a; }
+
+  /* FILTERS */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .filter-chip {
+    padding: 7px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    border-radius: 100px; cursor: pointer; transition: all 0.2s;
+    font-family: var(--font-body);
+  }
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--gold); color: #000; border-color: var(--gold); font-weight: 700;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 40px;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 24px; font-weight: 800; color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* SECTIONS */
+  .section { max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 22px; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .badge {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 5px;
+  }
+  .badge-gold { background: rgba(245,166,35,0.15); color: var(--gold); }
+  .badge-green { background: rgba(0,166,81,0.15); color: var(--green); }
+  .section-link { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .section-link:hover { color: var(--gold); }
+
+  /* MERCHANT GRID */
+  .merchant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .merchant-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none; color: inherit;
+    display: block;
+    position: relative;
+  }
+  .merchant-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  }
+  .card-img {
+    width: 100%; height: 160px; object-fit: cover;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 32px;
+  }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; }
+  .card-body { padding: 16px; }
+  .card-header { display: flex; align-items: start; justify-content: space-between; margin-bottom: 8px; }
+  .card-name {
+    font-family: var(--font-head);
+    font-size: 16px; font-weight: 700;
+    line-height: 1.2;
+  }
+  .card-badges { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .badge-verified {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
+    background: rgba(0,166,81,0.15); color: var(--green);
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .badge-featured {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
+    background: rgba(245,166,35,0.15); color: var(--gold);
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .card-meta {
+    font-size: 13px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 6px;
+  }
+  .card-meta svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .card-cat {
+    font-size: 12px; font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .card-actions {
+    display: flex; gap: 8px; margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .btn-wa {
+    flex: 1; padding: 8px;
+    background: #25D366; color: #fff;
+    border: none; border-radius: 7px; cursor: pointer;
+    font-family: var(--font-body); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    transition: background 0.2s; text-decoration: none;
+  }
+  .btn-wa:hover { background: #1ebe59; }
+  .btn-view {
+    padding: 8px 14px;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); border-radius: 7px; cursor: pointer;
+    font-family: var(--font-body); font-size: 12px; font-weight: 600;
+    transition: all 0.2s; text-decoration: none;
+    display: flex; align-items: center;
+  }
+  .btn-view:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* FEATURED ROW */
+  .featured-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .featured-card {
+    background: var(--surface);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none; color: inherit;
+    position: relative;
+  }
+  .featured-card::before {
+    content: '★ FEATURED';
+    position: absolute; top: 12px; right: 12px;
+    font-size: 9px; font-weight: 800; letter-spacing: 1px;
+    background: var(--gold); color: #000;
+    padding: 3px 8px; border-radius: 4px;
+    z-index: 2;
+  }
+  .featured-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+  .featured-img {
+    width: 100%; height: 200px; object-fit: cover;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; color: var(--muted);
+  }
+  .featured-img img { width: 100%; height: 100%; object-fit: cover; }
+  .featured-body { padding: 20px; flex: 1; }
+  .featured-name {
+    font-family: var(--font-head);
+    font-size: 20px; font-weight: 800; margin-bottom: 6px;
+  }
+
+  /* CATEGORY GRID */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .cat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .cat-card:hover { border-color: var(--gold); background: var(--surface2); }
+  .cat-icon { font-size: 28px; }
+  .cat-name { font-size: 13px; font-weight: 600; }
+  .cat-count { font-size: 11px; color: var(--muted); }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+  .empty-state h3 { font-family: var(--font-head); font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+
+  /* LOADER */
+  .loader {
+    display: flex; gap: 6px; justify-content: center; padding: 32px;
+  }
+  .loader span {
+    width: 8px; height: 8px; background: var(--gold);
+    border-radius: 50%; animation: bounce 0.6s ease infinite;
+  }
+  .loader span:nth-child(2) { animation-delay: 0.1s; }
+  .loader span:nth-child(3) { animation-delay: 0.2s; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(0,166,81,0.05));
+    border: 1px solid rgba(245,166,35,0.2);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    margin: 0 24px 48px;
+    max-width: 1152px;
+    margin-left: auto; margin-right: auto;
+  }
+  .cta-banner h2 {
+    font-family: var(--font-head);
+    font-size: 28px; font-weight: 800; margin-bottom: 10px;
+  }
+  .cta-banner p { color: var(--muted); margin-bottom: 24px; font-size: 15px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 36px; }
+    .stats-bar { gap: 20px; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Big<span>Scope</span></div>
+  <div class="nav-actions">
+    <a href="admin.html" class="btn-outline">Admin</a>
+    <a href="add.html" class="btn-primary">+ Add Business</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Nigeria's Business Directory</div>
+  <h1>Find <em>Real</em> Businesses<br>Near You</h1>
+  <p>Discover verified local merchants, connect on WhatsApp, and support businesses in your community.</p>
+
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search businesses, categories, locations…">
+    <button onclick="runSearch()">Search</button>
+  </div>
+
+  <div class="filters" id="categoryFilters">
+    <button class="filter-chip active" onclick="filterByCategory('')">All</button>
+    <button class="filter-chip" onclick="filterByCategory('Fashion')">👗 Fashion</button>
+    <button class="filter-chip" onclick="filterByCategory('Food')">🍲 Food</button>
+    <button class="filter-chip" onclick="filterByCategory('Electronics')">📱 Electronics</button>
+    <button class="filter-chip" onclick="filterByCategory('Beauty')">💄 Beauty</button>
+    <button class="filter-chip" onclick="filterByCategory('Logistics')">🚚 Logistics</button>
+    <button class="filter-chip" onclick="filterByCategory('Services')">🔧 Services</button>
+    <button class="filter-chip" onclick="filterByCategory('Finance')">💰 Finance</button>
+    <button class="filter-chip" onclick="filterByCategory('Health')">🏥 Health</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat"><span class="stat-num" id="totalCount">—</span><span class="stat-label">Businesses Listed</span></div>
+  <div class="stat"><span class="stat-num" id="verifiedCount">—</span><span class="stat-label">Verified</span></div>
+  <div class="stat"><span class="stat-num" id="cityCount">—</span><span class="stat-label">Locations</span></div>
+</div>
+
+<!-- FEATURED -->
+<div class="section" id="featuredSection">
+  <div class="section-head">
+    <div class="section-title">⭐ Featured Businesses <span class="badge badge-gold">Premium</span></div>
+  </div>
+  <div class="featured-row" id="featuredList">
+    <div class="loader"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- ALL MERCHANTS -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-title">🏪 All Businesses <span class="badge badge-green" id="listingCount">Loading…</span></div>
+  </div>
+  <div class="merchant-grid" id="merchantList">
+    <div class="loader"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Is Your Business Listed?</h2>
+  <p>Join hundreds of local businesses getting discovered online every day. It's completely free to start.</p>
+  <a href="add.html" class="btn-primary" style="font-size:15px;padding:12px 28px;">List Your Business for FREE →</a>
+</div>
+
+<footer>
+  © 2025 BigScope Business Directory &nbsp;·&nbsp; Powered by TEKNNUKU Studio
+</footer>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
+  authDomain: "merchant-intelligence.firebaseapp.com",
+  projectId: "merchant-intelligence",
+  storageBucket: "merchant-intelligence.firebasestorage.app",
+  messagingSenderId: "1032906945513",
+  appId: "1:1032906945513:web:245aec0df3dd87f0a0d178"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allMerchants = [];
+let activeCategory = '';
+
+window.filterByCategory = function(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  renderMerchants(allMerchants);
+};
+
+window.runSearch = function() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  renderMerchants(allMerchants, q);
+};
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.runSearch();
+});
+
+function formatPhone(p) {
+  if (!p) return '';
+  return p.replace(/\s+/g, '').replace(/^0/, '234');
+}
+
+function getIPFSUrl(cid) {
+  if (!cid) return '';
+  return `https://gateway.pinata.cloud/ipfs/${cid}`;
+}
+
+function renderCard(doc, data, isFeatured = false) {
+  const imgUrl = data.images && data.images.length > 0 ? getIPFSUrl(data.images[0]) : '';
+  const waPhone = formatPhone(data.phone);
+
+  if (isFeatured) {
+    return `
+      <a href="merchant.html?id=${doc.id}" class="featured-card">
+        <div class="featured-img">
+          ${imgUrl ? `<img src="${imgUrl}" alt="${data.businessName}" onerror="this.parentElement.innerHTML='🏪'">` : '🏪'}
+        </div>
+        <div class="featured-body">
+          <div class="card-cat">${data.category || 'Business'}</div>
+          <div class="featured-name">${data.businessName}</div>
+          <div class="card-meta">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2C6.69 2 4 4.69 4 8c0 4.25 6 10 6 10s6-5.75 6-10c0-3.31-2.69-6-6-6zm0 8.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+            ${data.location || 'Location not set'}
+          </div>
+          ${data.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}
+          <div class="card-actions" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+            ${waPhone ? `<a href="https://wa.me/${waPhone}" class="btn-wa" onclick="event.stopPropagation()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.65.07a8.16 8.16 0 01-2.4-1.48 9.04 9.04 0 01-1.66-2.07c-.17-.3-.02-.46.13-.61s.3-.35.45-.52.15-.3.22-.5.04-.37-.02-.52-.67-1.6-.91-2.19c-.24-.57-.49-.49-.67-.5H8.1c-.2 0-.52.07-.79.37S6.5 7.7 6.5 9.2s1.02 2.9 1.16 3.1 2 3.05 4.85 4.28a16.4 16.4 0 001.62.6c.68.22 1.3.19 1.79.11.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36s-.27-.2-.57-.35z"/><path d="M12 2A10 10 0 002 12a9.9 9.9 0 001.34 5L2 22l5.25-1.38A10 10 0 1012 2zm0 18.38a8.38 8.38 0 01-4.27-1.17l-.3-.18-3.12.82.83-3.04-.2-.31A8.38 8.38 0 1112 20.38z"/></svg>
+              WhatsApp
+            </a>` : ''}
+            <a href="merchant.html?id=${doc.id}" class="btn-view" onclick="event.stopPropagation()">View →</a>
+          </div>
+        </div>
+      </a>`;
+  }
+
+  return `
+    <a href="merchant.html?id=${doc.id}" class="merchant-card">
+      <div class="card-img">
+        ${imgUrl ? `<img src="${imgUrl}" alt="${data.businessName}" onerror="this.parentElement.innerHTML='🏪'">` : '🏪'}
+      </div>
+      <div class="card-body">
+        <div class="card-header">
+          <div>
+            <div class="card-cat">${data.category || 'Business'}</div>
+            <div class="card-name">${data.businessName}</div>
+          </div>
+        </div>
+        <div class="card-badges">
+          ${data.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}
+          ${data.featured ? '<span class="badge-featured">★ Featured</span>' : ''}
+        </div>
+        <div class="card-meta" style="margin-top:8px;">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2C6.69 2 4 4.69 4 8c0 4.25 6 10 6 10s6-5.75 6-10c0-3.31-2.69-6-6-6zm0 8.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          ${data.location || 'Nigeria'}
+        </div>
+        <div class="card-actions">
+          ${waPhone ? `<a href="https://wa.me/${waPhone}" class="btn-wa" onclick="event.stopPropagation()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.65.07a8.16 8.16 0 01-2.4-1.48 9.04 9.04 0 01-1.66-2.07c-.17-.3-.02-.46.13-.61s.3-.35.45-.52.15-.3.22-.5.04-.37-.02-.52-.67-1.6-.91-2.19c-.24-.57-.49-.49-.67-.5H8.1c-.2 0-.52.07-.79.37S6.5 7.7 6.5 9.2s1.02 2.9 1.16 3.1 2 3.05 4.85 4.28a16.4 16.4 0 001.62.6c.68.22 1.3.19 1.79.11.55-.08 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36s-.27-.2-.57-.35z"/><path d="M12 2A10 10 0 002 12a9.9 9.9 0 001.34 5L2 22l5.25-1.38A10 10 0 1012 2zm0 18.38a8.38 8.38 0 01-4.27-1.17l-.3-.18-3.12.82.83-3.04-.2-.31A8.38 8.38 0 1112 20.38z"/></svg>
+            WhatsApp
+          </a>` : '<span></span>'}
+          <a href="merchant.html?id=${doc.id}" class="btn-view" onclick="event.stopPropagation()">View →</a>
+        </div>
+      </div>
+    </a>`;
+}
+
+function renderMerchants(merchants, searchQuery = '') {
+  let filtered = merchants;
+
+  if (activeCategory) {
+    filtered = filtered.filter(m => m.data.category === activeCategory);
+  }
+  if (searchQuery) {
+    filtered = filtered.filter(m => {
+      const d = m.data;
+      return (
+        (d.businessName || '').toLowerCase().includes(searchQuery) ||
+        (d.location || '').toLowerCase().includes(searchQuery) ||
+        (d.category || '').toLowerCase().includes(searchQuery) ||
+        (d.owner || '').toLowerCase().includes(searchQuery)
+      );
+    });
+  }
+
+  const list = document.getElementById('merchantList');
+  const featuredList = document.getElementById('featuredList');
+  const featured = filtered.filter(m => m.data.featured);
+  const regular = filtered.filter(m => !m.data.featured);
+
+  document.getElementById('listingCount').textContent = `${filtered.length} businesses`;
+
+  if (featured.length === 0) {
+    featuredList.innerHTML = `<div class="empty-state"><div class="icon">⭐</div><h3>No featured businesses yet</h3><p>Upgrade a listing to featured in the admin panel.</p></div>`;
+  } else {
+    featuredList.innerHTML = featured.map(m => renderCard(m.doc, m.data, true)).join('');
+  }
+
+  if (regular.length === 0) {
+    list.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔍</div><h3>${searchQuery ? 'No results found' : 'No businesses yet'}</h3><p>${searchQuery ? 'Try a different search term.' : 'Be the first to add a business!'}</p></div>`;
+  } else {
+    list.innerHTML = regular.map(m => renderCard(m.doc, m.data, false)).join('');
+  }
+}
+
+async function loadAll() {
+  try {
+    const snapshot = await getDocs(collection(db, 'merchants'));
+    allMerchants = snapshot.docs.map(doc => ({ doc, data: doc.data() }));
+    allMerchants.sort((a, b) => {
+      if (a.data.featured && !b.data.featured) return -1;
+      if (!a.data.featured && b.data.featured) return 1;
+      return 0;
+    });
+
+    const locs = new Set(allMerchants.map(m => m.data.location).filter(Boolean));
+    const verified = allMerchants.filter(m => m.data.verified).length;
+
+    document.getElementById('totalCount').textContent = allMerchants.length;
+    document.getElementById('verifiedCount').textContent = verified;
+    document.getElementById('cityCount').textContent = locs.size;
+
+    renderMerchants(allMerchants);
+  } catch (err) {
+    console.error(err);
+    document.getElementById('merchantList').innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Could not load businesses</h3><p>${err.message}</p></div>`;
+    document.getElementById('featuredList').innerHTML = '';
+  }
+}
+
+loadAll();
+</script>
+</body>
+</html>
