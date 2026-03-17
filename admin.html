@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — BigScope</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D0D; --surface: #161616; --surface2: #1E1E1E;
+    --border: #2A2A2A; --gold: #F5A623; --green: #00A651;
+    --text: #F0EDE8; --muted: #7A7570; --danger: #E05A2B;
+    --radius: 12px;
+    --font-head: 'Syne', sans-serif; --font-body: 'Manrope', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; display: flex; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px; flex-shrink: 0;
+    background: var(--surface); border-right: 1px solid var(--border);
+    height: 100vh; position: sticky; top: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    font-family: var(--font-head); font-size: 20px; font-weight: 800;
+    color: var(--gold); border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column;
+  }
+  .sidebar-logo span { color: var(--text); }
+  .sidebar-sub { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+  .sidebar-nav { padding: 12px; flex: 1; overflow-y: auto; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    transition: all 0.2s; margin-bottom: 2px;
+    text-decoration: none;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: rgba(245,166,35,0.1); color: var(--gold); }
+  .nav-item .ico { font-size: 16px; }
+  .nav-divider { height: 1px; background: var(--border); margin: 8px 0; }
+  .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+
+  /* MAIN */
+  .main { flex: 1; overflow-y: auto; height: 100vh; }
+  .top-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .top-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; }
+  .top-actions { display: flex; gap: 10px; align-items: center; }
+  .search-box {
+    padding: 8px 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: var(--font-body); font-size: 13px;
+    outline: none; width: 220px;
+  }
+  .search-box:focus { border-color: var(--gold); }
+  .btn-sm {
+    padding: 7px 14px; font-size: 12px; font-weight: 700; font-family: var(--font-body);
+    border-radius: 7px; cursor: pointer; border: none; transition: all 0.2s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .btn-gold { background: var(--gold); color: #000; }
+  .btn-gold:hover { background: #e09c1a; }
+
+  /* PAGE CONTENT */
+  .page-body { padding: 28px; }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .metric-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+  }
+  .metric-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .metric-val { font-family: var(--font-head); font-size: 32px; font-weight: 800; }
+  .metric-val.gold { color: var(--gold); }
+  .metric-val.green { color: var(--green); }
+  .metric-val.blue { color: #4A9EFF; }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .table-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .table-head-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--surface2); }
+  th {
+    text-align: left; padding: 12px 16px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .td-name { font-weight: 700; font-size: 14px; }
+  .td-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* TOGGLE */
+  .toggle {
+    position: relative; display: inline-block;
+    width: 40px; height: 22px; cursor: pointer;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--border); border-radius: 22px; transition: 0.2s;
+  }
+  .toggle-slider::before {
+    content: ''; position: absolute;
+    width: 16px; height: 16px; background: #fff; border-radius: 50%;
+    top: 3px; left: 3px; transition: 0.2s;
+  }
+  input:checked + .toggle-slider { background: var(--gold); }
+  input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+  .toggle-green input:checked + .toggle-slider { background: var(--green); }
+
+  /* PIPELINE BADGE */
+  .pipe-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+  .pipe-new { background: rgba(74,158,255,0.15); color: #4A9EFF; }
+  .pipe-created { background: rgba(245,166,35,0.15); color: var(--gold); }
+  .pipe-paid { background: rgba(0,166,81,0.15); color: var(--green); }
+  .pipe-interview { background: rgba(160,100,255,0.15); color: #A064FF; }
+
+  /* SCORE */
+  .score-bar {
+    display: flex; align-items: center; gap: 8px; font-size: 12px;
+  }
+  .score-track {
+    flex: 1; height: 4px; background: var(--border); border-radius: 2px; max-width: 60px;
+  }
+  .score-fill { height: 100%; background: var(--gold); border-radius: 2px; }
+
+  /* LEAD SCORE EDIT */
+  .score-input {
+    width: 40px; padding: 3px 6px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font-body); font-size: 12px;
+    border-radius: 5px; outline: none; text-align: center;
+  }
+
+  /* ACTIONS */
+  .row-actions { display: flex; gap: 6px; align-items: center; }
+  .btn-action {
+    padding: 5px 10px; font-size: 11px; font-weight: 700;
+    border-radius: 5px; cursor: pointer; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .btn-action:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-action.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab {
+    padding: 6px 14px; font-size: 12px; font-weight: 600;
+    border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+    background: transparent; color: var(--muted); font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .tab:hover, .tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+  /* LOADER */
+  .table-loader { padding: 40px; text-align: center; color: var(--muted); }
+  .spin { display: inline-block; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 20px;
+    font-size: 13px; font-weight: 600;
+    display: none; z-index: 9999;
+    animation: slideUp 0.3s ease;
+  }
+  .toast.show { display: flex; align-items: center; gap: 8px; }
+  .toast.success { border-color: var(--green); color: var(--green); }
+  .toast.error { border-color: var(--danger); color: var(--danger); }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    Big<span>Scope</span>
+    <span class="sidebar-sub">Admin Panel</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" onclick="showTab('merchants')"><span class="ico">🏪</span> Merchants</a>
+    <a href="#" class="nav-item" onclick="showTab('pipeline')"><span class="ico">📊</span> Pipeline</a>
+    <div class="nav-divider"></div>
+    <a href="index.html" class="nav-item"><span class="ico">🌐</span> View Directory</a>
+    <a href="add.html" class="nav-item"><span class="ico">➕</span> Add Business</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div style="font-size:11px;color:var(--muted);">BigScope v1.0 &nbsp;·&nbsp; TEKNNUKU</div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <div class="top-bar">
+    <div class="top-title" id="tabTitle">All Merchants</div>
+    <div class="top-actions">
+      <input type="text" class="search-box" id="adminSearch" placeholder="Search merchants…" oninput="filterTable()">
+      <a href="add.html" class="btn-sm btn-gold">+ Add</a>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <!-- METRICS -->
+    <div class="metrics" id="metricsRow">
+      <div class="metric-card"><div class="metric-label">Total Listings</div><div class="metric-val gold" id="m-total">—</div></div>
+      <div class="metric-card"><div class="metric-label">Verified</div><div class="metric-val green" id="m-verified">—</div></div>
+      <div class="metric-card"><div class="metric-label">Featured</div><div class="metric-val blue" id="m-featured">—</div></div>
+      <div class="metric-card"><div class="metric-label">With Media</div><div class="metric-val" id="m-media">—</div></div>
+    </div>
+
+    <!-- FILTER TABS -->
+    <div class="filter-tabs">
+      <button class="tab active" onclick="setFilter('all', this)">All</button>
+      <button class="tab" onclick="setFilter('featured', this)">⭐ Featured</button>
+      <button class="tab" onclick="setFilter('verified', this)">✓ Verified</button>
+      <button class="tab" onclick="setFilter('unverified', this)">Unverified</button>
+      <button class="tab" onclick="setFilter('media', this)">Has Media</button>
+      <button class="tab" onclick="setFilter('nomedia', this)">No Media</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <div class="table-head">
+        <div class="table-head-title">Merchant Intelligence Table</div>
+        <span style="font-size:12px;color:var(--muted);" id="tableCount"></span>
+      </div>
+      <div id="tableContainer">
+        <div class="table-loader"><span class="spin">⟳</span> Loading merchants…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
+  authDomain: "merchant-intelligence.firebaseapp.com",
+  projectId: "merchant-intelligence",
+  storageBucket: "merchant-intelligence.firebasestorage.app",
+  messagingSenderId: "1032906945513",
+  appId: "1:1032906945513:web:245aec0df3dd87f0a0d178"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allMerchants = [];
+let activeFilter = 'all';
+let searchQuery = '';
+
+// TOAST
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.className = `toast show ${type}`;
+  el.innerHTML = (type === 'success' ? '✓ ' : '✕ ') + msg;
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+window.showTab = function(tab) {
+  document.getElementById('tabTitle').textContent = tab === 'merchants' ? 'All Merchants' : 'Pipeline View';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.target.classList.add('active');
+};
+
+window.setFilter = function(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+};
+
+window.filterTable = function() {
+  searchQuery = document.getElementById('adminSearch').value.toLowerCase();
+  renderTable();
+};
+
+// TOGGLE FEATURED
+window.toggleFeatured = async function(id, val) {
+  try {
+    await updateDoc(doc(db, 'merchants', id), { featured: val });
+    const m = allMerchants.find(m => m.id === id);
+    if (m) m.data.featured = val;
+    toast(`Featured ${val ? 'enabled' : 'disabled'}`);
+    updateMetrics();
+  } catch (e) { toast(e.message, 'error'); }
+};
+
+// TOGGLE VERIFIED
+window.toggleVerified = async function(id, val) {
+  try {
+    await updateDoc(doc(db, 'merchants', id), { verified: val });
+    const m = allMerchants.find(m => m.id === id);
+    if (m) m.data.verified = val;
+    toast(`Verified ${val ? 'enabled' : 'disabled'}`);
+    updateMetrics();
+  } catch (e) { toast(e.message, 'error'); }
+};
+
+// UPDATE PIPELINE
+window.updatePipeline = async function(id, stage) {
+  try {
+    await updateDoc(doc(db, 'merchants', id), { pipelineStage: stage });
+    const m = allMerchants.find(m => m.id === id);
+    if (m) m.data.pipelineStage = stage;
+    toast('Pipeline stage updated');
+  } catch (e) { toast(e.message, 'error'); }
+};
+
+// UPDATE LEAD SCORE
+window.updateScore = async function(id, score) {
+  const s = Math.min(10, Math.max(0, parseInt(score) || 0));
+  try {
+    await updateDoc(doc(db, 'merchants', id), { leadScore: s });
+    const m = allMerchants.find(m => m.id === id);
+    if (m) m.data.leadScore = s;
+  } catch (e) { toast(e.message, 'error'); }
+};
+
+// DELETE
+window.deleteMerchant = async function(id, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  try {
+    await deleteDoc(doc(db, 'merchants', id));
+    allMerchants = allMerchants.filter(m => m.id !== id);
+    renderTable(); updateMetrics();
+    toast(`"${name}" deleted`);
+  } catch (e) { toast(e.message, 'error'); }
+};
+
+function pipeClass(stage) {
+  if (!stage) return 'pipe-new';
+  if (stage === 'Paid Client' || stage === 'Upgraded Client') return 'pipe-paid';
+  if (stage === 'Profile Created' || stage === 'Listed') return 'pipe-created';
+  if (stage === 'Interview Done') return 'pipe-interview';
+  return 'pipe-new';
+}
+
+function updateMetrics() {
+  document.getElementById('m-total').textContent = allMerchants.length;
+  document.getElementById('m-verified').textContent = allMerchants.filter(m => m.data.verified).length;
+  document.getElementById('m-featured').textContent = allMerchants.filter(m => m.data.featured).length;
+  document.getElementById('m-media').textContent = allMerchants.filter(m => m.data.images && m.data.images.length > 0).length;
+}
+
+function renderTable() {
+  let list = allMerchants;
+
+  if (activeFilter === 'featured') list = list.filter(m => m.data.featured);
+  else if (activeFilter === 'verified') list = list.filter(m => m.data.verified);
+  else if (activeFilter === 'unverified') list = list.filter(m => !m.data.verified);
+  else if (activeFilter === 'media') list = list.filter(m => m.data.images && m.data.images.length > 0);
+  else if (activeFilter === 'nomedia') list = list.filter(m => !m.data.images || m.data.images.length === 0);
+
+  if (searchQuery) {
+    list = list.filter(m => {
+      const d = m.data;
+      return [d.businessName, d.ownerName, d.location, d.category, d.phone]
+        .filter(Boolean).some(v => v.toLowerCase().includes(searchQuery));
+    });
+  }
+
+  document.getElementById('tableCount').textContent = `${list.length} businesses`;
+
+  if (list.length === 0) {
+    document.getElementById('tableContainer').innerHTML = `<div class="table-loader" style="color:var(--muted)">No merchants found.</div>`;
+    return;
+  }
+
+  const rows = list.map(m => {
+    const d = m.data;
+    const score = d.leadScore || 0;
+    const hasMedia = d.images && d.images.length > 0;
+    const stages = ['New Lead','Profile Created','Interview Done','Community Joined','Paid Client','Upgraded Client'];
+
+    return `<tr>
+      <td>
+        <div class="td-name">${d.businessName}</div>
+        <div class="td-sub">${d.ownerName || '—'} · ${d.location || '—'}</div>
+      </td>
+      <td>
+        <span style="font-size:12px;color:var(--gold);font-weight:600;">${d.category || '—'}</span>
+      </td>
+      <td>
+        <a href="tel:${d.phone}" style="color:var(--text);font-size:12px;">${d.phone || '—'}</a>
+      </td>
+      <td>
+        <span class="pipe-badge ${pipeClass(d.pipelineStage)}">${d.pipelineStage || 'New Lead'}</span>
+        <select onchange="updatePipeline('${m.id}', this.value)" style="display:block;margin-top:4px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:11px;padding:2px 4px;border-radius:4px;font-family:var(--font-body);outline:none;cursor:pointer;">
+          ${stages.map(s => `<option value="${s}" ${d.pipelineStage===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <div class="score-bar">
+          <input type="number" class="score-input" value="${score}" min="0" max="10"
+            onchange="updateScore('${m.id}', this.value)" title="Lead Score 0-10">
+          <div class="score-track"><div class="score-fill" style="width:${score*10}%"></div></div>
+          <span style="color:var(--muted);font-size:11px;">${score}/10</span>
+        </div>
+      </td>
+      <td>
+        <label class="toggle toggle-green">
+          <input type="checkbox" ${d.verified?'checked':''} onchange="toggleVerified('${m.id}', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td>
+        <label class="toggle">
+          <input type="checkbox" ${d.featured?'checked':''} onchange="toggleFeatured('${m.id}', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td>${hasMedia ? `<span style="color:var(--green);font-size:12px;">✓ ${d.images.length} photo${d.images.length>1?'s':''}</span>` : `<span style="color:var(--muted);font-size:12px;">—</span>`}</td>
+      <td>
+        <div class="row-actions">
+          <a href="merchant.html?id=${m.id}" class="btn-action" target="_blank">View</a>
+          <button class="btn-action danger" onclick="deleteMerchant('${m.id}', '${(d.businessName||'').replace(/'/g,"\\'")}')">Del</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tableContainer').innerHTML = `
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Business</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Pipeline</th>
+          <th>Lead Score</th>
+          <th>Verified</th>
+          <th>Featured</th>
+          <th>Media</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>`;
+}
+
+async function load() {
+  try {
+    const snapshot = await getDocs(collection(db, 'merchants'));
+    allMerchants = snapshot.docs.map(d => ({ id: d.id, data: d.data() }));
+    allMerchants.sort((a, b) => {
+      const aDate = a.data.createdAt?.toDate?.() || new Date(0);
+      const bDate = b.data.createdAt?.toDate?.() || new Date(0);
+      return bDate - aDate;
+    });
+    updateMetrics();
+    renderTable();
+  } catch (err) {
+    document.getElementById('tableContainer').innerHTML = `<div class="table-loader" style="color:var(--danger)">Error: ${err.message}</div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
