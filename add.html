@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Business — BigScope</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D0D; --surface: #161616; --surface2: #1E1E1E;
+    --border: #2A2A2A; --gold: #F5A623; --green: #00A651;
+    --text: #F0EDE8; --muted: #7A7570; --danger: #E05A2B;
+    --radius: 12px;
+    --font-head: 'Syne', sans-serif; --font-body: 'Manrope', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--text); }
+  .btn-back { padding: 8px 18px; border: 1px solid var(--border); background: transparent; color: var(--text); font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .btn-back:hover { border-color: var(--gold); color: var(--gold); }
+
+  .page-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+  .page-title { font-family: var(--font-head); font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .page-sub { color: var(--muted); font-size: 15px; margin-bottom: 40px; }
+
+  .section-label {
+    font-family: var(--font-head); font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--gold);
+    margin: 32px 0 16px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .field input, .field select, .field textarea {
+    padding: 12px 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; color: var(--text);
+    font-family: var(--font-body); font-size: 14px;
+    outline: none; transition: border-color 0.2s;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+  .field select option { background: var(--surface2); }
+  .field textarea { resize: vertical; min-height: 90px; }
+
+  .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .radio-btn {
+    padding: 8px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    transition: all 0.2s; user-select: none;
+  }
+  .radio-btn.active { background: rgba(245,166,35,0.1); border-color: var(--gold); color: var(--gold); }
+
+  /* FILE UPLOAD */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold); background: rgba(245,166,35,0.04);
+  }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon { font-size: 32px; margin-bottom: 10px; }
+  .upload-text { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .upload-hint { font-size: 12px; color: var(--muted); }
+
+  .upload-preview {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
+  }
+  .preview-item {
+    width: 80px; height: 80px; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); position: relative; background: var(--surface2);
+  }
+  .preview-item img, .preview-item video { width: 100%; height: 100%; object-fit: cover; }
+  .preview-item .remove {
+    position: absolute; top: 3px; right: 3px;
+    background: rgba(0,0,0,0.7); color: #fff;
+    border: none; border-radius: 50%; width: 20px; height: 20px;
+    font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* UPLOAD PROGRESS */
+  .upload-status {
+    padding: 12px 14px;
+    background: var(--surface2); border-radius: 8px;
+    font-size: 13px; display: none;
+    align-items: center; gap: 10px; margin-top: 12px;
+  }
+  .upload-status.visible { display: flex; }
+  .upload-status.success { color: var(--green); }
+  .upload-status.error { color: var(--danger); }
+  .upload-status.loading { color: var(--gold); }
+  .spin { animation: spin 0.8s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* SUBMIT */
+  .submit-btn {
+    width: 100%; padding: 16px;
+    background: var(--gold); color: #000;
+    font-family: var(--font-head); font-size: 16px; font-weight: 800;
+    border: none; border-radius: 10px; cursor: pointer;
+    margin-top: 32px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .submit-btn:hover { background: #e09c1a; transform: translateY(-2px); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* SUCCESS OVERLAY */
+  .success-overlay {
+    position: fixed; inset: 0;
+    background: rgba(13,13,13,0.95);
+    display: none; align-items: center; justify-content: center;
+    z-index: 999; flex-direction: column; text-align: center; gap: 20px;
+    padding: 24px;
+  }
+  .success-overlay.show { display: flex; }
+  .success-icon { font-size: 64px; }
+  .success-overlay h2 { font-family: var(--font-head); font-size: 28px; font-weight: 800; }
+  .success-overlay p { color: var(--muted); max-width: 360px; }
+  .success-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  .btn-primary { padding: 12px 24px; background: var(--gold); color: #000; font-family: var(--font-body); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .btn-outline { padding: 12px 24px; border: 1px solid var(--border); background: transparent; color: var(--text); font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Big<span>Scope</span></a>
+  <a href="index.html" class="btn-back">← Back</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title">Add a Business</div>
+  <p class="page-sub">Fill in the details below. Free listings go live instantly.</p>
+
+  <!-- BASIC INFO -->
+  <div class="section-label">📋 Business Information</div>
+
+  <div class="form-row">
+    <div class="field">
+      <label>Business Name *</label>
+      <input type="text" id="businessName" placeholder="e.g. Amina Fabrics" required>
+    </div>
+    <div class="field">
+      <label>Owner Name</label>
+      <input type="text" id="ownerName" placeholder="e.g. Amina Ibrahim">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label>Category *</label>
+      <select id="category">
+        <option value="">Select category…</option>
+        <option>Fashion</option>
+        <option>Food</option>
+        <option>Electronics</option>
+        <option>Beauty</option>
+        <option>Logistics</option>
+        <option>Services</option>
+        <option>Finance</option>
+        <option>Health</option>
+        <option>Agriculture</option>
+        <option>Real Estate</option>
+        <option>Education</option>
+        <option>Entertainment</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Location (Market / Area) *</label>
+      <input type="text" id="location" placeholder="e.g. Wuse Market, Abuja">
+    </div>
+  </div>
+
+  <div class="form-row full">
+    <div class="field">
+      <label>Description</label>
+      <textarea id="description" placeholder="Tell customers what you sell and what makes your business special…"></textarea>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section-label">📞 Contact Details</div>
+
+  <div class="form-row triple">
+    <div class="field">
+      <label>WhatsApp / Phone *</label>
+      <input type="tel" id="phone" placeholder="e.g. 08012345678">
+    </div>
+    <div class="field">
+      <label>Instagram Handle</label>
+      <input type="text" id="instagram" placeholder="@handle">
+    </div>
+    <div class="field">
+      <label>Website (optional)</label>
+      <input type="url" id="website" placeholder="https://...">
+    </div>
+  </div>
+
+  <!-- BUSINESS SIGNALS -->
+  <div class="section-label">📊 Business Details</div>
+
+  <div class="form-row triple">
+    <div class="field">
+      <label>Staff Count</label>
+      <input type="number" id="staffCount" placeholder="e.g. 3" min="0">
+    </div>
+    <div class="field">
+      <label>Years in Business</label>
+      <input type="number" id="yearsInBusiness" placeholder="e.g. 5" min="0">
+    </div>
+    <div class="field">
+      <label>Daily Customers (est.)</label>
+      <input type="number" id="dailyCustomers" placeholder="e.g. 30" min="0">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label>Price Range</label>
+      <input type="text" id="priceRange" placeholder="e.g. ₦500 – ₦50,000">
+    </div>
+    <div class="field">
+      <label>Do you deliver?</label>
+      <div class="radio-group" id="deliveryGroup">
+        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('deliveryGroup', this)">✓ Yes</span>
+        <span class="radio-btn" data-val="No" onclick="selectRadio('deliveryGroup', this)">✗ No</span>
+        <span class="radio-btn" data-val="Sometimes" onclick="selectRadio('deliveryGroup', this)">⚡ Sometimes</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL STATUS -->
+  <div class="section-label">📱 Digital Presence</div>
+  <div class="form-row">
+    <div class="field">
+      <label>WhatsApp Business</label>
+      <div class="radio-group" id="waGroup">
+        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('waGroup', this)">Yes</span>
+        <span class="radio-btn" data-val="No" onclick="selectRadio('waGroup', this)">No</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Active on Instagram</label>
+      <div class="radio-group" id="igGroup">
+        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('igGroup', this)">Yes</span>
+        <span class="radio-btn" data-val="No" onclick="selectRadio('igGroup', this)">No</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW -->
+  <div class="section-label">🎙️ Interview (for Content)</div>
+  <div class="form-row full">
+    <div class="field">
+      <label>What makes your business special?</label>
+      <textarea id="uniqueness" placeholder="e.g. We use only the finest imported fabrics and offer custom tailoring same-day…"></textarea>
+    </div>
+  </div>
+  <div class="form-row full">
+    <div class="field">
+      <label>Advice for new entrepreneurs</label>
+      <textarea id="advice" placeholder="e.g. Start small but think big. Never stop learning…"></textarea>
+    </div>
+  </div>
+
+  <!-- MEDIA UPLOAD -->
+  <div class="section-label">🖼️ Photos & Videos</div>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Media is stored on IPFS — globally accessible and permanent.</p>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Business Photos (up to 5)</label>
+    <div class="upload-zone" id="imageZone">
+      <input type="file" id="imageInput" accept="image/*" multiple>
+      <div class="upload-icon">📸</div>
+      <div class="upload-text">Click or drag photos here</div>
+      <div class="upload-hint">JPG, PNG, WEBP — Max 10MB each</div>
+    </div>
+    <div class="upload-preview" id="imagePreview"></div>
+    <div class="upload-status" id="imageStatus"></div>
+  </div>
+
+  <div class="field">
+    <label>Business Video (optional)</label>
+    <div class="upload-zone" id="videoZone">
+      <input type="file" id="videoInput" accept="video/*">
+      <div class="upload-icon">🎬</div>
+      <div class="upload-text">Click or drag video here</div>
+      <div class="upload-hint">MP4, MOV, WEBM — Max 100MB</div>
+    </div>
+    <div class="upload-preview" id="videoPreview"></div>
+    <div class="upload-status" id="videoStatus"></div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+    🚀 List This Business
+  </button>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">🎉</div>
+  <h2>Business Listed!</h2>
+  <p>The business is now live on BigScope and can be found by customers.</p>
+  <div class="success-btns">
+    <button class="btn-primary" onclick="viewMerchant()">View Listing →</button>
+    <a href="add.html" class="btn-outline">Add Another</a>
+    <a href="index.html" class="btn-outline">Go to Directory</a>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
+  authDomain: "merchant-intelligence.firebaseapp.com",
+  projectId: "merchant-intelligence",
+  storageBucket: "merchant-intelligence.firebasestorage.app",
+  messagingSenderId: "1032906945513",
+  appId: "1:1032906945513:web:245aec0df3dd87f0a0d178"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const PINATA_KEY = "67a1791c33a02e8d2da3";
+let imageCIDs = [];
+let videoCID = null;
+let newMerchantId = null;
+
+// ---- RADIO ----
+window.selectRadio = function(groupId, el) {
+  document.querySelectorAll(`#${groupId} .radio-btn`).forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+};
+
+function getRadioVal(groupId) {
+  const el = document.querySelector(`#${groupId} .radio-btn.active`);
+  return el ? el.dataset.val : null;
+}
+
+// ---- IPFS UPLOAD VIA PINATA ----
+async function uploadToPinata(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('pinataMetadata', JSON.stringify({ name: file.name }));
+  formData.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
+
+  const res = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${PINATA_KEY}` },
+    body: formData
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`IPFS upload failed: ${res.status} — ${err}`);
+  }
+
+  const data = await res.json();
+  return data.IpfsHash;
+}
+
+// ---- FILE PREVIEW ----
+function setStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.className = `upload-status visible ${type}`;
+  el.innerHTML = msg;
+}
+
+document.getElementById('imageInput').addEventListener('change', function() {
+  const files = Array.from(this.files).slice(0, 5);
+  const preview = document.getElementById('imagePreview');
+  preview.innerHTML = files.map((f, i) => {
+    const url = URL.createObjectURL(f);
+    return `<div class="preview-item"><img src="${url}" alt="preview"><button class="remove" onclick="removeImg(${i})">✕</button></div>`;
+  }).join('');
+});
+
+document.getElementById('videoInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  document.getElementById('videoPreview').innerHTML = `<div class="preview-item"><video src="${url}"></video></div>`;
+});
+
+// ---- SUBMIT ----
+window.submitForm = async function() {
+  const btn = document.getElementById('submitBtn');
+  const name = document.getElementById('businessName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const cat = document.getElementById('category').value;
+  const loc = document.getElementById('location').value.trim();
+
+  if (!name || !phone || !cat || !loc) {
+    alert('Please fill in: Business Name, Phone, Category, and Location.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin">⟳</span> Saving…';
+
+  try {
+    // Upload images to IPFS
+    const imageFiles = Array.from(document.getElementById('imageInput').files).slice(0, 5);
+    imageCIDs = [];
+
+    if (imageFiles.length > 0) {
+      setStatus('imageStatus', '<span class="spin">⟳</span> Uploading photos to IPFS…', 'loading');
+      for (const file of imageFiles) {
+        const cid = await uploadToPinata(file);
+        imageCIDs.push(cid);
+      }
+      setStatus('imageStatus', `✓ ${imageCIDs.length} photo(s) uploaded`, 'success');
+    }
+
+    // Upload video to IPFS
+    const videoFile = document.getElementById('videoInput').files[0];
+    videoCID = null;
+
+    if (videoFile) {
+      setStatus('videoStatus', '<span class="spin">⟳</span> Uploading video to IPFS…', 'loading');
+      videoCID = await uploadToPinata(videoFile);
+      setStatus('videoStatus', '✓ Video uploaded', 'success');
+    }
+
+    // Save to Firestore
+    btn.innerHTML = '<span class="spin">⟳</span> Saving to directory…';
+    const merchant = {
+      businessName: name,
+      ownerName: document.getElementById('ownerName').value.trim(),
+      phone,
+      category: cat,
+      location: loc,
+      description: document.getElementById('description').value.trim(),
+      instagram: document.getElementById('instagram').value.trim(),
+      website: document.getElementById('website').value.trim(),
+      staffCount: parseInt(document.getElementById('staffCount').value) || 0,
+      yearsInBusiness: parseInt(document.getElementById('yearsInBusiness').value) || 0,
+      dailyCustomers: parseInt(document.getElementById('dailyCustomers').value) || 0,
+      priceRange: document.getElementById('priceRange').value.trim(),
+      delivers: getRadioVal('deliveryGroup'),
+      whatsappBusiness: getRadioVal('waGroup'),
+      activeOnInstagram: getRadioVal('igGroup'),
+      uniqueness: document.getElementById('uniqueness').value.trim(),
+      advice: document.getElementById('advice').value.trim(),
+      images: imageCIDs,
+      videoCIDs: videoCID ? [videoCID] : [],
+      featured: false,
+      verified: false,
+      leadScore: 0,
+      pipelineStage: 'Profile Created',
+      directoryStatus: 'Listed',
+      createdAt: new Date()
+    };
+
+    const docRef = await addDoc(collection(db, 'merchants'), merchant);
+    newMerchantId = docRef.id;
+    document.getElementById('successOverlay').classList.add('show');
+
+  } catch (err) {
+    console.error(err);
+    alert('Error: ' + err.message);
+    btn.disabled = false;
+    btn.innerHTML = '🚀 List This Business';
+  }
+};
+
+window.viewMerchant = function() {
+  if (newMerchantId) window.location.href = `merchant.html?id=${newMerchantId}`;
+};
+</script>
+</body>
+</html>
