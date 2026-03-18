@@ -13,15 +13,17 @@
 
   /* AUTH SCREEN */
   .auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-  .auth-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:40px 32px;max-width:400px;width:100%;text-align:center;}
+  .auth-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:40px 32px;max-width:420px;width:100%;text-align:center;}
   .auth-logo{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--gold);margin-bottom:4px;}
   .auth-logo span{color:var(--text);}
   .auth-sub{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:28px;}
   .auth-box h2{font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:8px;}
   .auth-box p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
   .btn-google{width:100%;padding:13px;background:#fff;color:#333;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;}
-  .btn-google:hover{background:#f5f5f5;transform:translateY(-1px);}
-  .auth-error{margin-top:14px;font-size:12px;color:var(--danger);display:none;}
+  .btn-google:hover:not(:disabled){background:#f5f5f5;transform:translateY(-1px);}
+  .btn-google:disabled{opacity:.6;cursor:not-allowed;}
+  .auth-error{margin-top:14px;font-size:12px;color:var(--danger);display:none;background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:10px 14px;text-align:left;line-height:1.6;}
+  @keyframes spin{to{transform:rotate(360deg);}}
 
   /* APP SHELL */
   .app{display:none;flex-direction:row;height:100vh;overflow:hidden;}
@@ -214,11 +216,11 @@
     <div class="auth-sub">Admin Control Tower</div>
     <h2>Sign in to continue</h2>
     <p>This area is restricted to BigScope administrators. Sign in with your authorised Google account to access the dashboard.</p>
-    <button class="btn-google" onclick="signInWithGoogle()">
+    <button class="btn-google" id="googleSignInBtn" onclick="signInWithGoogle()">
       <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Sign in with Google
     </button>
-    <p class="auth-error" id="authError">❌ Unauthorized. Your account is not an admin.</p>
+    <div class="auth-error" id="authError"></div>
   </div>
 </div>
 
@@ -367,7 +369,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
@@ -394,37 +396,95 @@ let searchQuery = '';
 let dataLoaded = false;
 
 // ---- AUTH ----
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function setSignInLoading(loading) {
+  const btn = document.getElementById('googleSignInBtn');
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? '<span style="animation:spin .8s linear infinite;display:inline-block;">⟳</span> Signing in…'
+    : '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Sign in with Google';
+}
+
+function admitUser(user) {
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('appShell').style.display='flex';
+  const av = document.getElementById('userAvatar');
+  if (user.photoURL) av.innerHTML=`<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;">`;
+  else av.textContent = (user.displayName?.[0] || user.email[0]).toUpperCase();
+  document.getElementById('userName').textContent = user.displayName || user.email;
+  if (!dataLoaded) { dataLoaded=true; loadAll(); }
+}
+
+// Handle redirect result on page load (for mobile / popup-blocked browsers)
+getRedirectResult(auth).then(result => {
+  if (!result) return;
+  setSignInLoading(false);
+  const email = result.user.email;
+  if (ADMIN_EMAILS.includes(email)) {
+    admitUser(result.user);
+  } else {
+    fbSignOut(auth);
+    showAuthError(`❌ "${email}" is not an authorised admin. Check ADMIN_EMAILS in admin.html.`);
+  }
+}).catch(err => {
+  setSignInLoading(false);
+  if (err.code !== 'auth/no-auth-event') {
+    showAuthError(`❌ Sign-in error: ${err.message}`);
+  }
+});
+
 window.signInWithGoogle = async function() {
+  document.getElementById('authError').style.display = 'none';
+  setSignInLoading(true);
   try {
+    // Try popup first
     const result = await signInWithPopup(auth, provider);
+    setSignInLoading(false);
     const email = result.user.email;
-    if (!ADMIN_EMAILS.includes(email)) {
+    if (ADMIN_EMAILS.includes(email)) {
+      admitUser(result.user);
+    } else {
       await fbSignOut(auth);
-      document.getElementById('authError').style.display='block';
+      showAuthError(`❌ "${email}" is not an authorised admin. Check ADMIN_EMAILS in admin.html.`);
     }
-  } catch(e) { console.error(e); }
+  } catch(err) {
+    // If popup was blocked or failed, fall back to redirect
+    if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+      showAuthError('⚠️ Popup was blocked. Trying redirect sign-in instead…');
+      setTimeout(() => signInWithRedirect(auth, provider), 1000);
+    } else {
+      setSignInLoading(false);
+      // Show the real Firebase error so you know what to fix
+      const msgs = {
+        'auth/unauthorized-domain': '❌ This domain is not authorised in Firebase. Go to Firebase Console → Authentication → Settings → Authorized domains and add your current domain.',
+        'auth/operation-not-allowed': '❌ Google sign-in is not enabled. Go to Firebase Console → Authentication → Sign-in method → Enable Google.',
+        'auth/network-request-failed': '❌ Network error. Check your internet connection.',
+      };
+      showAuthError(msgs[err.code] || `❌ Error (${err.code}): ${err.message}`);
+      console.error('Auth error:', err.code, err.message);
+    }
+  }
 };
 
 window.signOut = async function() {
   await fbSignOut(auth);
   document.getElementById('appShell').style.display='none';
   document.getElementById('authScreen').style.display='flex';
+  setSignInLoading(false);
 };
 
 onAuthStateChanged(auth, user => {
   if (user && ADMIN_EMAILS.includes(user.email)) {
-    document.getElementById('authScreen').style.display='none';
-    document.getElementById('appShell').style.display='flex';
-    // User chip
-    const av = document.getElementById('userAvatar');
-    if (user.photoURL) av.innerHTML=`<img src="${user.photoURL}">`;
-    else av.textContent = user.displayName?.[0] || user.email[0].toUpperCase();
-    document.getElementById('userName').textContent = user.displayName || user.email;
-    if (!dataLoaded) { dataLoaded=true; loadAll(); }
-  } else if (!user) {
-    document.getElementById('authScreen').style.display='flex';
-    document.getElementById('appShell').style.display='none';
+    admitUser(user);
+  } else if (user && !ADMIN_EMAILS.includes(user.email)) {
+    // Signed in but not admin — sign them out quietly
+    fbSignOut(auth);
   }
+  // if !user: stay on auth screen (default state)
 });
 
 // ---- TOAST ----
