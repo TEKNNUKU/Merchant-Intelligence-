@@ -3,153 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Business — BigScope</title>
+<title>Add Your Business — BigScope</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-  :root {
-    --bg: #0D0D0D; --surface: #161616; --surface2: #1E1E1E;
-    --border: #2A2A2A; --gold: #F5A623; --green: #00A651;
-    --text: #F0EDE8; --muted: #7A7570; --danger: #E05A2B;
-    --radius: 12px;
-    --font-head: 'Syne', sans-serif; --font-body: 'Manrope', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+  :root{--bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--border:#2A2A2A;--gold:#F5A623;--green:#00A651;--text:#F0EDE8;--muted:#7A7570;--danger:#E05A2B;--radius:12px;--font-head:'Syne',sans-serif;--font-body:'Manrope',sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{overflow-x:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;}
 
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px; height: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--gold); text-decoration: none; }
-  .nav-logo span { color: var(--text); }
-  .btn-back { padding: 8px 18px; border: 1px solid var(--border); background: transparent; color: var(--text); font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
-  .btn-back:hover { border-color: var(--gold); color: var(--gold); }
+  nav{position:sticky;top:0;z-index:200;background:rgba(13,13,13,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
+  .nav-logo span{color:var(--text);}
+  .btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;}
+  .btn-back:hover{border-color:var(--gold);color:var(--gold);}
 
-  .page-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
-  .page-title { font-family: var(--font-head); font-size: 32px; font-weight: 800; margin-bottom: 8px; }
-  .page-sub { color: var(--muted); font-size: 15px; margin-bottom: 40px; }
+  .page-wrap{max-width:680px;margin:0 auto;padding:32px 16px 80px;}
+  .page-title{font-family:var(--font-head);font-size:28px;font-weight:800;margin-bottom:6px;}
+  .page-sub{color:var(--muted);font-size:14px;margin-bottom:32px;line-height:1.6;}
 
-  .section-label {
-    font-family: var(--font-head); font-size: 13px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase; color: var(--gold);
-    margin: 32px 0 16px; padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 8px;
-  }
+  .section-label{font-family:var(--font-head);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
 
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .form-row.full { grid-template-columns: 1fr; }
-  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+  .form-row.full{grid-template-columns:1fr;}
+  .form-row.triple{grid-template-columns:1fr 1fr 1fr;}
 
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label { font-size: 13px; font-weight: 600; color: var(--muted); }
-  .field input, .field select, .field textarea {
-    padding: 12px 14px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 9px; color: var(--text);
-    font-family: var(--font-body); font-size: 14px;
-    outline: none; transition: border-color 0.2s;
-    width: 100%;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
-  .field select option { background: var(--surface2); }
-  .field textarea { resize: vertical; min-height: 90px; }
+  .field{display:flex;flex-direction:column;gap:5px;}
+  .field label{font-size:12px;font-weight:600;color:var(--muted);}
+  .field label .req{color:var(--gold);}
+  .field input,.field select,.field textarea{padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .2s;width:100%;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
+  .field select option{background:var(--surface2);}
+  .field textarea{resize:vertical;min-height:80px;line-height:1.6;}
+  .field-hint{font-size:11px;color:var(--muted);margin-top:3px;}
 
-  .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-  .radio-btn {
-    padding: 8px 16px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; cursor: pointer;
-    font-size: 13px; font-weight: 600; color: var(--muted);
-    transition: all 0.2s; user-select: none;
-  }
-  .radio-btn.active { background: rgba(245,166,35,0.1); border-color: var(--gold); color: var(--gold); }
+  /* RADIO */
+  .radio-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .radio-btn{padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;user-select:none;}
+  .radio-btn.active{background:rgba(245,166,35,.1);border-color:var(--gold);color:var(--gold);}
 
-  /* FILE UPLOAD */
-  .upload-zone {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--surface);
-    position: relative;
-  }
-  .upload-zone:hover, .upload-zone.drag-over {
-    border-color: var(--gold); background: rgba(245,166,35,0.04);
-  }
-  .upload-zone input[type="file"] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-  }
-  .upload-icon { font-size: 32px; margin-bottom: 10px; }
-  .upload-text { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .upload-hint { font-size: 12px; color: var(--muted); }
+  /* UPLOAD ZONES */
+  .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
+  .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);position:relative;overflow:hidden;}
+  .upload-zone:hover,.upload-zone.drag-over{border-color:var(--gold);background:rgba(245,166,35,.03);}
+  .upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .upload-icon{font-size:24px;margin-bottom:6px;}
+  .upload-title{font-size:13px;font-weight:700;margin-bottom:3px;}
+  .upload-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;margin-bottom:4px;}
+  .upload-badge.logo-badge{background:rgba(245,166,35,.15);color:var(--gold);}
+  .upload-badge.banner-badge{background:rgba(74,158,255,.15);color:#4A9EFF;}
+  .upload-hint{font-size:11px;color:var(--muted);}
+  .upload-preview{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+  .preview-thumb{width:52px;height:52px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
+  .preview-thumb img{width:100%;height:100%;object-fit:cover;}
 
-  .upload-preview {
-    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
-  }
-  .preview-item {
-    width: 80px; height: 80px; border-radius: 8px; overflow: hidden;
-    border: 1px solid var(--border); position: relative; background: var(--surface2);
-  }
-  .preview-item img, .preview-item video { width: 100%; height: 100%; object-fit: cover; }
-  .preview-item .remove {
-    position: absolute; top: 3px; right: 3px;
-    background: rgba(0,0,0,0.7); color: #fff;
-    border: none; border-radius: 50%; width: 20px; height: 20px;
-    font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  }
+  /* SOCIAL LINKS */
+  .social-list{display:flex;flex-direction:column;gap:8px;}
+  .social-row{display:flex;gap:8px;align-items:center;}
+  .social-row select{width:130px;flex-shrink:0;padding:9px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;}
+  .social-row input{flex:1;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;min-width:0;}
+  .social-row input:focus,.social-row select:focus{border-color:var(--gold);}
+  .social-row .remove-social{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 10px;border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0;}
+  .social-row .remove-social:hover{border-color:var(--danger);color:var(--danger);}
+  .btn-add-social{padding:8px 16px;background:transparent;border:1px dashed var(--border);color:var(--muted);font-family:var(--font-body);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;width:100%;margin-top:8px;}
+  .btn-add-social:hover{border-color:var(--gold);color:var(--gold);}
 
-  /* UPLOAD PROGRESS */
-  .upload-status {
-    padding: 12px 14px;
-    background: var(--surface2); border-radius: 8px;
-    font-size: 13px; display: none;
-    align-items: center; gap: 10px; margin-top: 12px;
-  }
-  .upload-status.visible { display: flex; }
-  .upload-status.success { color: var(--green); }
-  .upload-status.error { color: var(--danger); }
-  .upload-status.loading { color: var(--gold); }
-  .spin { animation: spin 0.8s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* MAP */
+  .map-wrap{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:8px;}
+  #locationMap{height:240px;width:100%;background:var(--surface2);}
+  .map-coords{font-size:11px;color:var(--muted);padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);display:flex;align-items:center;gap:6px;}
+  .map-search-row{display:flex;gap:8px;margin-bottom:8px;}
+  .map-search-row input{flex:1;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;min-width:0;}
+  .map-search-row input:focus{border-color:var(--gold);}
+  .map-search-row button{padding:10px 16px;background:var(--gold);border:none;border-radius:8px;color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--font-body);white-space:nowrap;}
+
+  /* STATUS / PROGRESS */
+  .upload-status{display:none;align-items:center;gap:8px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:13px;margin-top:8px;}
+  .upload-status.show{display:flex;}
+  .upload-status.loading{color:var(--gold);}
+  .upload-status.success{color:var(--green);}
+  .upload-status.error{color:var(--danger);}
+  .spin{display:inline-block;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
 
   /* SUBMIT */
-  .submit-btn {
-    width: 100%; padding: 16px;
-    background: var(--gold); color: #000;
-    font-family: var(--font-head); font-size: 16px; font-weight: 800;
-    border: none; border-radius: 10px; cursor: pointer;
-    margin-top: 32px; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .submit-btn:hover { background: #e09c1a; transform: translateY(-2px); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .submit-btn{width:100%;padding:15px;background:var(--gold);color:#000;font-family:var(--font-head);font-size:15px;font-weight:800;border:none;border-radius:10px;cursor:pointer;margin-top:28px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .submit-btn:hover{background:#e09c1a;transform:translateY(-1px);}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-  /* SUCCESS OVERLAY */
-  .success-overlay {
-    position: fixed; inset: 0;
-    background: rgba(13,13,13,0.95);
-    display: none; align-items: center; justify-content: center;
-    z-index: 999; flex-direction: column; text-align: center; gap: 20px;
-    padding: 24px;
-  }
-  .success-overlay.show { display: flex; }
-  .success-icon { font-size: 64px; }
-  .success-overlay h2 { font-family: var(--font-head); font-size: 28px; font-weight: 800; }
-  .success-overlay p { color: var(--muted); max-width: 360px; }
-  .success-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  /* SUCCESS */
+  .success-overlay{position:fixed;inset:0;background:rgba(13,13,13,.97);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;text-align:center;gap:16px;padding:24px;}
+  .success-overlay.show{display:flex;}
+  .success-icon{font-size:56px;}
+  .success-overlay h2{font-family:var(--font-head);font-size:24px;font-weight:800;}
+  .success-overlay p{color:var(--muted);max-width:360px;font-size:14px;line-height:1.65;}
+  .pending-box{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:12px;padding:16px 20px;max-width:400px;font-size:13px;color:var(--muted);line-height:1.65;}
+  .pending-box strong{color:var(--gold);}
+  .success-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .btn-primary{padding:11px 22px;background:var(--gold);color:#000;font-family:var(--font-body);font-size:14px;font-weight:700;border-radius:8px;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block;}
+  .btn-outline{padding:11px 22px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
 
-  .btn-primary { padding: 12px 24px; background: var(--gold); color: #000; font-family: var(--font-body); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; display: inline-block; }
-  .btn-outline { padding: 12px 24px; border: 1px solid var(--border); background: transparent; color: var(--text); font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
-
-  @media (max-width: 600px) {
-    .form-row { grid-template-columns: 1fr; }
-    .form-row.triple { grid-template-columns: 1fr 1fr; }
+  @media(max-width:560px){
+    .form-row{grid-template-columns:1fr;}
+    .form-row.triple{grid-template-columns:1fr 1fr;}
+    .upload-grid{grid-template-columns:1fr;}
+    .social-row{flex-wrap:wrap;}
+    .social-row select{width:100%;}
   }
 </style>
 </head>
@@ -161,16 +120,16 @@
 </nav>
 
 <div class="page-wrap">
-  <div class="page-title">Add a Business</div>
-  <p class="page-sub">Fill in the details below. Free listings go live instantly.</p>
+  <div class="page-title">List Your Business</div>
+  <p class="page-sub">Fill in your business details below. Your listing will be reviewed and go live within 48 hours — after which it is automatically published if no response from our team.</p>
 
-  <!-- BASIC INFO -->
+  <!-- SECTION 1: BASIC INFO -->
   <div class="section-label">📋 Business Information</div>
 
   <div class="form-row">
     <div class="field">
-      <label>Business Name *</label>
-      <input type="text" id="businessName" placeholder="e.g. Amina Fabrics" required>
+      <label>Business Name <span class="req">*</span></label>
+      <input type="text" id="businessName" placeholder="e.g. Amina Fabrics">
     </div>
     <div class="field">
       <label>Owner Name</label>
@@ -180,56 +139,87 @@
 
   <div class="form-row">
     <div class="field">
-      <label>Category *</label>
+      <label>Category <span class="req">*</span></label>
       <select id="category">
         <option value="">Select category…</option>
-        <option>Fashion</option>
-        <option>Food</option>
-        <option>Electronics</option>
-        <option>Beauty</option>
-        <option>Logistics</option>
-        <option>Services</option>
-        <option>Finance</option>
-        <option>Health</option>
-        <option>Agriculture</option>
-        <option>Real Estate</option>
-        <option>Education</option>
-        <option>Entertainment</option>
-        <option>Other</option>
+        <option>Fashion</option><option>Food</option><option>Electronics</option>
+        <option>Beauty</option><option>Logistics</option><option>Services</option>
+        <option>Finance</option><option>Health</option><option>Agriculture</option>
+        <option>Real Estate</option><option>Education</option><option>Entertainment</option><option>Other</option>
       </select>
     </div>
     <div class="field">
-      <label>Location (Market / Area) *</label>
-      <input type="text" id="location" placeholder="e.g. Wuse Market, Abuja">
+      <label>Years in Business</label>
+      <input type="number" id="yearsInBusiness" placeholder="e.g. 5" min="0">
     </div>
   </div>
 
   <div class="form-row full">
     <div class="field">
-      <label>Description</label>
-      <textarea id="description" placeholder="Tell customers what you sell and what makes your business special…"></textarea>
+      <label>What do you sell / What is your business about? <span class="req">*</span></label>
+      <textarea id="description" placeholder="Describe what you sell, who your customers are, and what makes your business great…"></textarea>
     </div>
   </div>
 
-  <!-- CONTACT -->
+  <!-- SECTION 2: LOCATION -->
+  <div class="section-label">📍 Location</div>
+
+  <div class="form-row full">
+    <div class="field">
+      <label>Business Address / Area <span class="req">*</span></label>
+      <input type="text" id="location" placeholder="e.g. Wuse Market, Zone 5, Abuja">
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">📌 Optional: Pin your exact location on the map so customers can find you easily.</p>
+
+  <div class="map-search-row">
+    <input type="text" id="mapSearchInput" placeholder="Search address on map…">
+    <button onclick="searchMap()">Search Map</button>
+  </div>
+  <div class="map-wrap">
+    <div id="locationMap"></div>
+    <div class="map-coords" id="mapCoords">Click on the map to pin your location (optional)</div>
+  </div>
+
+  <!-- SECTION 3: CONTACT -->
   <div class="section-label">📞 Contact Details</div>
 
-  <div class="form-row triple">
+  <div class="form-row">
     <div class="field">
-      <label>WhatsApp / Phone *</label>
+      <label>WhatsApp / Phone Number <span class="req">*</span></label>
       <input type="tel" id="phone" placeholder="e.g. 08012345678">
     </div>
     <div class="field">
-      <label>Instagram Handle</label>
-      <input type="text" id="instagram" placeholder="@handle">
-    </div>
-    <div class="field">
-      <label>Website (optional)</label>
-      <input type="url" id="website" placeholder="https://...">
+      <label>Online Store / Website Link</label>
+      <input type="url" id="website" placeholder="https://yourstore.com or selar link">
+      <span class="field-hint">Shopify, Selar, Paystack store, or any website</span>
     </div>
   </div>
 
-  <!-- BUSINESS SIGNALS -->
+  <!-- SECTION 4: SOCIAL LINKS -->
+  <div class="section-label">🔗 Social Media Links</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Add as many social links as you have. These will appear on your profile page.</p>
+
+  <div class="social-list" id="socialList">
+    <div class="social-row">
+      <select class="social-platform">
+        <option value="instagram">📸 Instagram</option>
+        <option value="tiktok">🎵 TikTok</option>
+        <option value="facebook">📘 Facebook</option>
+        <option value="twitter">🐦 X / Twitter</option>
+        <option value="youtube">▶️ YouTube</option>
+        <option value="linkedin">💼 LinkedIn</option>
+        <option value="telegram">✈️ Telegram</option>
+        <option value="snapchat">👻 Snapchat</option>
+      </select>
+      <input type="text" class="social-url" placeholder="Profile URL or handle">
+      <button class="remove-social" onclick="removeSocial(this)" title="Remove">✕</button>
+    </div>
+  </div>
+  <button class="btn-add-social" onclick="addSocial()">+ Add Another Social Link</button>
+
+  <!-- SECTION 5: BUSINESS DETAILS -->
   <div class="section-label">📊 Business Details</div>
 
   <div class="form-row triple">
@@ -238,185 +228,263 @@
       <input type="number" id="staffCount" placeholder="e.g. 3" min="0">
     </div>
     <div class="field">
-      <label>Years in Business</label>
-      <input type="number" id="yearsInBusiness" placeholder="e.g. 5" min="0">
-    </div>
-    <div class="field">
       <label>Daily Customers (est.)</label>
       <input type="number" id="dailyCustomers" placeholder="e.g. 30" min="0">
     </div>
-  </div>
-
-  <div class="form-row">
     <div class="field">
       <label>Price Range</label>
-      <input type="text" id="priceRange" placeholder="e.g. ₦500 – ₦50,000">
-    </div>
-    <div class="field">
-      <label>Do you deliver?</label>
-      <div class="radio-group" id="deliveryGroup">
-        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('deliveryGroup', this)">✓ Yes</span>
-        <span class="radio-btn" data-val="No" onclick="selectRadio('deliveryGroup', this)">✗ No</span>
-        <span class="radio-btn" data-val="Sometimes" onclick="selectRadio('deliveryGroup', this)">⚡ Sometimes</span>
-      </div>
+      <input type="text" id="priceRange" placeholder="₦500 – ₦50k">
     </div>
   </div>
 
-  <!-- DIGITAL STATUS -->
-  <div class="section-label">📱 Digital Presence</div>
   <div class="form-row">
     <div class="field">
-      <label>WhatsApp Business</label>
-      <div class="radio-group" id="waGroup">
-        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('waGroup', this)">Yes</span>
-        <span class="radio-btn" data-val="No" onclick="selectRadio('waGroup', this)">No</span>
+      <label>Do you deliver?</label>
+      <div class="radio-group" id="deliverGroup">
+        <span class="radio-btn active" data-val="Yes" onclick="pick('deliverGroup',this)">✓ Yes</span>
+        <span class="radio-btn" data-val="No" onclick="pick('deliverGroup',this)">✗ No</span>
+        <span class="radio-btn" data-val="Sometimes" onclick="pick('deliverGroup',this)">⚡ Sometimes</span>
       </div>
     </div>
     <div class="field">
-      <label>Active on Instagram</label>
-      <div class="radio-group" id="igGroup">
-        <span class="radio-btn active" data-val="Yes" onclick="selectRadio('igGroup', this)">Yes</span>
-        <span class="radio-btn" data-val="No" onclick="selectRadio('igGroup', this)">No</span>
+      <label>WhatsApp Business Account?</label>
+      <div class="radio-group" id="waGroup">
+        <span class="radio-btn active" data-val="Yes" onclick="pick('waGroup',this)">Yes</span>
+        <span class="radio-btn" data-val="No" onclick="pick('waGroup',this)">No</span>
       </div>
     </div>
   </div>
 
-  <!-- INTERVIEW -->
-  <div class="section-label">🎙️ Interview (for Content)</div>
+  <!-- SECTION 6: YOUR STORY -->
+  <div class="section-label">💬 Your Business Story</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">This helps customers connect with you. Share in your own words — it appears on your business profile.</p>
+
   <div class="form-row full">
     <div class="field">
       <label>What makes your business special?</label>
-      <textarea id="uniqueness" placeholder="e.g. We use only the finest imported fabrics and offer custom tailoring same-day…"></textarea>
+      <textarea id="uniqueness" placeholder="e.g. We've served Wuse Market for 8 years. Our fabrics come directly from Aba…"></textarea>
     </div>
   </div>
-  <div class="form-row full">
+
+  <!-- SECTION 7: PHOTOS & VIDEO -->
+  <div class="section-label">🖼️ Photos & Video</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Media is stored on IPFS — permanently accessible. Upload up to 5 photos and 1 video.</p>
+
+  <div class="upload-grid">
+    <!-- LOGO -->
     <div class="field">
-      <label>Advice for new entrepreneurs</label>
-      <textarea id="advice" placeholder="e.g. Start small but think big. Never stop learning…"></textarea>
+      <label>Profile Logo <span class="req">*</span></label>
+      <div class="upload-zone" id="logoZone">
+        <input type="file" id="logoInput" accept="image/*">
+        <div class="upload-icon">🔵</div>
+        <span class="upload-badge logo-badge">LOGO / PROFILE PHOTO</span>
+        <div class="upload-title">Upload Logo</div>
+        <div class="upload-hint">Square image · PNG or JPG<br>Shows as your profile avatar</div>
+        <div class="upload-preview" id="logoPreview"></div>
+      </div>
+    </div>
+    <!-- BANNER -->
+    <div class="field">
+      <label>Cover Banner</label>
+      <div class="upload-zone" id="bannerZone">
+        <input type="file" id="bannerInput" accept="image/*">
+        <div class="upload-icon">🖼️</div>
+        <span class="upload-badge banner-badge">COVER / BANNER IMAGE</span>
+        <div class="upload-title">Upload Banner</div>
+        <div class="upload-hint">Wide image (16:9) · PNG or JPG<br>Shows at top of your profile</div>
+        <div class="upload-preview" id="bannerPreview"></div>
+      </div>
     </div>
   </div>
 
-  <!-- MEDIA UPLOAD -->
-  <div class="section-label">🖼️ Photos & Videos</div>
-  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Media is stored on IPFS — globally accessible and permanent.</p>
-
-  <div class="field" style="margin-bottom:16px;">
-    <label>Business Photos (up to 5)</label>
-    <div class="upload-zone" id="imageZone">
-      <input type="file" id="imageInput" accept="image/*" multiple>
+  <div class="field" style="margin-bottom:12px;margin-top:12px;">
+    <label>Additional Photos (up to 4 more)</label>
+    <div class="upload-zone" id="photosZone">
+      <input type="file" id="photosInput" accept="image/*" multiple>
       <div class="upload-icon">📸</div>
-      <div class="upload-text">Click or drag photos here</div>
-      <div class="upload-hint">JPG, PNG, WEBP — Max 10MB each</div>
+      <div class="upload-title">Click or drag photos here</div>
+      <div class="upload-hint">JPG, PNG, WEBP · Max 10MB each · Select multiple</div>
+      <div class="upload-preview" id="photosPreview"></div>
     </div>
-    <div class="upload-preview" id="imagePreview"></div>
-    <div class="upload-status" id="imageStatus"></div>
   </div>
 
-  <div class="field">
+  <div class="field" style="margin-bottom:12px;">
     <label>Business Video (optional)</label>
     <div class="upload-zone" id="videoZone">
       <input type="file" id="videoInput" accept="video/*">
       <div class="upload-icon">🎬</div>
-      <div class="upload-text">Click or drag video here</div>
-      <div class="upload-hint">MP4, MOV, WEBM — Max 100MB</div>
+      <div class="upload-title">Upload Video</div>
+      <div class="upload-hint">MP4, MOV · Max 100MB · Great for showcasing your work</div>
+      <div class="upload-preview" id="videoPreview"></div>
     </div>
-    <div class="upload-preview" id="videoPreview"></div>
-    <div class="upload-status" id="videoStatus"></div>
   </div>
 
+  <div class="upload-status" id="uploadStatus"></div>
+
   <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-    🚀 List This Business
+    🚀 Submit Listing for Review
   </button>
+
+  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Your listing will be reviewed within 48 hours. If not reviewed, it goes live automatically.</p>
 </div>
 
 <!-- SUCCESS -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-icon">🎉</div>
-  <h2>Business Listed!</h2>
-  <p>The business is now live on BigScope and can be found by customers.</p>
+  <h2>Listing Submitted!</h2>
+  <div class="pending-box">
+    <strong>⏳ Pending Review</strong><br>
+    Your business has been submitted and is currently being reviewed by the BigScope team. It will go live within 48 hours. You'll be able to view and upgrade your listing once approved.
+  </div>
   <div class="success-btns">
-    <button class="btn-primary" onclick="viewMerchant()">View Listing →</button>
-    <a href="add.html" class="btn-outline">Add Another</a>
+    <button class="btn-primary" onclick="viewListing()">View My Listing →</button>
     <a href="index.html" class="btn-outline">Go to Directory</a>
+    <a href="add.html" class="btn-outline">Add Another</a>
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
-  authDomain: "merchant-intelligence.firebaseapp.com",
-  projectId: "merchant-intelligence",
-  storageBucket: "merchant-intelligence.firebasestorage.app",
-  messagingSenderId: "1032906945513",
-  appId: "1:1032906945513:web:245aec0df3dd87f0a0d178"
+  apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
+  authDomain:"merchant-intelligence.firebaseapp.com",
+  projectId:"merchant-intelligence",
+  storageBucket:"merchant-intelligence.firebasestorage.app",
+  messagingSenderId:"1032906945513",
+  appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const PINATA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZjI1YWU0YS1mOWNhLTQzZTQtOGRhNi0zOWZiMDQxYzEzODgiLCJlbWFpbCI6ImdhdGFwcm90b2NvbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODBiOTdkNWI5YmQxNjI5NDg2M2UiLCJzY29wZWRLZXlTZWNyZXQiOiI0Zjg1YjE4NmE1NTc2MDdkMzYyNThhZGI5YTFkNWM0ZDllMjVlNjgyNGYzNzJjNGMyYmIyNTQ4ZWY4YTU1NzY1IiwiZXhwIjoxODA1MzA5OTQyfQ.NuFKLMmeVEqpRO0lk-gtKipxho_r8cHtp26qBVtTyn0";
-let imageCIDs = [];
-let videoCID = null;
-let newMerchantId = null;
+// Replace with your actual Pinata JWT
+const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZjI1YWU0YS1mOWNhLTQzZTQtOGRhNi0zOWZiMDQxYzEzODgiLCJlbWFpbCI6ImdhdGFwcm90b2NvbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODBiOTdkNWI5YmQxNjI5NDg2M2UiLCJzY29wZWRLZXlTZWNyZXQiOiI0Zjg1YjE4NmE1NTc2MDdkMzYyNThhZGI5YTFkNWM0ZDllMjVlNjgyNGYzNzJjNGMyYmIyNTQ4ZWY4YTU1NzY1IiwiZXhwIjoxODA1MzA5OTQyfQ.NuFKLMmeVEqpRO0lk-gtKipxho_r8cHtp26qBVtTyn0";
+
+let newId = null;
+let pinnedLat = null;
+let pinnedLng = null;
+let mapMarker = null;
+
+// ---- MAP ----
+const map = L.map('locationMap', { zoomControl: true }).setView([9.0765, 7.3986], 6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution:'© OpenStreetMap', maxZoom:19
+}).addTo(map);
+
+map.on('click', e => {
+  pinnedLat = e.latlng.lat.toFixed(6);
+  pinnedLng = e.latlng.lng.toFixed(6);
+  if (mapMarker) map.removeLayer(mapMarker);
+  mapMarker = L.marker([pinnedLat, pinnedLng]).addTo(map);
+  document.getElementById('mapCoords').textContent = `📍 Pinned: ${pinnedLat}, ${pinnedLng}`;
+});
+
+window.searchMap = async function() {
+  const q = document.getElementById('mapSearchInput').value.trim();
+  if (!q) return;
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=ng`);
+    const data = await res.json();
+    if (!data.length) { alert('Location not found. Try a different search.'); return; }
+    const { lat, lon, display_name } = data[0];
+    map.setView([lat, lon], 15);
+    if (mapMarker) map.removeLayer(mapMarker);
+    mapMarker = L.marker([lat, lon]).addTo(map);
+    pinnedLat = parseFloat(lat).toFixed(6);
+    pinnedLng = parseFloat(lon).toFixed(6);
+    document.getElementById('mapCoords').textContent = `📍 Pinned: ${display_name.split(',').slice(0,3).join(',')}`;
+    if (!document.getElementById('location').value) {
+      document.getElementById('location').value = display_name.split(',').slice(0,3).join(',').trim();
+    }
+  } catch(e) { alert('Map search failed. Please pin manually.'); }
+};
 
 // ---- RADIO ----
-window.selectRadio = function(groupId, el) {
+window.pick = function(groupId, el) {
   document.querySelectorAll(`#${groupId} .radio-btn`).forEach(b => b.classList.remove('active'));
   el.classList.add('active');
 };
-
-function getRadioVal(groupId) {
-  const el = document.querySelector(`#${groupId} .radio-btn.active`);
-  return el ? el.dataset.val : null;
+function radioVal(groupId) {
+  return document.querySelector(`#${groupId} .radio-btn.active`)?.dataset.val || '';
 }
 
-// ---- IPFS UPLOAD VIA PINATA ----
-async function uploadToPinata(file) {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('pinataMetadata', JSON.stringify({ name: file.name }));
-  formData.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
-
-  const res = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${PINATA_KEY}` },
-    body: formData
+// ---- SOCIAL LINKS ----
+window.addSocial = function() {
+  const list = document.getElementById('socialList');
+  const div = document.createElement('div');
+  div.className = 'social-row';
+  div.innerHTML = `
+    <select class="social-platform">
+      <option value="instagram">📸 Instagram</option>
+      <option value="tiktok">🎵 TikTok</option>
+      <option value="facebook">📘 Facebook</option>
+      <option value="twitter">🐦 X / Twitter</option>
+      <option value="youtube">▶️ YouTube</option>
+      <option value="linkedin">💼 LinkedIn</option>
+      <option value="telegram">✈️ Telegram</option>
+      <option value="snapchat">👻 Snapchat</option>
+      <option value="other">🔗 Other</option>
+    </select>
+    <input type="text" class="social-url" placeholder="Profile URL or handle">
+    <button class="remove-social" onclick="removeSocial(this)">✕</button>`;
+  list.appendChild(div);
+};
+window.removeSocial = function(btn) {
+  const row = btn.closest('.social-row');
+  if (document.querySelectorAll('.social-row').length > 1) row.remove();
+};
+function getSocialLinks() {
+  const links = [];
+  document.querySelectorAll('.social-row').forEach(row => {
+    const platform = row.querySelector('.social-platform').value;
+    const url = row.querySelector('.social-url').value.trim();
+    if (url) links.push({ platform, url });
   });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`IPFS upload failed: ${res.status} — ${err}`);
-  }
-
-  const data = await res.json();
-  return data.IpfsHash;
+  return links;
 }
 
-// ---- FILE PREVIEW ----
-function setStatus(id, msg, type) {
-  const el = document.getElementById(id);
-  el.className = `upload-status visible ${type}`;
+// ---- FILE PREVIEWS ----
+function previewImg(inputId, previewId, single=true) {
+  document.getElementById(inputId).addEventListener('change', function() {
+    const preview = document.getElementById(previewId);
+    const files = Array.from(this.files).slice(0, single ? 1 : 4);
+    preview.innerHTML = files.map(f => {
+      const url = URL.createObjectURL(f);
+      return `<div class="preview-thumb"><img src="${url}"></div>`;
+    }).join('');
+  });
+}
+previewImg('logoInput','logoPreview',true);
+previewImg('bannerInput','bannerPreview',true);
+previewImg('photosInput','photosPreview',false);
+document.getElementById('videoInput').addEventListener('change', function() {
+  const f = this.files[0];
+  if (!f) return;
+  document.getElementById('videoPreview').innerHTML = `<div class="preview-thumb"><video src="${URL.createObjectURL(f)}" style="width:100%;height:100%;object-fit:cover;"></video></div>`;
+});
+
+// ---- IPFS UPLOAD ----
+async function uploadToPinata(file) {
+  const form = new FormData();
+  form.append('file', file);
+  form.append('pinataMetadata', JSON.stringify({ name: file.name }));
+  const res = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+    method:'POST',
+    headers:{ 'Authorization': `Bearer ${PINATA_JWT}` },
+    body: form
+  });
+  if (!res.ok) throw new Error(`IPFS upload failed: ${res.status}`);
+  const d = await res.json();
+  return d.IpfsHash;
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById('uploadStatus');
+  el.className = `upload-status show ${type}`;
   el.innerHTML = msg;
 }
-
-document.getElementById('imageInput').addEventListener('change', function() {
-  const files = Array.from(this.files).slice(0, 5);
-  const preview = document.getElementById('imagePreview');
-  preview.innerHTML = files.map((f, i) => {
-    const url = URL.createObjectURL(f);
-    return `<div class="preview-item"><img src="${url}" alt="preview"><button class="remove" onclick="removeImg(${i})">✕</button></div>`;
-  }).join('');
-});
-
-document.getElementById('videoInput').addEventListener('change', function() {
-  const file = this.files[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  document.getElementById('videoPreview').innerHTML = `<div class="preview-item"><video src="${url}"></video></div>`;
-});
 
 // ---- SUBMIT ----
 window.submitForm = async function() {
@@ -425,41 +493,45 @@ window.submitForm = async function() {
   const phone = document.getElementById('phone').value.trim();
   const cat = document.getElementById('category').value;
   const loc = document.getElementById('location').value.trim();
-
   if (!name || !phone || !cat || !loc) {
     alert('Please fill in: Business Name, Phone, Category, and Location.');
     return;
   }
-
   btn.disabled = true;
-  btn.innerHTML = '<span class="spin">⟳</span> Saving…';
+  btn.innerHTML = '<span class="spin">⟳</span> Uploading media…';
 
   try {
-    // Upload images to IPFS
-    const imageFiles = Array.from(document.getElementById('imageInput').files).slice(0, 5);
-    imageCIDs = [];
-
-    if (imageFiles.length > 0) {
-      setStatus('imageStatus', '<span class="spin">⟳</span> Uploading photos to IPFS…', 'loading');
-      for (const file of imageFiles) {
-        const cid = await uploadToPinata(file);
-        imageCIDs.push(cid);
-      }
-      setStatus('imageStatus', `✓ ${imageCIDs.length} photo(s) uploaded`, 'success');
+    const imageCIDs = [];
+    // Logo first (position 0 = avatar)
+    const logoFile = document.getElementById('logoInput').files[0];
+    if (logoFile) {
+      setStatus('<span class="spin">⟳</span> Uploading logo to IPFS…','loading');
+      imageCIDs.push(await uploadToPinata(logoFile));
+    }
+    // Banner (position 1 = cover)
+    const bannerFile = document.getElementById('bannerInput').files[0];
+    if (bannerFile) {
+      setStatus('<span class="spin">⟳</span> Uploading banner to IPFS…','loading');
+      imageCIDs.push(await uploadToPinata(bannerFile));
+    }
+    // Additional photos
+    const extraFiles = Array.from(document.getElementById('photosInput').files).slice(0,4);
+    for (const f of extraFiles) {
+      setStatus(`<span class="spin">⟳</span> Uploading photos (${imageCIDs.length-1}/${extraFiles.length})…`,'loading');
+      imageCIDs.push(await uploadToPinata(f));
     }
 
-    // Upload video to IPFS
+    // Video
+    const videoCIDs = [];
     const videoFile = document.getElementById('videoInput').files[0];
-    videoCID = null;
-
     if (videoFile) {
-      setStatus('videoStatus', '<span class="spin">⟳</span> Uploading video to IPFS…', 'loading');
-      videoCID = await uploadToPinata(videoFile);
-      setStatus('videoStatus', '✓ Video uploaded', 'success');
+      setStatus('<span class="spin">⟳</span> Uploading video to IPFS…','loading');
+      videoCIDs.push(await uploadToPinata(videoFile));
     }
 
-    // Save to Firestore
     btn.innerHTML = '<span class="spin">⟳</span> Saving to directory…';
+    setStatus('<span class="spin">⟳</span> Saving your listing…','loading');
+
     const merchant = {
       businessName: name,
       ownerName: document.getElementById('ownerName').value.trim(),
@@ -467,42 +539,43 @@ window.submitForm = async function() {
       category: cat,
       location: loc,
       description: document.getElementById('description').value.trim(),
-      instagram: document.getElementById('instagram').value.trim(),
       website: document.getElementById('website').value.trim(),
-      staffCount: parseInt(document.getElementById('staffCount').value) || 0,
-      yearsInBusiness: parseInt(document.getElementById('yearsInBusiness').value) || 0,
-      dailyCustomers: parseInt(document.getElementById('dailyCustomers').value) || 0,
+      staffCount: parseInt(document.getElementById('staffCount').value)||0,
+      yearsInBusiness: parseInt(document.getElementById('yearsInBusiness').value)||0,
+      dailyCustomers: parseInt(document.getElementById('dailyCustomers').value)||0,
       priceRange: document.getElementById('priceRange').value.trim(),
-      delivers: getRadioVal('deliveryGroup'),
-      whatsappBusiness: getRadioVal('waGroup'),
-      activeOnInstagram: getRadioVal('igGroup'),
+      delivers: radioVal('deliverGroup'),
+      whatsappBusiness: radioVal('waGroup'),
       uniqueness: document.getElementById('uniqueness').value.trim(),
-      advice: document.getElementById('advice').value.trim(),
+      socialLinks: getSocialLinks(),
+      lat: pinnedLat ? parseFloat(pinnedLat) : null,
+      lng: pinnedLng ? parseFloat(pinnedLng) : null,
       images: imageCIDs,
-      videoCIDs: videoCID ? [videoCID] : [],
+      videoCIDs,
+      status: 'pending',         // Requires admin approval
       featured: false,
       verified: false,
       leadScore: 0,
       pipelineStage: 'Profile Created',
-      directoryStatus: 'Listed',
+      directoryStatus: 'Pending',
       createdAt: new Date()
     };
 
-    const docRef = await addDoc(collection(db, 'merchants'), merchant);
-    newMerchantId = docRef.id;
+    const ref = await addDoc(collection(db,'merchants'), merchant);
+    newId = ref.id;
+    setStatus('✓ Listing submitted successfully!','success');
     document.getElementById('successOverlay').classList.add('show');
 
-  } catch (err) {
+  } catch(err) {
     console.error(err);
-    alert('Error: ' + err.message);
+    setStatus(`✕ Error: ${err.message}`,'error');
+    alert('Error submitting listing: ' + err.message);
     btn.disabled = false;
-    btn.innerHTML = '🚀 List This Business';
+    btn.innerHTML = '🚀 Submit Listing for Review';
   }
 };
 
-window.viewMerchant = function() {
-  if (newMerchantId) window.location.href = `merchant.html?id=${newMerchantId}`;
-};
+window.viewListing = () => { if(newId) window.location.href = `merchant.html?id=${newId}`; };
 </script>
 </body>
 </html>
