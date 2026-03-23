@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,138 +7,160 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 <style>
-  :root{--bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--border:#2A2A2A;--gold:#F5A623;--green:#00A651;--text:#F0EDE8;--muted:#7A7570;--danger:#E05A2B;--radius:12px;--font-head:'Syne',sans-serif;--font-body:'Manrope',sans-serif;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{overflow-x:hidden;}
-  body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;}
-  a{text-decoration:none;color:inherit;}
+[data-theme="dark"]{--bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--border:#2A2A2A;--text:#F0EDE8;--muted:#7A7570;}
+[data-theme="light"]{--bg:#F5F4F0;--surface:#FFFFFF;--surface2:#F0EEE9;--border:#E0DDD8;--text:#1A1A1A;--muted:#7A7570;}
+:root{--gold:#F5A623;--green:#00A651;--danger:#E05A2B;--radius:12px;--font-head:'Syne',sans-serif;--font-body:'Manrope',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;transition:background .25s,color .25s;}
+a{text-decoration:none;color:inherit;}
 
-  nav{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
-  .nav-logo span{color:var(--text);}
-  .nav-right{display:flex;gap:8px;align-items:center;}
-  .btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;}
-  .btn-back:hover{border-color:var(--gold);color:var(--gold);}
-  .btn-share{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
-  .btn-share:hover{border-color:var(--gold);color:var(--gold);}
+nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
+.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
+.nav-logo span{color:var(--text);}
+.nav-right{display:flex;gap:8px;align-items:center;}
+.btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:var(--gold);color:var(--gold);}
+.btn-share{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.btn-share:hover{border-color:var(--gold);color:var(--gold);}
+.btn-icon{width:36px;height:36px;border:1px solid var(--border);background:var(--surface);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
+.btn-icon:hover{border-color:var(--gold);}
 
-  /* LOADER */
-  .page-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:14px;}
-  .loader-dots{display:flex;gap:5px;}
-  .loader-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:bounce .6s ease infinite;}
-  .loader-dots span:nth-child(2){animation-delay:.1s;}
-  .loader-dots span:nth-child(3){animation-delay:.2s;}
-  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.page-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:14px;}
+.loader-dots{display:flex;gap:5px;}
+.loader-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:bounce .6s ease infinite;}
+.loader-dots span:nth-child(2){animation-delay:.1s;}
+.loader-dots span:nth-child(3){animation-delay:.2s;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
-  /* PENDING BANNER */
-  .pending-banner{background:rgba(245,166,35,.08);border-bottom:1px solid rgba(245,166,35,.2);padding:12px 16px;text-align:center;font-size:13px;color:var(--gold);}
+.pending-banner{background:rgba(245,166,35,.08);border-bottom:1px solid rgba(245,166,35,.2);padding:11px 16px;text-align:center;font-size:13px;color:var(--gold);}
 
-  /* COVER */
-  .cover{width:100%;height:260px;background:var(--surface2);position:relative;overflow:hidden;}
-  .cover img{width:100%;height:100%;object-fit:cover;}
-  .cover-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,13,13,.95) 100%);}
-  .cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.25;}
+.cover{width:100%;height:260px;background:var(--surface2);position:relative;overflow:hidden;}
+.cover img{width:100%;height:100%;object-fit:cover;}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--bg) 100%);}
+.cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.2;}
 
-  .profile-wrap{max-width:860px;margin:-70px auto 0;padding:0 16px 80px;position:relative;z-index:1;}
+.profile-wrap{max-width:900px;margin:-60px auto 0;padding:0 16px 80px;position:relative;z-index:1;}
+.profile-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+.profile-avatar{width:84px;height:84px;background:var(--surface);border:3px solid var(--bg);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;}
+.profile-info{flex:1;min-width:0;}
+.profile-cat{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.profile-name{font-family:var(--font-head);font-size:clamp(20px,4vw,30px);font-weight:800;line-height:1.1;margin-bottom:8px;}
+.profile-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;align-items:center;}
+.profile-meta{display:flex;gap:14px;flex-wrap:wrap;}
+.meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);cursor:pointer;}
+.meta-item.clickable{text-decoration:underline;color:var(--gold);}
 
-  /* PROFILE HEAD */
-  .profile-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
-  .profile-avatar{width:88px;height:88px;background:var(--surface);border:3px solid var(--bg);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;}
-  .profile-avatar img{width:100%;height:100%;object-fit:cover;}
-  .profile-info{flex:1;min-width:0;}
-  .profile-cat{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
-  .profile-name{font-family:var(--font-head);font-size:clamp(22px,5vw,32px);font-weight:800;line-height:1.1;margin-bottom:8px;}
-  .profile-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
-  .badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.3px;}
-  .badge-verified{background:rgba(0,166,81,.15);color:var(--green);}
-  .badge-featured{background:rgba(245,166,35,.15);color:var(--gold);}
-  .badge-pending{background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
-  .profile-meta{display:flex;gap:16px;flex-wrap:wrap;}
-  .meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);}
+/* PREMIUM BADGES */
+.badge-verified-premium{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.4px;background:linear-gradient(135deg,#00c853,#69f0ae,#00bcd4,#00c853);background-size:300% 300%;animation:holo 2.5s ease infinite;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 0 12px rgba(0,200,83,.45),0 0 24px rgba(0,200,83,.15),inset 0 1px 0 rgba(255,255,255,.2);position:relative;overflow:hidden;}
+.badge-verified-premium::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);animation:shimmerSlide 2.5s ease infinite;}
+.badge-featured-premium{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.4px;background:linear-gradient(135deg,#F5A623,#FFD700,#FF8C00,#FFD700,#F5A623);background-size:300% 300%;animation:goldPulse 2s ease infinite;color:#000;box-shadow:0 0 12px rgba(245,166,35,.5),0 0 24px rgba(245,166,35,.2),inset 0 1px 0 rgba(255,255,255,.3);position:relative;overflow:hidden;}
+.badge-featured-premium::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);animation:shimmerSlide 1.8s ease infinite;}
+@keyframes holo{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes goldPulse{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes shimmerSlide{0%{transform:translateX(-100%) rotate(45deg);}100%{transform:translateX(200%) rotate(45deg);}}
+.badge-pending{font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px;background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
 
-  /* ACTIONS */
-  .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
-  .btn-wa{padding:10px 20px;background:#25D366;color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:background .2s;}
-  .btn-wa:hover{background:#1ebe59;}
-  .btn-call{padding:10px 20px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;}
-  .btn-call:hover{border-color:var(--gold);color:var(--gold);}
-  .btn-ig{padding:10px 20px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
-  .btn-ig:hover{opacity:.85;}
-  .btn-social{padding:9px 16px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:12px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px;}
-  .btn-social:hover{border-color:var(--gold);color:var(--gold);}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.btn-wa{padding:10px 18px;background:#25D366;color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:background .2s;}
+.btn-wa:hover{background:#1ebe59;}
+.btn-action{padding:10px 18px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;}
+.btn-action:hover{border-color:var(--gold);color:var(--gold);}
+.btn-store-online{padding:10px 18px;background:linear-gradient(135deg,#4A9EFF,#0070F3);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
+.btn-store-online:hover{opacity:.85;}
+.btn-store-offline{padding:10px 18px;background:var(--surface);color:var(--text);border:1px solid var(--gold);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;color:var(--gold);}
+.btn-store-offline:hover{background:rgba(245,166,35,.08);}
 
-  /* GRID */
-  .content-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;}
-  .main-col{min-width:0;}
-  .side-col{}
+/* CONTENT GRID */
+.content-grid{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;}
+.main-col{min-width:0;}
+.side-col{}
 
-  /* CARDS */
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
-  .card-title{font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;transition:background .25s;}
+.card-title{font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
 
-  /* GALLERY */
-  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
-  .gallery-item{aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--surface2);cursor:pointer;transition:transform .2s;}
-  .gallery-item:hover{transform:scale(1.03);}
-  .gallery-item img{width:100%;height:100%;object-fit:cover;}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;}
+.gallery-item{aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--surface2);cursor:pointer;transition:transform .2s;}
+.gallery-item:hover{transform:scale(1.03);}
+.gallery-item img{width:100%;height:100%;object-fit:cover;}
 
-  /* VIDEO */
-  .video-wrap{border-radius:8px;overflow:hidden;background:#000;margin-bottom:10px;}
-  .video-wrap video{width:100%;display:block;}
+.video-wrap{border-radius:8px;overflow:hidden;background:#000;margin-bottom:10px;}
+.video-wrap video{width:100%;display:block;}
 
-  /* QUOTE */
-  .quote-block{border-left:3px solid var(--gold);padding:14px 16px;background:var(--surface2);border-radius:0 8px 8px 0;font-size:14px;font-style:italic;color:var(--text);line-height:1.7;}
+.quote-block{border-left:3px solid var(--gold);padding:14px 16px;background:var(--surface2);border-radius:0 8px 8px 0;font-size:14px;font-style:italic;line-height:1.7;}
 
-  /* STATS */
-  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-  .stat-box{background:var(--surface2);border-radius:8px;padding:12px;text-align:center;}
-  .stat-box .num{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
-  .stat-box .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stat-box{background:var(--surface2);border-radius:8px;padding:12px;text-align:center;}
+.stat-box .num{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
+.stat-box .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
 
-  /* DETAILS */
-  .detail-list{display:flex;flex-direction:column;gap:10px;}
-  .detail-row{display:flex;gap:10px;font-size:13px;align-items:start;}
-  .detail-label{color:var(--muted);min-width:100px;flex-shrink:0;font-size:12px;}
-  .detail-value{color:var(--text);font-weight:500;word-break:break-word;}
+.detail-list{display:flex;flex-direction:column;gap:9px;}
+.detail-row{display:flex;gap:10px;font-size:13px;}
+.detail-label{color:var(--muted);min-width:90px;flex-shrink:0;font-size:12px;}
+.detail-value{color:var(--text);font-weight:500;word-break:break-word;}
 
-  /* UPGRADE SECTION */
-  .upgrade-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
-  .upgrade-header{padding:16px 20px;border-bottom:1px solid var(--border);}
-  .upgrade-header h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:4px;}
-  .upgrade-header p{font-size:12px;color:var(--muted);}
-  .upgrade-option{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .upgrade-option:last-child{border-bottom:none;}
-  .upgrade-info h4{font-size:14px;font-weight:700;margin-bottom:3px;}
-  .upgrade-info p{font-size:12px;color:var(--muted);}
-  .upgrade-price{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--gold);white-space:nowrap;}
-  .btn-upgrade{padding:8px 14px;background:var(--gold);color:#000;border:none;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:12px;font-weight:700;transition:all .2s;white-space:nowrap;}
-  .btn-upgrade:hover{background:#e09c1a;}
-  .btn-upgrade:disabled{opacity:.4;cursor:not-allowed;}
-  .upgrade-done{font-size:11px;font-weight:700;color:var(--green);background:rgba(0,166,81,.1);padding:5px 10px;border-radius:5px;white-space:nowrap;}
+.social-links-grid{display:flex;flex-wrap:wrap;gap:7px;}
+.btn-social{padding:8px 14px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:7px;font-family:var(--font-body);font-size:12px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.btn-social:hover{border-color:var(--gold);color:var(--gold);}
 
-  /* SOCIAL LINKS */
-  .social-links-grid{display:flex;flex-wrap:wrap;gap:8px;}
+/* UPGRADE */
+.upgrade-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;transition:background .25s;}
+.upgrade-header{padding:14px 18px;border-bottom:1px solid var(--border);}
+.upgrade-header h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:3px;}
+.upgrade-header p{font-size:12px;color:var(--muted);}
+.upgrade-option{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.upgrade-option:last-child{border-bottom:none;}
+.upgrade-info h4{font-size:13px;font-weight:700;margin-bottom:3px;}
+.upgrade-info p{font-size:11px;color:var(--muted);}
+.upgrade-price{font-family:var(--font-head);font-size:13px;font-weight:800;color:var(--gold);white-space:nowrap;}
+.btn-upgrade{padding:8px 13px;background:var(--gold);color:#000;border:none;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:12px;font-weight:700;transition:all .2s;white-space:nowrap;}
+.btn-upgrade:hover{background:#e09c1a;}
+.btn-upgrade:disabled{opacity:.45;cursor:not-allowed;}
+.upgrade-done{font-size:11px;font-weight:700;color:var(--green);background:rgba(0,166,81,.1);padding:5px 9px;border-radius:5px;white-space:nowrap;}
 
-  /* MAP */
-  #profileMap{height:180px;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+/* NAV MODAL */
+.nav-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:none;align-items:flex-end;justify-content:center;padding:16px;}
+.nav-modal-overlay.open{display:flex;}
+.nav-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:100%;}
+.nav-modal-box h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:6px;}
+.nav-modal-box p{font-size:12px;color:var(--muted);margin-bottom:16px;}
+.nav-options{display:flex;flex-direction:column;gap:8px;}
+.nav-option{padding:13px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text);}
+.nav-option:hover{border-color:var(--gold);color:var(--gold);}
+.nav-option-icon{font-size:22px;width:36px;text-align:center;}
+.nav-option-sub{font-size:11px;color:var(--muted);font-weight:400;display:block;}
+.nav-cancel{margin-top:10px;width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:var(--font-body);font-size:13px;cursor:pointer;}
 
-  /* LIGHTBOX */
-  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:1000;cursor:zoom-out;padding:16px;}
-  .lightbox.open{display:flex;}
-  .lightbox img{max-width:100%;max-height:90vh;object-fit:contain;border-radius:8px;}
-  .lb-close{position:fixed;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;}
+#profileMap{height:180px;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
 
-  /* TOAST */
-  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--green);color:var(--green);border-radius:10px;padding:11px 20px;font-size:13px;font-weight:600;z-index:9999;display:none;white-space:nowrap;}
-  .toast.show{display:block;animation:fadeUp .3s ease;}
-  @keyframes fadeUp{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:1000;cursor:zoom-out;padding:16px;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:100%;max-height:90vh;object-fit:contain;border-radius:8px;}
+.lb-close{position:fixed;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;}
 
-  @media(max-width:680px){
-    .content-grid{grid-template-columns:1fr;}
-    .side-col{order:-1;}
-    .stats-row{grid-template-columns:repeat(3,1fr);}
-    .cover{height:200px;}
-  }
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--green);color:var(--green);border-radius:10px;padding:11px 20px;font-size:13px;font-weight:600;z-index:9999;display:none;white-space:nowrap;}
+.toast.show{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+
+.likes-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.like-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.like-btn:hover,.like-btn.liked{border-color:var(--danger);color:var(--danger);background:rgba(224,90,43,.08);}
+.save-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.save-btn:hover,.save-btn.saved{border-color:var(--gold);color:var(--gold);background:rgba(245,166,35,.08);}
+
+/* MOBILE LAYOUT REORDER */
+@media(max-width:700px){
+  .content-grid{grid-template-columns:1fr;}
+  .side-col{order:-1;} /* Put side (stats/details/upgrade) ABOVE main on mobile */
+  .about-card{order:2;}
+  .story-card{order:3;}
+  .gallery-card{order:4;}
+  .video-card{order:5;}
+  .social-card{order:6;}
+  .map-card{order:7;}
+  .cover{height:200px;}
+}
 </style>
 </head>
 <body>
@@ -147,13 +169,12 @@
   <a href="index.html" class="nav-logo">Big<span>Scope</span></a>
   <div class="nav-right">
     <button class="btn-share" onclick="sharePage()">🔗 Share</button>
+    <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
     <a href="index.html" class="btn-back">← Directory</a>
   </div>
 </nav>
 
-<div id="pendingBanner" class="pending-banner" style="display:none;">
-  ⏳ This listing is <strong>pending review</strong> by the BigScope team. It will go live within 48 hours.
-</div>
+<div id="pendingBanner" class="pending-banner" style="display:none;">⏳ This listing is <strong>pending review</strong>. It will go live within 48 hours.</div>
 
 <div id="pageLoader" class="page-loader">
   <div class="loader-dots"><span></span><span></span><span></span></div>
@@ -177,64 +198,64 @@
       </div>
     </div>
 
+    <div class="likes-row">
+      <button class="like-btn" id="likeBtn" onclick="toggleLike()">❤️ <span id="likeCountEl">0</span> Likes</button>
+      <button class="save-btn" id="saveBtn" onclick="toggleSave()">🔖 Save Business</button>
+    </div>
+
     <div class="action-row" id="actionsEl"></div>
 
     <div class="content-grid">
-      <div class="main-col">
-
-        <div class="card" id="aboutCard" style="display:none;">
+      <div class="main-col" id="mainCol">
+        <div class="card about-card" id="aboutCard" style="display:none;">
           <div class="card-title">📋 About</div>
           <p id="descEl" style="color:var(--muted);line-height:1.7;font-size:14px;"></p>
         </div>
-
-        <div class="card" id="storyCard" style="display:none;">
+        <div class="card story-card" id="storyCard" style="display:none;">
           <div class="card-title">💬 In Their Own Words</div>
           <div class="quote-block" id="uniquenessEl"></div>
         </div>
-
-        <div class="card" id="galleryCard" style="display:none;">
+        <div class="card gallery-card" id="galleryCard" style="display:none;">
           <div class="card-title">🖼️ Photos</div>
           <div class="gallery" id="galleryEl"></div>
         </div>
-
-        <div class="card" id="videoCard" style="display:none;">
+        <div class="card video-card" id="videoCard" style="display:none;">
           <div class="card-title">🎬 Video</div>
           <div id="videosEl"></div>
         </div>
-
-        <div class="card" id="socialCard" style="display:none;">
+        <div class="card social-card" id="socialCard" style="display:none;">
           <div class="card-title">🔗 Find Us Online</div>
           <div class="social-links-grid" id="socialLinksEl"></div>
         </div>
-
-        <div class="card" id="mapCard" style="display:none;">
-          <div class="card-title">📍 Location</div>
+        <div class="card map-card" id="mapCard" style="display:none;">
+          <div class="card-title">📍 Location <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;cursor:pointer;" onclick="openNavModal()">(Get Directions →)</span></div>
           <div id="profileMap"></div>
         </div>
-
       </div>
-      <div class="side-col">
 
+      <div class="side-col">
+        <!-- At a Glance -->
         <div class="card" id="statsCard" style="display:none;">
           <div class="card-title">📊 At a Glance</div>
           <div class="stats-row" id="statsEl"></div>
         </div>
 
+        <!-- Details -->
         <div class="card">
           <div class="card-title">📌 Details</div>
           <div class="detail-list" id="detailsEl"></div>
         </div>
 
-        <!-- UPGRADE / PAYMENT SECTION -->
+        <!-- UPGRADE -->
         <div class="upgrade-section" id="upgradeSection">
           <div class="upgrade-header">
             <h3>🚀 Grow Your Business</h3>
-            <p>Get more visibility and build trust with customers</p>
+            <p>More visibility · More customers · More trust</p>
           </div>
           <div class="upgrade-option">
             <div class="upgrade-info">
               <h4>⭐ Featured Listing</h4>
-              <p>Top of directory · 30 days · More clicks</p>
+              <p>Top of directory · 28 days · More clicks</p>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
               <span class="upgrade-price">₦10,000</span>
@@ -244,7 +265,7 @@
           <div class="upgrade-option">
             <div class="upgrade-info">
               <h4>✅ Verified Badge</h4>
-              <p>Build trust · One-time · Green checkmark</p>
+              <p>Holographic badge · One-time · Build trust</p>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
               <span class="upgrade-price">₦15,000</span>
@@ -252,24 +273,31 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </div>
 
-<!-- LIGHTBOX -->
+<!-- NAV MODAL (for getting directions) -->
+<div class="nav-modal-overlay" id="navModal">
+  <div class="nav-modal-box">
+    <h3>📍 Get Directions</h3>
+    <p id="navAddress">Choose how you want to get there</p>
+    <div class="nav-options" id="navOptions"></div>
+    <button class="nav-cancel" onclick="document.getElementById('navModal').classList.remove('open')">Cancel</button>
+  </div>
+</div>
+
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-close">✕</button>
   <img id="lbImg" src="" alt="">
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
@@ -282,259 +310,290 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ★ REPLACE with your real Flutterwave public key
-const FLW_PUBLIC_KEY = "FLWPUBK_TEST-c7befebd9e26fe3df8206dac1ddc467a-X";
-const FLW_FEATURED_AMOUNT = 10000;
-const FLW_VERIFIED_AMOUNT = 15000;
+// ★ Replace with real Flutterwave public key
+const FLW_PUBLIC_KEY = "FLWPUBK_TEST-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-X";
 
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
 const merchantId = params.get('id');
 let merchantData = null;
+let likes = JSON.parse(localStorage.getItem('bs_likes')||'{}');
+let saves = JSON.parse(localStorage.getItem('bs_saves')||'[]');
 
-// ---- HELPERS ----
-const ipfs = cid => `https://gateway.pinata.cloud/ipfs/${cid}`;
-const waNum = p => p ? p.replace(/\s+/g,'').replace(/^0/,'234') : '';
+// ---- THEME ----
+const t = localStorage.getItem('bs_theme')||'dark';
+document.documentElement.setAttribute('data-theme',t);
+document.getElementById('themeBtn').textContent = t==='dark'?'🌙':'☀️';
+window.toggleTheme = ()=>{
+  const c=document.documentElement.getAttribute('data-theme');
+  const n=c==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n);
+  localStorage.setItem('bs_theme',n);
+  document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';
+};
 
 // ---- TOAST ----
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3500);
+function toast(msg,col='var(--green)'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.style.borderColor=col;el.style.color=col;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3500);
 }
 
 // ---- SHARE ----
-window.sharePage = async function() {
-  const name = merchantData?.businessName || 'this business';
-  const url = window.location.href;
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: `${name} on BigScope`, text: `Check out ${name} on BigScope Business Directory!`, url });
-    } catch(e) {}
-  } else {
-    await navigator.clipboard.writeText(url);
-    toast('✓ Link copied to clipboard!');
-  }
+window.sharePage = async()=>{
+  const name=merchantData?.businessName||'this business';
+  if(navigator.share){try{await navigator.share({title:`${name} on BigScope`,text:`Check out ${name}!`,url:location.href});}catch(e){}}
+  else{await navigator.clipboard.writeText(location.href);toast('✓ Link copied!');}
 };
 
 // ---- LIGHTBOX ----
-window.openLightbox = src => { document.getElementById('lbImg').src=src; document.getElementById('lightbox').classList.add('open'); };
-window.closeLightbox = () => document.getElementById('lightbox').classList.remove('open');
+window.openLightbox=src=>{document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');};
+window.closeLightbox=()=>document.getElementById('lightbox').classList.remove('open');
 
-// ---- SOCIAL ICON MAP ----
-const socialIcons = { instagram:'📸', tiktok:'🎵', facebook:'📘', twitter:'🐦', youtube:'▶️', linkedin:'💼', telegram:'✈️', snapchat:'👻', other:'🔗' };
-const socialLabels = { instagram:'Instagram', tiktok:'TikTok', facebook:'Facebook', twitter:'X/Twitter', youtube:'YouTube', linkedin:'LinkedIn', telegram:'Telegram', snapchat:'Snapchat', other:'Link' };
+// ---- LIKES / SAVES ----
+window.toggleLike = async()=>{
+  const btn=document.getElementById('likeBtn');
+  const countEl=document.getElementById('likeCountEl');
+  if(likes[merchantId]){
+    delete likes[merchantId];
+    btn.classList.remove('liked');
+    btn.innerHTML=`❤️ <span id="likeCountEl">${parseInt(countEl.textContent)-1}</span> Likes`;
+    updateDoc(doc(db,'merchants',merchantId),{likes:increment(-1)}).catch(()=>{});
+  } else {
+    likes[merchantId]=1;
+    btn.classList.add('liked');
+    btn.innerHTML=`❤️ <span id="likeCountEl">${parseInt(countEl.textContent)+1}</span> Likes`;
+    updateDoc(doc(db,'merchants',merchantId),{likes:increment(1)}).catch(()=>{});
+    toast('❤️ You liked this business!','var(--danger)');
+  }
+  localStorage.setItem('bs_likes',JSON.stringify(likes));
+};
 
-// ---- FLUTTERWAVE PAYMENT ----
-window.payForUpgrade = function(type) {
-  if (!merchantId || !merchantData) return;
-  const isFeature = type === 'featured';
-  const amount = isFeature ? FLW_FEATURED_AMOUNT : FLW_VERIFIED_AMOUNT;
-  const desc = isFeature ? 'Featured Listing - 30 Days' : 'Verified Business Badge';
+window.toggleSave = ()=>{
+  const btn=document.getElementById('saveBtn');
+  if(saves.includes(merchantId)){
+    saves=saves.filter(s=>s!==merchantId);
+    btn.classList.remove('saved');
+    btn.textContent='🔖 Save Business';
+    toast('Removed from saves','var(--muted)');
+  } else {
+    saves.push(merchantId);
+    btn.classList.add('saved');
+    btn.textContent='🔖 Saved ✓';
+    toast('✓ Business saved! View in directory.','var(--gold)');
+  }
+  localStorage.setItem('bs_saves',JSON.stringify(saves));
+};
 
-  const phone = merchantData.phone || '';
-  const name = merchantData.businessName || 'Business';
+// ---- NAV MODAL ----
+let _navLat=null,_navLng=null;
+window.openNavModal = ()=>{
+  if(!_navLat||!_navLng){toast('No location pin set for this business','var(--gold)');return;}
+  const lat=_navLat,lng=_navLng;
+  const name=encodeURIComponent(merchantData?.businessName||'Business');
+  document.getElementById('navAddress').textContent = merchantData?.location||'Navigate to this business';
+  document.getElementById('navOptions').innerHTML = `
+    <a class="nav-option" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank">
+      <span class="nav-option-icon">🗺️</span>
+      <div><div>Google Maps</div><span class="nav-option-sub">Open in Google Maps</span></div>
+    </a>
+    <a class="nav-option" href="https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}&dropoff[nickname]=${name}" target="_blank">
+      <span class="nav-option-icon">🚗</span>
+      <div><div>Uber</div><span class="nav-option-sub">Book a ride to this location</span></div>
+    </a>
+    <a class="nav-option" href="https://bolt.eu/en/booking/?lat=${lat}&lng=${lng}" target="_blank">
+      <span class="nav-option-icon">⚡</span>
+      <div><div>Bolt</div><span class="nav-option-sub">Book a Bolt ride</span></div>
+    </a>
+    <a class="nav-option" href="https://maps.apple.com/?daddr=${lat},${lng}" target="_blank">
+      <span class="nav-option-icon">🍎</span>
+      <div><div>Apple Maps</div><span class="nav-option-sub">For iPhone users</span></div>
+    </a>`;
+  document.getElementById('navModal').classList.add('open');
+};
+document.getElementById('navModal').addEventListener('click',e=>{if(e.target===document.getElementById('navModal'))e.target.classList.remove('open');});
+
+// ---- SOCIAL ICONS ----
+const socialIcons={instagram:'📸',tiktok:'🎵',facebook:'📘',twitter:'🐦',youtube:'▶️',linkedin:'💼',telegram:'✈️',snapchat:'👻',other:'🔗'};
+const socialLabels={instagram:'Instagram',tiktok:'TikTok',facebook:'Facebook',twitter:'X/Twitter',youtube:'YouTube',linkedin:'LinkedIn',telegram:'Telegram',snapchat:'Snapchat',other:'Link'};
+
+// ---- PAYMENT ----
+window.payForUpgrade = function(type){
+  if(!merchantId||!merchantData)return;
+  const isFeat=type==='featured';
+  const amount=isFeat?10000:15000;
+  const desc=isFeat?'Featured Listing - 28 Days':'Verified Business Badge';
 
   FlutterwaveCheckout({
-    public_key: FLW_PUBLIC_KEY,
-    tx_ref: `bs-${type}-${merchantId}-${Date.now()}`,
-    amount: amount,
-    currency: "NGN",
-    payment_options: "card, banktransfer, ussd, mobilemoney",
-    customer: {
-      email: `${merchantId}@bigscope.ng`,
-      phone_number: phone,
-      name: name
-    },
-    customizations: {
-      title: `BigScope — ${desc}`,
-      description: `Payment for ${desc} for ${name}`,
-      logo: "https://gateway.pinata.cloud/ipfs/"
-    },
-    callback: async function(data) {
-      if (data.status === "successful" || data.status === "completed") {
-        try {
-          const now = new Date();
-          const updates = {
-            paymentRef: data.transaction_id?.toString() || data.tx_ref,
-            paymentDate: now
-          };
-          if (isFeature) {
-            const exp = new Date(now);
-            exp.setDate(exp.getDate() + 30);
-            updates.featured = true;
-            updates.featuredUntil = exp;
-            updates.pipelineStage = 'Paid Client';
-            document.getElementById('featuredBtn').disabled = true;
-            document.getElementById('featuredBtn').textContent = '✓ Active';
+    public_key:FLW_PUBLIC_KEY,
+    tx_ref:`bs-${type}-${merchantId}-${Date.now()}`,
+    amount,currency:"NGN",
+    payment_options:"card,banktransfer,ussd,mobilemoney",
+    customer:{email:`${merchantId}@bigscope.ng`,phone_number:merchantData.phone||'',name:merchantData.businessName||'Business'},
+    customizations:{title:`BigScope — ${desc}`,description:`${desc} for ${merchantData.businessName}`},
+    callback:async function(data){
+      if(data.status==="successful"||data.status==="completed"){
+        try{
+          const now=new Date();
+          const updates={paymentRef:data.transaction_id?.toString()||data.tx_ref,paymentDate:now,paymentType:type,upgradeRequestedAt:now,upgradeApproved:false};
+          if(isFeat){
+            const exp=new Date(now);exp.setDate(exp.getDate()+28);
+            updates.featuredUntil=exp;
+            updates.pipelineStage='Paid Client';
           } else {
-            updates.verified = true;
-            updates.pipelineStage = 'Paid Client';
-            document.getElementById('verifiedBtn').disabled = true;
-            document.getElementById('verifiedBtn').textContent = '✓ Verified';
+            updates.pipelineStage='Paid Client';
           }
-          await updateDoc(doc(db,'merchants',merchantId), updates);
-          toast(`✓ Payment successful! ${isFeature ? 'Your listing is now featured.' : 'Verified badge activated.'}`);
-          setTimeout(() => location.reload(), 2500);
-        } catch(err) {
-          toast('Payment received but update failed. Contact support with ref: ' + data.tx_ref);
-        }
+          await updateDoc(doc(db,'merchants',merchantId),updates);
+          toast(`✓ Payment confirmed! ${isFeat?'Featured request submitted.':'Verification request submitted.'} Admin will approve shortly.`,'var(--green)');
+          document.getElementById(isFeat?'featuredBtn':'verifiedBtn').disabled=true;
+          document.getElementById(isFeat?'featuredBtn':'verifiedBtn').textContent='⏳ Pending Approval';
+
+          // AUTO-APPROVE after 6 minutes if admin hasn't acted
+          setTimeout(async()=>{
+            try{
+              const fresh=await getDoc(doc(db,'merchants',merchantId));
+              const fd=fresh.data();
+              if(isFeat&&!fd.featured){
+                await updateDoc(doc(db,'merchants',merchantId),{featured:true,upgradeApproved:true,directoryStatus:'Listed'});
+                toast('★ Your Featured listing is now LIVE!','var(--gold)');
+              } else if(!isFeat&&!fd.verified){
+                await updateDoc(doc(db,'merchants',merchantId),{verified:true,upgradeApproved:true,directoryStatus:'Listed'});
+                toast('✦ Your Verified badge is now ACTIVE!','var(--green)');
+              }
+            } catch(e){}
+          }, 360000); // 6 minutes
+
+        }catch(err){toast('Payment received but update failed. Contact: billing@bigscope.ng','var(--danger)');}
       }
     },
-    onclose: function() {}
+    onclose:function(){}
   });
 };
 
+// ---- HELPERS ----
+const ipfs=cid=>`https://gateway.pinata.cloud/ipfs/${cid}`;
+const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
+
 // ---- LOAD ----
-async function load() {
-  if (!merchantId) {
-    document.getElementById('pageLoader').innerHTML = '<p style="color:var(--muted)">No merchant ID provided.</p>';
-    return;
-  }
-  try {
-    const snap = await getDoc(doc(db,'merchants',merchantId));
-    if (!snap.exists()) {
-      document.getElementById('pageLoader').innerHTML = '<p style="color:var(--muted)">Business not found.</p>';
-      return;
-    }
-    merchantData = snap.data();
-    const d = merchantData;
+async function load(){
+  if(!merchantId){document.getElementById('pageLoader').innerHTML='<p style="color:var(--muted)">No merchant ID.</p>';return;}
+  try{
+    const snap=await getDoc(doc(db,'merchants',merchantId));
+    if(!snap.exists()){document.getElementById('pageLoader').innerHTML='<p style="color:var(--muted)">Business not found.</p>';return;}
+    merchantData=snap.data();
+    const d=merchantData;
 
-    document.title = `${d.businessName} — BigScope`;
+    document.title=`${d.businessName} — BigScope`;
+    if(d.status==='pending')document.getElementById('pendingBanner').style.display='';
 
-    // Pending banner
-    if (d.status === 'pending') document.getElementById('pendingBanner').style.display = '';
-
-    // Cover (use banner image = index 1 if exists, else index 0)
-    const bannerCid = d.images?.[1] || d.images?.[0];
-    if (bannerCid) {
-      const img = document.createElement('img');
-      img.src = ipfs(bannerCid); img.alt = d.businessName;
+    // Cover
+    const bannerCid=d.images?.[1]||d.images?.[0];
+    if(bannerCid){
+      const img=document.createElement('img');img.src=ipfs(bannerCid);img.alt=d.businessName;
       document.getElementById('coverPlaceholder').style.display='none';
       document.getElementById('coverEl').prepend(img);
     }
+    // Avatar
+    document.getElementById('avatarEl').innerHTML=d.images?.[0]
+      ?`<img src="${ipfs(d.images[0])}" alt="${d.businessName}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪';
 
-    // Avatar (logo = index 0)
-    const logoCid = d.images?.[0];
-    document.getElementById('avatarEl').innerHTML = logoCid
-      ? `<img src="${ipfs(logoCid)}" alt="${d.businessName}" onerror="this.parentElement.innerHTML='🏪'">`
-      : '🏪';
-
-    // Info
-    document.getElementById('catEl').textContent = d.category || 'Business';
-    document.getElementById('nameEl').textContent = d.businessName;
+    document.getElementById('catEl').textContent=d.category||'Business';
+    document.getElementById('nameEl').textContent=d.businessName;
 
     // Badges
-    let badges = '';
-    if (d.verified) badges += '<span class="badge badge-verified">✓ Verified</span>';
-    if (d.featured) badges += '<span class="badge badge-featured">★ Featured</span>';
-    if (d.status === 'pending') badges += '<span class="badge badge-pending">⏳ Pending Review</span>';
-    document.getElementById('badgesEl').innerHTML = badges;
+    let badges='';
+    if(d.verified)badges+=`<span class="badge-verified-premium">✦ VERIFIED</span>`;
+    if(d.featured)badges+=`<span class="badge-featured-premium">★ FEATURED</span>`;
+    if(d.status==='pending')badges+=`<span class="badge-pending">⏳ Pending Review</span>`;
+    document.getElementById('badgesEl').innerHTML=badges;
 
-    // Meta
-    let meta = '';
-    if (d.location) meta += `<span class="meta-item">📍 ${d.location}</span>`;
-    if (d.ownerName) meta += `<span class="meta-item">👤 ${d.ownerName}</span>`;
-    if (d.yearsInBusiness) meta += `<span class="meta-item">🗓️ ${d.yearsInBusiness} yrs</span>`;
-    document.getElementById('metaEl').innerHTML = meta;
+    // Meta - location clickable for directions
+    _navLat=d.lat;_navLng=d.lng;
+    let meta='';
+    if(d.location)meta+=`<span class="meta-item${d.lat?' clickable':''}" ${d.lat?`onclick="openNavModal()"`:''}>${d.lat?'🗺️':'📍'} ${d.location}</span>`;
+    if(d.ownerName)meta+=`<span class="meta-item">👤 ${d.ownerName}</span>`;
+    if(d.yearsInBusiness)meta+=`<span class="meta-item">🗓️ ${d.yearsInBusiness} yrs</span>`;
+    document.getElementById('metaEl').innerHTML=meta;
 
-    // Action buttons
-    const phone = waNum(d.phone);
-    let actions = '';
-    if (phone) actions += `<a href="https://wa.me/${phone}" class="btn-wa" target="_blank">💬 Chat on WhatsApp</a>`;
-    if (d.phone) actions += `<a href="tel:${d.phone}" class="btn-call">📞 ${d.phone}</a>`;
-    if (d.website) actions += `<a href="${d.website}" class="btn-call" target="_blank">🛒 Visit Store</a>`;
-    document.getElementById('actionsEl').innerHTML = actions;
+    // Like/Save state
+    if(likes[merchantId])document.getElementById('likeBtn').classList.add('liked');
+    document.getElementById('likeCountEl').textContent=d.likes||0;
+    if(saves.includes(merchantId)){document.getElementById('saveBtn').classList.add('saved');document.getElementById('saveBtn').textContent='🔖 Saved ✓';}
+
+    // Actions
+    const phone=waNum(d.phone);
+    let actions='';
+    if(phone)actions+=`<a href="https://wa.me/${phone}" class="btn-wa" target="_blank">💬 WhatsApp</a>`;
+    if(d.phone)actions+=`<a href="tel:${d.phone}" class="btn-action">📞 Call</a>`;
+    // Online store vs offline store
+    if(d.website){
+      const isOnline=d.website.includes('http')||d.website.includes('selar')||d.website.includes('paystack')||d.website.includes('shopify');
+      actions+=`<a href="${d.website}" class="btn-store-online" target="_blank">🛒 Online Store <span style="font-size:10px;opacity:.8;">(Web)</span></a>`;
+    }
+    if(d.lat&&d.lng){
+      actions+=`<button class="btn-store-offline" onclick="openNavModal()">📍 Visit Physical Store</button>`;
+    }
+    document.getElementById('actionsEl').innerHTML=actions;
 
     // About
-    if (d.description) {
-      document.getElementById('descEl').textContent = d.description;
-      document.getElementById('aboutCard').style.display='';
-    }
+    if(d.description){document.getElementById('descEl').textContent=d.description;document.getElementById('aboutCard').style.display='';}
+    if(d.uniqueness){document.getElementById('uniquenessEl').textContent=d.uniqueness;document.getElementById('storyCard').style.display='';}
 
-    // Story
-    if (d.uniqueness) {
-      document.getElementById('uniquenessEl').textContent = d.uniqueness;
-      document.getElementById('storyCard').style.display='';
-    }
-
-    // Gallery (skip index 0 and 1 if they are logo/banner)
-    const galleryStart = (d.images?.length >= 2) ? 2 : (d.images?.length === 1 ? 1 : 0);
-    const galleryImgs = d.images?.slice(galleryStart) || [];
-    // Also show logo in gallery for completeness
-    const allGallery = d.images || [];
-    if (allGallery.length > 0) {
-      document.getElementById('galleryEl').innerHTML = allGallery.map(cid =>
-        `<div class="gallery-item" onclick="openLightbox('${ipfs(cid)}')"><img src="${ipfs(cid)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
-      ).join('');
+    // Gallery
+    if(d.images?.length>0){
+      document.getElementById('galleryEl').innerHTML=d.images.map(cid=>`<div class="gallery-item" onclick="openLightbox('${ipfs(cid)}')"><img src="${ipfs(cid)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
       document.getElementById('galleryCard').style.display='';
     }
-
-    // Videos
-    if (d.videoCIDs?.length > 0) {
-      document.getElementById('videosEl').innerHTML = d.videoCIDs.map(cid =>
-        `<div class="video-wrap"><video src="${ipfs(cid)}" controls></video></div>`
-      ).join('');
+    if(d.videoCIDs?.length>0){
+      document.getElementById('videosEl').innerHTML=d.videoCIDs.map(cid=>`<div class="video-wrap"><video src="${ipfs(cid)}" controls></video></div>`).join('');
       document.getElementById('videoCard').style.display='';
     }
-
-    // Social links
-    if (d.socialLinks?.length > 0) {
-      document.getElementById('socialLinksEl').innerHTML = d.socialLinks.map(s => {
-        const icon = socialIcons[s.platform] || '🔗';
-        const label = socialLabels[s.platform] || s.platform;
-        const href = s.url.startsWith('http') ? s.url : `https://${s.url}`;
-        return `<a href="${href}" class="btn-social" target="_blank">${icon} ${label}</a>`;
-      }).join('');
+    if(d.socialLinks?.length>0){
+      document.getElementById('socialLinksEl').innerHTML=d.socialLinks.map(s=>`<a href="${s.url.startsWith('http')?s.url:'https://'+s.url}" class="btn-social" target="_blank">${socialIcons[s.platform]||'🔗'} ${socialLabels[s.platform]||s.platform}</a>`).join('');
       document.getElementById('socialCard').style.display='';
     }
 
     // Map
-    if (d.lat && d.lng) {
+    if(d.lat&&d.lng){
       document.getElementById('mapCard').style.display='';
-      // Load Leaflet dynamically
-      const css = document.createElement('link');
-      css.rel='stylesheet'; css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-      document.head.appendChild(css);
-      const script = document.createElement('script');
-      script.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-      script.onload = () => {
-        const m = L.map('profileMap',{zoomControl:true,scrollWheelZoom:false}).setView([d.lat,d.lng],15);
+      const css=document.createElement('link');css.rel='stylesheet';css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(css);
+      const sc=document.createElement('script');sc.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      sc.onload=()=>{
+        const m=L.map('profileMap',{zoomControl:true,scrollWheelZoom:false}).setView([d.lat,d.lng],15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
-        L.marker([d.lat,d.lng]).addTo(m).bindPopup(d.businessName).openPopup();
+        L.marker([d.lat,d.lng]).addTo(m).bindPopup(`<b>${d.businessName}</b><br>${d.location||''}`).openPopup();
+        // Clicking map opens nav modal
+        m.on('click',()=>openNavModal());
       };
-      document.head.appendChild(script);
+      document.head.appendChild(sc);
     }
 
     // Stats
-    const stats = [];
-    if (d.staffCount) stats.push({num:d.staffCount, lbl:'Staff'});
-    if (d.yearsInBusiness) stats.push({num:d.yearsInBusiness, lbl:'Years'});
-    if (d.dailyCustomers) stats.push({num:`~${d.dailyCustomers}`, lbl:'Customers/day'});
-    if (stats.length > 0) {
-      document.getElementById('statsEl').innerHTML = stats.map(s => `<div class="stat-box"><div class="num">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');
-      document.getElementById('statsCard').style.display='';
-    }
+    const stats=[];
+    if(d.staffCount)stats.push({num:d.staffCount,lbl:'Staff'});
+    if(d.yearsInBusiness)stats.push({num:d.yearsInBusiness,lbl:'Years'});
+    if(d.dailyCustomers)stats.push({num:`~${d.dailyCustomers}`,lbl:'Customers/day'});
+    if(stats.length){document.getElementById('statsEl').innerHTML=stats.map(s=>`<div class="stat-box"><div class="num">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');document.getElementById('statsCard').style.display='';}
 
     // Details
-    const details = [];
-    if (d.priceRange) details.push({l:'Price Range', v: d.priceRange});
-    if (d.delivers) details.push({l:'Delivery', v: d.delivers});
-    if (d.whatsappBusiness) details.push({l:'WA Business', v: d.whatsappBusiness});
-    if (d.website) details.push({l:'Online Store', v:`<a href="${d.website}" target="_blank" style="color:var(--gold);">Visit →</a>`});
-    document.getElementById('detailsEl').innerHTML = details.map(r => `<div class="detail-row"><span class="detail-label">${r.l}</span><span class="detail-value">${r.v}</span></div>`).join('');
+    const details=[];
+    if(d.priceRange)details.push({l:'Price Range',v:`₦${d.priceRange.replace(/^₦/,'')}`});
+    if(d.delivers)details.push({l:'Delivery',v:d.delivers});
+    if(d.whatsappBusiness)details.push({l:'WA Business',v:d.whatsappBusiness});
+    if(d.website)details.push({l:'Online Store',v:`<a href="${d.website}" target="_blank" style="color:var(--gold)">Visit →</a>`});
+    if(d.location&&d.lat)details.push({l:'Find Us',v:`<span onclick="openNavModal()" style="cursor:pointer;color:var(--gold)">Get Directions →</span>`});
+    document.getElementById('detailsEl').innerHTML=details.map(r=>`<div class="detail-row"><span class="detail-label">${r.l}</span><span class="detail-value">${r.v}</span></div>`).join('');
 
-    // Upgrade buttons state
-    if (d.featured) { const b=document.getElementById('featuredBtn'); b.innerHTML='<span class="upgrade-done">✓ Active</span>'; b.replaceWith(b.cloneNode(true)); document.querySelector('.upgrade-option').innerHTML = document.querySelector('.upgrade-option').innerHTML; }
-    if (d.verified) { const b=document.getElementById('verifiedBtn'); if(b){b.disabled=true; b.textContent='✓ Verified';} }
+    // Upgrade button states
+    if(d.featured){const b=document.getElementById('featuredBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'★ Active'}))}
+    if(d.verified){const b=document.getElementById('verifiedBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'✦ Verified'}))}
 
     document.getElementById('pageLoader').style.display='none';
     document.getElementById('pageContent').style.display='';
-
-  } catch(err) {
-    document.getElementById('pageLoader').innerHTML = `<p style="color:var(--muted)">Error loading profile: ${err.message}</p>`;
+  }catch(err){
+    document.getElementById('pageLoader').innerHTML=`<p style="color:var(--muted)">Error: ${err.message}</p>`;
   }
 }
-
 load();
 </script>
 </body>
