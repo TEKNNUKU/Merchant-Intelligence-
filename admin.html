@@ -25,6 +25,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);transit
 .btn-google:hover:not(:disabled){background:#f5f5f5;transform:translateY(-1px);}
 .btn-google:disabled{opacity:.6;cursor:not-allowed;}
 .auth-error{margin-top:14px;font-size:12px;color:var(--danger);display:none;background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:10px 14px;text-align:left;line-height:1.6;}
+.auth-warn{margin-top:14px;font-size:12px;color:var(--gold);display:none;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:12px 14px;text-align:left;line-height:1.75;}
+.auth-warn strong{display:block;margin-bottom:4px;font-size:13px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* ===== APP SHELL ===== */
@@ -269,6 +271,14 @@ input:checked+.toggle-slider::before{transform:translateX(15px);}
       Sign in with Google
     </button>
     <div class="auth-error" id="authError"></div>
+    <div class="auth-warn" id="authWarn">
+      <strong>⚠️ Popup blocked by your browser</strong>
+      To sign in:<br>
+      1. Tap the address bar at the top<br>
+      2. Look for a 🚫 or popup icon → tap it<br>
+      3. Choose <b>"Always allow popups"</b><br>
+      4. Reload the page and try again
+    </div>
   </div>
 </div>
 
@@ -442,7 +452,7 @@ input:checked+.toggle-slider::before{transform:translateX(15px);}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, signInWithPopup, getRedirectResult, GoogleAuthProvider, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
@@ -511,15 +521,26 @@ getRedirectResult(auth).then(r=>{
 }).catch(e=>{setSignInLoading(false);if(e.code!=='auth/no-auth-event')showAuthError(`❌ ${e.message}`);});
 
 window.signInWithGoogle = async()=>{
-  document.getElementById('authError').style.display='none';setSignInLoading(true);
+  document.getElementById('authError').style.display='none';
+  document.getElementById('authWarn').style.display='none';
+  setSignInLoading(true);
   try{
     const r=await signInWithPopup(auth,provider);setSignInLoading(false);
     if(ADMIN_EMAILS.includes(r.user.email))admitUser(r.user);
     else{await fbSignOut(auth);showAuthError(`❌ "${r.user.email}" is not an authorised admin.`);}
   }catch(e){
-    const msgs={'auth/popup-blocked':'⚠️ Popup blocked. Trying redirect…','auth/unauthorized-domain':'❌ Domain not authorised in Firebase. Add it in Firebase Console → Authentication → Settings → Authorized domains.','auth/operation-not-allowed':'❌ Google sign-in not enabled. Enable it in Firebase Console → Authentication → Sign-in method.'};
-    if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'){showAuthError('⚠️ Popup blocked. Redirecting…');setTimeout(()=>signInWithRedirect(auth,provider),800);}
-    else{setSignInLoading(false);showAuthError(msgs[e.code]||`❌ (${e.code}): ${e.message}`);}
+    setSignInLoading(false);
+    if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'){
+      // Show instructions — do NOT use signInWithRedirect (requires Firebase Hosting)
+      document.getElementById('authWarn').style.display='block';
+    } else {
+      const msgs={
+        'auth/unauthorized-domain':'❌ Domain not authorised. In Firebase Console → Authentication → Settings → Authorized domains → add your Vercel URL.',
+        'auth/operation-not-allowed':'❌ Google sign-in not enabled. Firebase Console → Authentication → Sign-in method → Google → Enable.',
+        'auth/network-request-failed':'❌ Network error. Check your internet connection and try again.',
+      };
+      showAuthError(msgs[e.code]||`❌ (${e.code}): ${e.message}`);
+    }
   }
 };
 window.signOut=async()=>{await fbSignOut(auth);document.getElementById('appShell').classList.remove('flex');document.getElementById('authScreen').style.display='flex';};
