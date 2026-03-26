@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Profile — BigScope</title>
+<title>Business Profile — Global Biz Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 <style>
@@ -16,10 +16,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 a{text-decoration:none;color:inherit;}
 
 nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
-.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
-.nav-logo span{color:var(--text);}
+.nav-brand{line-height:1.1;}
+.nav-logo{font-family:var(--font-head);font-size:17px;font-weight:800;letter-spacing:-.2px;}
+.nav-logo .g{color:var(--gold);}
+.nav-powered{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
 .nav-right{display:flex;gap:8px;align-items:center;}
-.btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;}
+.btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;}
 .btn-back:hover{border-color:var(--gold);color:var(--gold);}
 .btn-share{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
 .btn-share:hover{border-color:var(--gold);color:var(--gold);}
@@ -63,19 +65,18 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .badge-pending{font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px;background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
 
 .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-.btn-wa{padding:10px 18px;background:#25D366;color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:background .2s;}
+.btn-wa{padding:10px 18px;background:#25D366;color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:background .2s;text-decoration:none;}
 .btn-wa:hover{background:#1ebe59;}
-.btn-action{padding:10px 18px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;}
+.btn-action{padding:10px 18px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;text-decoration:none;}
 .btn-action:hover{border-color:var(--gold);color:var(--gold);}
-.btn-store-online{padding:10px 18px;background:linear-gradient(135deg,#4A9EFF,#0070F3);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
+.btn-store-online{padding:10px 18px;background:linear-gradient(135deg,#4A9EFF,#0070F3);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;transition:opacity .2s;text-decoration:none;}
 .btn-store-online:hover{opacity:.85;}
-.btn-store-offline{padding:10px 18px;background:var(--surface);color:var(--text);border:1px solid var(--gold);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;color:var(--gold);}
+.btn-store-offline{padding:10px 18px;background:var(--surface);border:1px solid var(--gold);border-radius:9px;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s;color:var(--gold);}
 .btn-store-offline:hover{background:rgba(245,166,35,.08);}
 
 /* CONTENT GRID */
 .content-grid{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start;}
 .main-col{min-width:0;}
-.side-col{}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;transition:background .25s;}
 .card-title{font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
@@ -149,16 +150,32 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .save-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
 .save-btn:hover,.save-btn.saved{border-color:var(--gold);color:var(--gold);background:rgba(245,166,35,.08);}
 
-/* MOBILE LAYOUT REORDER */
+/*
+  MOBILE LAYOUT — About + Story moved ABOVE At a Glance (side-col).
+  We use CSS order to achieve this without changing HTML structure.
+  Desktop (>700px): natural grid order, side-col on right.
+  Mobile (<=700px): single column, ordered explicitly.
+*/
 @media(max-width:700px){
-  .content-grid{grid-template-columns:1fr;}
-  .side-col{order:-1;} /* Put side (stats/details/upgrade) ABOVE main on mobile */
-  .about-card{order:2;}
-  .story-card{order:3;}
-  .gallery-card{order:4;}
-  .video-card{order:5;}
-  .social-card{order:6;}
-  .map-card{order:7;}
+  .content-grid{
+    grid-template-columns:1fr;
+    display:flex;
+    flex-direction:column;
+  }
+  /* Main column cards get low order numbers so About+Story appear first */
+  .about-card  { order:1; }
+  .story-card  { order:2; }
+  /* Side column comes next — stats, details, upgrade */
+  .side-col    { order:3; }
+  /* Remaining main-col cards follow */
+  .gallery-card{ order:4; }
+  .video-card  { order:5; }
+  .social-card { order:6; }
+  .map-card    { order:7; }
+  /* Main col itself must be flex so its children's order takes effect */
+  .main-col{
+    display:contents; /* lets children participate directly in the flex flow */
+  }
   .cover{height:200px;}
 }
 </style>
@@ -166,7 +183,10 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">Big<span>Scope</span></a>
+  <a href="index.html" class="nav-brand" style="text-decoration:none;">
+    <div class="nav-logo"><span class="g">Global</span> Biz Hub</div>
+    <div class="nav-powered">by TEKNNUKU</div>
+  </a>
   <div class="nav-right">
     <button class="btn-share" onclick="sharePage()">🔗 Share</button>
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
@@ -206,6 +226,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
     <div class="action-row" id="actionsEl"></div>
 
     <div class="content-grid">
+      <!-- MAIN COL — About + Story first so mobile order works -->
       <div class="main-col" id="mainCol">
         <div class="card about-card" id="aboutCard" style="display:none;">
           <div class="card-title">📋 About</div>
@@ -233,20 +254,16 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
         </div>
       </div>
 
+      <!-- SIDE COL — Stats, Details, Upgrade -->
       <div class="side-col">
-        <!-- At a Glance -->
         <div class="card" id="statsCard" style="display:none;">
           <div class="card-title">📊 At a Glance</div>
           <div class="stats-row" id="statsEl"></div>
         </div>
-
-        <!-- Details -->
         <div class="card">
           <div class="card-title">📌 Details</div>
           <div class="detail-list" id="detailsEl"></div>
         </div>
-
-        <!-- UPGRADE -->
         <div class="upgrade-section" id="upgradeSection">
           <div class="upgrade-header">
             <h3>🚀 Grow Your Business</h3>
@@ -258,17 +275,17 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
               <p>Top of directory · 28 days · More clicks</p>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
-              <span class="upgrade-price">₦10,000</span>
+              <span class="upgrade-price" id="featuredPrice">₦10,000</span>
               <button class="btn-upgrade" id="featuredBtn" onclick="payForUpgrade('featured')">Get Featured</button>
             </div>
           </div>
           <div class="upgrade-option">
             <div class="upgrade-info">
-              <h4>✅ Verified Badge</h4>
+              <h4>✦ Verified Badge</h4>
               <p>Holographic badge · One-time · Build trust</p>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
-              <span class="upgrade-price">₦15,000</span>
+              <span class="upgrade-price" id="verifiedPrice">₦15,000</span>
               <button class="btn-upgrade" id="verifiedBtn" onclick="payForUpgrade('verified')">Get Verified</button>
             </div>
           </div>
@@ -278,7 +295,6 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
   </div>
 </div>
 
-<!-- NAV MODAL (for getting directions) -->
 <div class="nav-modal-overlay" id="navModal">
   <div class="nav-modal-box">
     <h3>📍 Get Directions</h3>
@@ -313,21 +329,40 @@ const db = getFirestore(app);
 // ★ Replace with real Flutterwave public key
 const FLW_PUBLIC_KEY = "FLWPUBK_TEST-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-X";
 
+// Currency symbol map
+const CURRENCY_SYMBOLS = {
+  NGN:'₦', GHS:'₵', KES:'KSh', ZAR:'R', EGP:'E£', ETB:'Br',
+  TZS:'TSh', UGX:'USh', RWF:'Fr', XOF:'CFA', XAF:'FCFA',
+  MAD:'MAD', TND:'TND', DZD:'DA', ZMW:'K', MZN:'MT',
+  BWP:'P', MUR:'₨', AOA:'Kz', NAD:'N$',
+  USD:'$', CAD:'CA$', MXN:'MX$', JMD:'J$', TTD:'TT$',
+  GBP:'£', EUR:'€', SEK:'kr', NOK:'kr', DKK:'kr',
+  CHF:'CHF', PLN:'zł', CZK:'Kč', RUB:'₽',
+  CNY:'¥', INR:'₹', JPY:'¥', KRW:'₩',
+  AED:'AED', SAR:'SR', QAR:'QR', BHD:'BD', KWD:'KD',
+  TRY:'₺', IDR:'Rp', MYR:'RM', SGD:'S$',
+  THB:'฿', PHP:'₱', VND:'₫', PKR:'₨', BDT:'৳',
+  BRL:'R$', ARS:'AR$', COP:'COP$', CLP:'CLP$',
+  AUD:'A$', NZD:'NZ$', FJD:'FJ$'
+};
+function currSymbol(code){ return CURRENCY_SYMBOLS[code] || (code ? code+' ' : '₦'); }
+function formatPrice(amount, code){ return currSymbol(code) + amount; }
+
 const params = new URLSearchParams(location.search);
 const merchantId = params.get('id');
 let merchantData = null;
-let likes = JSON.parse(localStorage.getItem('bs_likes')||'{}');
-let saves = JSON.parse(localStorage.getItem('bs_saves')||'[]');
+let likes = JSON.parse(localStorage.getItem('gbh_likes')||'{}');
+let saves = JSON.parse(localStorage.getItem('gbh_saves')||'[]');
 
 // ---- THEME ----
-const t = localStorage.getItem('bs_theme')||'dark';
+const t = localStorage.getItem('gbh_theme')||'dark';
 document.documentElement.setAttribute('data-theme',t);
 document.getElementById('themeBtn').textContent = t==='dark'?'🌙':'☀️';
 window.toggleTheme = ()=>{
   const c=document.documentElement.getAttribute('data-theme');
   const n=c==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',n);
-  localStorage.setItem('bs_theme',n);
+  localStorage.setItem('gbh_theme',n);
   document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';
 };
 
@@ -342,7 +377,7 @@ function toast(msg,col='var(--green)'){
 // ---- SHARE ----
 window.sharePage = async()=>{
   const name=merchantData?.businessName||'this business';
-  if(navigator.share){try{await navigator.share({title:`${name} on BigScope`,text:`Check out ${name}!`,url:location.href});}catch(e){}}
+  if(navigator.share){try{await navigator.share({title:`${name} on Global Biz Hub`,text:`Check out ${name}! List Your Business. Go Global.`,url:location.href});}catch(e){}}
   else{await navigator.clipboard.writeText(location.href);toast('✓ Link copied!');}
 };
 
@@ -354,19 +389,20 @@ window.closeLightbox=()=>document.getElementById('lightbox').classList.remove('o
 window.toggleLike = async()=>{
   const btn=document.getElementById('likeBtn');
   const countEl=document.getElementById('likeCountEl');
+  const cur=parseInt(countEl.textContent)||0;
   if(likes[merchantId]){
     delete likes[merchantId];
     btn.classList.remove('liked');
-    btn.innerHTML=`❤️ <span id="likeCountEl">${parseInt(countEl.textContent)-1}</span> Likes`;
+    btn.innerHTML=`❤️ <span id="likeCountEl">${Math.max(0,cur-1)}</span> Likes`;
     updateDoc(doc(db,'merchants',merchantId),{likes:increment(-1)}).catch(()=>{});
   } else {
     likes[merchantId]=1;
     btn.classList.add('liked');
-    btn.innerHTML=`❤️ <span id="likeCountEl">${parseInt(countEl.textContent)+1}</span> Likes`;
+    btn.innerHTML=`❤️ <span id="likeCountEl">${cur+1}</span> Likes`;
     updateDoc(doc(db,'merchants',merchantId),{likes:increment(1)}).catch(()=>{});
     toast('❤️ You liked this business!','var(--danger)');
   }
-  localStorage.setItem('bs_likes',JSON.stringify(likes));
+  localStorage.setItem('gbh_likes',JSON.stringify(likes));
 };
 
 window.toggleSave = ()=>{
@@ -380,9 +416,9 @@ window.toggleSave = ()=>{
     saves.push(merchantId);
     btn.classList.add('saved');
     btn.textContent='🔖 Saved ✓';
-    toast('✓ Business saved! View in directory.','var(--gold)');
+    toast('✓ Business saved!','var(--gold)');
   }
-  localStorage.setItem('bs_saves',JSON.stringify(saves));
+  localStorage.setItem('gbh_saves',JSON.stringify(saves));
 };
 
 // ---- NAV MODAL ----
@@ -391,8 +427,8 @@ window.openNavModal = ()=>{
   if(!_navLat||!_navLng){toast('No location pin set for this business','var(--gold)');return;}
   const lat=_navLat,lng=_navLng;
   const name=encodeURIComponent(merchantData?.businessName||'Business');
-  document.getElementById('navAddress').textContent = merchantData?.location||'Navigate to this business';
-  document.getElementById('navOptions').innerHTML = `
+  document.getElementById('navAddress').textContent=merchantData?.location||'Navigate to this business';
+  document.getElementById('navOptions').innerHTML=`
     <a class="nav-option" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank">
       <span class="nav-option-icon">🗺️</span>
       <div><div>Google Maps</div><span class="nav-option-sub">Open in Google Maps</span></div>
@@ -421,49 +457,38 @@ const socialLabels={instagram:'Instagram',tiktok:'TikTok',facebook:'Facebook',tw
 window.payForUpgrade = function(type){
   if(!merchantId||!merchantData)return;
   const isFeat=type==='featured';
+  const cur=merchantData.currencyCode||'NGN';
   const amount=isFeat?10000:15000;
-  const desc=isFeat?'Featured Listing - 28 Days':'Verified Business Badge';
-
+  const sym=currSymbol(cur);
+  const desc=isFeat?`Featured Listing - 28 Days`:`Verified Business Badge`;
+  const phone=(merchantData.contacts?.[0]?.number||merchantData.phone||'').replace(/\s/g,'');
   FlutterwaveCheckout({
     public_key:FLW_PUBLIC_KEY,
-    tx_ref:`bs-${type}-${merchantId}-${Date.now()}`,
-    amount,currency:"NGN",
+    tx_ref:`gbh-${type}-${merchantId}-${Date.now()}`,
+    amount,currency:cur,
     payment_options:"card,banktransfer,ussd,mobilemoney",
-    customer:{email:`${merchantId}@bigscope.ng`,phone_number:merchantData.phone||'',name:merchantData.businessName||'Business'},
-    customizations:{title:`BigScope — ${desc}`,description:`${desc} for ${merchantData.businessName}`},
+    customer:{email:`${merchantId}@globalbiz.hub`,phone_number:phone,name:merchantData.businessName||'Business'},
+    customizations:{title:`Global Biz Hub — ${desc}`,description:`${desc} for ${merchantData.businessName}`,logo:''},
     callback:async function(data){
       if(data.status==="successful"||data.status==="completed"){
         try{
           const now=new Date();
           const updates={paymentRef:data.transaction_id?.toString()||data.tx_ref,paymentDate:now,paymentType:type,upgradeRequestedAt:now,upgradeApproved:false};
-          if(isFeat){
-            const exp=new Date(now);exp.setDate(exp.getDate()+28);
-            updates.featuredUntil=exp;
-            updates.pipelineStage='Paid Client';
-          } else {
-            updates.pipelineStage='Paid Client';
-          }
+          if(isFeat){const exp=new Date(now);exp.setDate(exp.getDate()+28);updates.featuredUntil=exp;updates.pipelineStage='Paid Client';}
+          else{updates.pipelineStage='Paid Client';}
           await updateDoc(doc(db,'merchants',merchantId),updates);
           toast(`✓ Payment confirmed! ${isFeat?'Featured request submitted.':'Verification request submitted.'} Admin will approve shortly.`,'var(--green)');
           document.getElementById(isFeat?'featuredBtn':'verifiedBtn').disabled=true;
           document.getElementById(isFeat?'featuredBtn':'verifiedBtn').textContent='⏳ Pending Approval';
-
-          // AUTO-APPROVE after 6 minutes if admin hasn't acted
+          // Auto-approve after 6 min if admin hasn't acted
           setTimeout(async()=>{
             try{
-              const fresh=await getDoc(doc(db,'merchants',merchantId));
-              const fd=fresh.data();
-              if(isFeat&&!fd.featured){
-                await updateDoc(doc(db,'merchants',merchantId),{featured:true,upgradeApproved:true,directoryStatus:'Listed'});
-                toast('★ Your Featured listing is now LIVE!','var(--gold)');
-              } else if(!isFeat&&!fd.verified){
-                await updateDoc(doc(db,'merchants',merchantId),{verified:true,upgradeApproved:true,directoryStatus:'Listed'});
-                toast('✦ Your Verified badge is now ACTIVE!','var(--green)');
-              }
-            } catch(e){}
-          }, 360000); // 6 minutes
-
-        }catch(err){toast('Payment received but update failed. Contact: billing@bigscope.ng','var(--danger)');}
+              const fresh=await getDoc(doc(db,'merchants',merchantId));const fd=fresh.data();
+              if(isFeat&&!fd.featured){await updateDoc(doc(db,'merchants',merchantId),{featured:true,upgradeApproved:true,directoryStatus:'Listed'});toast('★ Your Featured listing is now LIVE!','var(--gold)');}
+              else if(!isFeat&&!fd.verified){await updateDoc(doc(db,'merchants',merchantId),{verified:true,upgradeApproved:true,directoryStatus:'Listed'});toast('✦ Your Verified badge is now ACTIVE!','var(--green)');}
+            }catch(e){}
+          },360000);
+        }catch(err){toast('Payment received but update failed. Contact: billing@globalbiz.hub','var(--danger)');}
       }
     },
     onclose:function(){}
@@ -476,24 +501,26 @@ const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
 
 // ---- LOAD ----
 async function load(){
-  if(!merchantId){document.getElementById('pageLoader').innerHTML='<p style="color:var(--muted)">No merchant ID.</p>';return;}
+  if(!merchantId){document.getElementById('pageLoader').innerHTML='<p style="color:var(--muted)">No merchant ID provided.</p>';return;}
   try{
     const snap=await getDoc(doc(db,'merchants',merchantId));
     if(!snap.exists()){document.getElementById('pageLoader').innerHTML='<p style="color:var(--muted)">Business not found.</p>';return;}
     merchantData=snap.data();
     const d=merchantData;
+    const cur=d.currencyCode||'NGN';
+    const sym=currSymbol(cur);
 
-    document.title=`${d.businessName} — BigScope`;
+    document.title=`${d.businessName} — Global Biz Hub`;
     if(d.status==='pending')document.getElementById('pendingBanner').style.display='';
 
-    // Cover
+    // Cover (banner = images[1], fallback to images[0])
     const bannerCid=d.images?.[1]||d.images?.[0];
     if(bannerCid){
       const img=document.createElement('img');img.src=ipfs(bannerCid);img.alt=d.businessName;
       document.getElementById('coverPlaceholder').style.display='none';
       document.getElementById('coverEl').prepend(img);
     }
-    // Avatar
+    // Avatar (logo = images[0])
     document.getElementById('avatarEl').innerHTML=d.images?.[0]
       ?`<img src="${ipfs(d.images[0])}" alt="${d.businessName}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪';
 
@@ -507,12 +534,14 @@ async function load(){
     if(d.status==='pending')badges+=`<span class="badge-pending">⏳ Pending Review</span>`;
     document.getElementById('badgesEl').innerHTML=badges;
 
-    // Meta - location clickable for directions
+    // Meta
     _navLat=d.lat;_navLng=d.lng;
+    const locText=d.city?[d.city,d.country].filter(Boolean).join(', '):(d.location||'');
     let meta='';
-    if(d.location)meta+=`<span class="meta-item${d.lat?' clickable':''}" ${d.lat?`onclick="openNavModal()"`:''}>${d.lat?'🗺️':'📍'} ${d.location}</span>`;
+    if(locText)meta+=`<span class="meta-item${d.lat?' clickable':''}" ${d.lat?`onclick="openNavModal()"`:''}>${d.lat?'🗺️':'📍'} ${locText}</span>`;
     if(d.ownerName)meta+=`<span class="meta-item">👤 ${d.ownerName}</span>`;
     if(d.yearsInBusiness)meta+=`<span class="meta-item">🗓️ ${d.yearsInBusiness} yrs</span>`;
+    if(d.country&&d.country!=='Nigeria')meta+=`<span class="meta-item">🌍 ${d.country}</span>`;
     document.getElementById('metaEl').innerHTML=meta;
 
     // Like/Save state
@@ -520,22 +549,20 @@ async function load(){
     document.getElementById('likeCountEl').textContent=d.likes||0;
     if(saves.includes(merchantId)){document.getElementById('saveBtn').classList.add('saved');document.getElementById('saveBtn').textContent='🔖 Saved ✓';}
 
-    // Actions
-    const phone=waNum(d.phone);
+    // Actions — support both old phone field and new contacts array
+    const contacts=d.contacts||[];
+    const waContact=contacts.find(c=>c.type==='whatsapp')||contacts[0];
+    const callContact=contacts.find(c=>c.type==='call');
+    const waPhone=waContact?waNum(waContact.number):(d.phone?waNum(d.phone):'');
+    const callPhone=callContact?.number||d.phone||'';
     let actions='';
-    if(phone)actions+=`<a href="https://wa.me/${phone}" class="btn-wa" target="_blank">💬 WhatsApp</a>`;
-    if(d.phone)actions+=`<a href="tel:${d.phone}" class="btn-action">📞 Call</a>`;
-    // Online store vs offline store
-    if(d.website){
-      const isOnline=d.website.includes('http')||d.website.includes('selar')||d.website.includes('paystack')||d.website.includes('shopify');
-      actions+=`<a href="${d.website}" class="btn-store-online" target="_blank">🛒 Online Store <span style="font-size:10px;opacity:.8;">(Web)</span></a>`;
-    }
-    if(d.lat&&d.lng){
-      actions+=`<button class="btn-store-offline" onclick="openNavModal()">📍 Visit Physical Store</button>`;
-    }
+    if(waPhone)actions+=`<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank">💬 WhatsApp</a>`;
+    if(callPhone)actions+=`<a href="tel:${callPhone}" class="btn-action">📞 Call</a>`;
+    if(d.website)actions+=`<a href="${d.website.startsWith('http')?d.website:'https://'+d.website}" class="btn-store-online" target="_blank">🛒 Online Store <span style="font-size:10px;opacity:.8;">(Web)</span></a>`;
+    if(d.lat&&d.lng)actions+=`<button class="btn-store-offline" onclick="openNavModal()">📍 Visit Physical Store</button>`;
     document.getElementById('actionsEl').innerHTML=actions;
 
-    // About
+    // About + Story (these appear first on mobile via CSS order)
     if(d.description){document.getElementById('descEl').textContent=d.description;document.getElementById('aboutCard').style.display='';}
     if(d.uniqueness){document.getElementById('uniquenessEl').textContent=d.uniqueness;document.getElementById('storyCard').style.display='';}
 
@@ -544,10 +571,12 @@ async function load(){
       document.getElementById('galleryEl').innerHTML=d.images.map(cid=>`<div class="gallery-item" onclick="openLightbox('${ipfs(cid)}')"><img src="${ipfs(cid)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
       document.getElementById('galleryCard').style.display='';
     }
+    // Videos
     if(d.videoCIDs?.length>0){
       document.getElementById('videosEl').innerHTML=d.videoCIDs.map(cid=>`<div class="video-wrap"><video src="${ipfs(cid)}" controls></video></div>`).join('');
       document.getElementById('videoCard').style.display='';
     }
+    // Social links
     if(d.socialLinks?.length>0){
       document.getElementById('socialLinksEl').innerHTML=d.socialLinks.map(s=>`<a href="${s.url.startsWith('http')?s.url:'https://'+s.url}" class="btn-social" target="_blank">${socialIcons[s.platform]||'🔗'} ${socialLabels[s.platform]||s.platform}</a>`).join('');
       document.getElementById('socialCard').style.display='';
@@ -556,42 +585,53 @@ async function load(){
     // Map
     if(d.lat&&d.lng){
       document.getElementById('mapCard').style.display='';
-      const css=document.createElement('link');css.rel='stylesheet';css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(css);
+      const cssEl=document.createElement('link');cssEl.rel='stylesheet';cssEl.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(cssEl);
       const sc=document.createElement('script');sc.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
       sc.onload=()=>{
         const m=L.map('profileMap',{zoomControl:true,scrollWheelZoom:false}).setView([d.lat,d.lng],15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
-        L.marker([d.lat,d.lng]).addTo(m).bindPopup(`<b>${d.businessName}</b><br>${d.location||''}`).openPopup();
-        // Clicking map opens nav modal
+        L.marker([d.lat,d.lng]).addTo(m).bindPopup(`<b>${d.businessName}</b><br>${locText}`).openPopup();
         m.on('click',()=>openNavModal());
       };
       document.head.appendChild(sc);
     }
 
-    // Stats
+    // At a Glance stats
     const stats=[];
     if(d.staffCount)stats.push({num:d.staffCount,lbl:'Staff'});
     if(d.yearsInBusiness)stats.push({num:d.yearsInBusiness,lbl:'Years'});
     if(d.dailyCustomers)stats.push({num:`~${d.dailyCustomers}`,lbl:'Customers/day'});
-    if(stats.length){document.getElementById('statsEl').innerHTML=stats.map(s=>`<div class="stat-box"><div class="num">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');document.getElementById('statsCard').style.display='';}
+    if(stats.length){
+      document.getElementById('statsEl').innerHTML=stats.map(s=>`<div class="stat-box"><div class="num">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');
+      document.getElementById('statsCard').style.display='';
+    }
 
-    // Details
+    // Details — price range uses business's own currency symbol
     const details=[];
-    if(d.priceRange)details.push({l:'Price Range',v:`₦${d.priceRange.replace(/^₦/,'')}`});
+    if(d.priceRange){
+      const cleanPrice=d.priceRange.replace(/^[₦$£€₵\w]+\s*/,'');
+      details.push({l:'Price Range',v:`${sym}${cleanPrice}`});
+    }
     if(d.delivers)details.push({l:'Delivery',v:d.delivers});
     if(d.whatsappBusiness)details.push({l:'WA Business',v:d.whatsappBusiness});
-    if(d.website)details.push({l:'Online Store',v:`<a href="${d.website}" target="_blank" style="color:var(--gold)">Visit →</a>`});
-    if(d.location&&d.lat)details.push({l:'Find Us',v:`<span onclick="openNavModal()" style="cursor:pointer;color:var(--gold)">Get Directions →</span>`});
+    if(d.website)details.push({l:'Online Store',v:`<a href="${d.website.startsWith('http')?d.website:'https://'+d.website}" target="_blank" style="color:var(--gold)">Visit →</a>`});
+    if(d.country)details.push({l:'Country',v:d.country});
+    if(d.continent)details.push({l:'Continent',v:d.continent});
+    if(d.lat&&d.lng)details.push({l:'Find Us',v:`<span onclick="openNavModal()" style="cursor:pointer;color:var(--gold)">Get Directions →</span>`});
     document.getElementById('detailsEl').innerHTML=details.map(r=>`<div class="detail-row"><span class="detail-label">${r.l}</span><span class="detail-value">${r.v}</span></div>`).join('');
 
+    // Upgrade prices in business's currency
+    document.getElementById('featuredPrice').textContent=`${sym}10,000`;
+    document.getElementById('verifiedPrice').textContent=`${sym}15,000`;
+
     // Upgrade button states
-    if(d.featured){const b=document.getElementById('featuredBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'★ Active'}))}
-    if(d.verified){const b=document.getElementById('verifiedBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'✦ Verified'}))}
+    if(d.featured){const b=document.getElementById('featuredBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'★ Active'}));}
+    if(d.verified){const b=document.getElementById('verifiedBtn');b.disabled=true;b.replaceWith(Object.assign(document.createElement('span'),{className:'upgrade-done',textContent:'✦ Verified'}));}
 
     document.getElementById('pageLoader').style.display='none';
     document.getElementById('pageContent').style.display='';
   }catch(err){
-    document.getElementById('pageLoader').innerHTML=`<p style="color:var(--muted)">Error: ${err.message}</p>`;
+    document.getElementById('pageLoader').innerHTML=`<p style="color:var(--muted)">Error loading profile: ${err.message}</p>`;
   }
 }
 load();
