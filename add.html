@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Your Business — BigScope</title>
+<title>List Your Business — Global Biz Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
@@ -15,8 +15,10 @@ html,body{overflow-x:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;transition:background .25s,color .25s;}
 
 nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
-.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);}
-.nav-logo span{color:var(--text);}
+.nav-brand{line-height:1.1;}
+.nav-logo{font-family:var(--font-head);font-size:17px;font-weight:800;letter-spacing:-.2px;}
+.nav-logo .g{color:var(--gold);}
+.nav-powered{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
 .nav-right{display:flex;gap:8px;align-items:center;}
 .btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;}
 .btn-back:hover{border-color:var(--gold);color:var(--gold);}
@@ -24,7 +26,8 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 .btn-icon:hover{border-color:var(--gold);}
 
 .page-wrap{max-width:680px;margin:0 auto;padding:32px 16px 80px;}
-.page-title{font-family:var(--font-head);font-size:26px;font-weight:800;margin-bottom:6px;}
+.page-title{font-family:var(--font-head);font-size:26px;font-weight:800;margin-bottom:4px;}
+.page-tagline{font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
 .page-sub{color:var(--muted);font-size:14px;margin-bottom:32px;line-height:1.6;}
 
 .section-label{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
@@ -42,7 +45,6 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 .field textarea{resize:vertical;min-height:80px;line-height:1.6;}
 .field-hint{font-size:11px;color:var(--muted);margin-top:3px;}
 
-/* PRICE INPUT WITH ₦ PREFIX */
 .price-field{position:relative;}
 .price-prefix{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--gold);pointer-events:none;z-index:1;}
 .price-field input{padding-left:28px;}
@@ -53,7 +55,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 
 .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
 .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);position:relative;overflow:hidden;}
-.upload-zone:hover,.upload-zone.drag-over{border-color:var(--gold);background:rgba(245,166,35,.02);}
+.upload-zone:hover{border-color:var(--gold);background:rgba(245,166,35,.02);}
 .upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-icon{font-size:22px;margin-bottom:5px;}
 .upload-title{font-size:12px;font-weight:700;margin-bottom:3px;}
@@ -117,7 +119,10 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">Big<span>Scope</span></a>
+  <div class="nav-brand">
+    <div class="nav-logo"><span class="g">Global</span> Biz Hub</div>
+    <div class="nav-powered">by TEKNNUKU</div>
+  </div>
   <div class="nav-right">
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
     <a href="index.html" class="btn-back">← Back</a>
@@ -125,6 +130,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 </nav>
 
 <div class="page-wrap">
+  <div class="page-tagline">The Digital Home for Every Business</div>
   <div class="page-title">List Your Business</div>
   <p class="page-sub">Fill in your details below. Your listing will be reviewed and go live within 48 hours — after which it is automatically published if no response from our team.</p>
 
@@ -191,10 +197,10 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
     <div class="field">
       <label>Price Range</label>
       <div class="price-field">
-        <span class="price-prefix">₦</span>
+        <span class="price-prefix" id="currencyPrefix">₦</span>
         <input type="text" id="priceRange" placeholder="500 – 50,000">
       </div>
-      <span class="field-hint">Min – Max (₦ added automatically)</span>
+      <span class="field-hint">Currency auto-detected by location</span>
     </div>
   </div>
   <div class="form-row">
@@ -222,7 +228,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
   </div>
 
   <div class="section-label">🖼️ Photos & Video</div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Media stored on IPFS — permanently accessible. Upload your logo and banner so customers recognise you instantly.</p>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Images are compressed automatically for fast uploads. Stored on IPFS — permanently accessible.</p>
   <div class="upload-grid">
     <div class="field">
       <label>Profile Logo <span class="req">*</span></label>
@@ -258,20 +264,20 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 
   <div class="upload-status" id="uploadStatus"></div>
 
-  <button class="submit-btn" id="submitBtn" onclick="submitForm()">🚀 Submit Listing for Review</button>
-  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Reviewed within 48 hours. Goes live automatically if not reviewed.</p>
+  <button class="submit-btn" id="submitBtn" onclick="submitForm()">🚀 List My Business on Global Biz Hub</button>
+  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Reviewed within 48 hours · Goes live automatically if not reviewed · <strong style="color:var(--gold)">List Your Business. Go Global.</strong></p>
 </div>
 
 <div class="success-overlay" id="successOverlay">
   <div class="success-icon">🎉</div>
-  <h2>Listing Submitted!</h2>
+  <h2>You're on Global Biz Hub!</h2>
   <div class="pending-box">
     <strong>⏳ Pending Review</strong><br>
-    Your business is being reviewed by the BigScope team. It will go live within 48 hours. Once approved, you can upgrade to Featured or Verified directly from your profile page.
+    Your business is being reviewed by the Global Biz Hub team. It will go live within 48 hours. Once approved, upgrade to Featured or Verified directly from your profile page.
   </div>
   <div class="success-btns">
     <button class="btn-primary" onclick="viewListing()">View My Listing →</button>
-    <a href="index.html" class="btn-outline">Go to Directory</a>
+    <a href="index.html" class="btn-outline">Explore Directory</a>
     <a href="add.html" class="btn-outline">Add Another</a>
   </div>
 </div>
@@ -292,19 +298,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ★ Replace with your actual Pinata JWT
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZjI1YWU0YS1mOWNhLTQzZTQtOGRhNi0zOWZiMDQxYzEzODgiLCJlbWFpbCI6ImdhdGFwcm90b2NvbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODBiOTdkNWI5YmQxNjI5NDg2M2UiLCJzY29wZWRLZXlTZWNyZXQiOiI0Zjg1YjE4NmE1NTc2MDdkMzYyNThhZGI5YTFkNWM0ZDllMjVlNjgyNGYzNzJjNGMyYmIyNTQ4ZWY4YTU1NzY1IiwiZXhwIjoxODA1MzA5OTQyfQ.NuFKLMmeVEqpRO0lk-gtKipxho_r8cHtp26qBVtTyn0";
 
+// Currency detection by IP
+const CURRENCY_MAP = {'Nigeria':'NGN','Ghana':'GHS','Kenya':'KES','South Africa':'ZAR','Egypt':'EGP','United States':'USD','United Kingdom':'GBP','Germany':'EUR','France':'EUR','Netherlands':'EUR','Spain':'EUR','Italy':'EUR','UAE':'AED','United Arab Emirates':'AED','Saudi Arabia':'SAR','Canada':'CAD','Australia':'AUD','India':'INR','Japan':'JPY','China':'CNY','Brazil':'BRL','Singapore':'SGD','Malaysia':'MYR'};
+const CURRENCY_SYMBOLS = {'NGN':'₦','GHS':'₵','KES':'KSh','ZAR':'R','EGP':'E£','USD':'$','GBP':'£','EUR':'€','AED':'AED','SAR':'SR','CAD':'CA$','AUD':'A$','INR':'₹','JPY':'¥','CNY':'¥','BRL':'R$','SGD':'S$','MYR':'RM'};
+let detectedCurrency = 'NGN';
+fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+  const cur = CURRENCY_MAP[d.country_name] || d.currency || 'NGN';
+  detectedCurrency = cur;
+  document.getElementById('currencyPrefix').textContent = CURRENCY_SYMBOLS[cur] || cur + ' ';
+}).catch(()=>{});
+
 // ---- THEME ----
-const t=localStorage.getItem('bs_theme')||'dark';
+const t=localStorage.getItem('gbh_theme')||'dark';
 document.documentElement.setAttribute('data-theme',t);
 document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'☀️';
-window.toggleTheme=()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('bs_theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';};
+window.toggleTheme=()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('gbh_theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';};
 
 let newId=null,pinnedLat=null,pinnedLng=null,mapMarker=null;
 
 // MAP
-const map=L.map('locationMap',{zoomControl:true}).setView([9.0765,7.3986],6);
+const map=L.map('locationMap',{zoomControl:true}).setView([9.0765,7.3986],4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
 map.on('click',e=>{
   pinnedLat=e.latlng.lat.toFixed(6);pinnedLng=e.latlng.lng.toFixed(6);
@@ -317,17 +332,18 @@ window.searchMap=async()=>{
   const q=document.getElementById('mapSearchInput').value.trim();
   if(!q)return;
   try{
-    const res=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=ng`);
+    // Global search — no country restriction
+    const res=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&addressdetails=1`,{headers:{'Accept-Language':'en'}});
     const data=await res.json();
-    if(!data.length){alert('Location not found.');return;}
+    if(!data.length){alert('Location not found. Try adding more detail, e.g. "Wuse Market Abuja Nigeria"');return;}
     const{lat,lon,display_name}=data[0];
-    map.setView([lat,lon],15);
+    map.setView([+lat,+lon],15);
     if(mapMarker)map.removeLayer(mapMarker);
-    mapMarker=L.marker([lat,lon]).addTo(map);
+    mapMarker=L.marker([+lat,+lon]).addTo(map);
     pinnedLat=parseFloat(lat).toFixed(6);pinnedLng=parseFloat(lon).toFixed(6);
-    document.getElementById('mapCoords').textContent=`📍 ${display_name.split(',').slice(0,3).join(',')}`;
+    document.getElementById('mapCoords').textContent=`📍 ${display_name.split(',').slice(0,4).join(',')}`;
     if(!document.getElementById('location').value)document.getElementById('location').value=display_name.split(',').slice(0,3).join(',').trim();
-  }catch(e){alert('Map search failed. Please pin manually.');}
+  }catch(e){alert('Map search failed. Please pin manually on the map.');}
 };
 
 window.pick=(g,el)=>{document.querySelectorAll(`#${g} .radio-btn`).forEach(b=>b.classList.remove('active'));el.classList.add('active');};
@@ -348,8 +364,26 @@ function previewImg(inputId,previewId,single=true){
     preview.innerHTML=files.map(f=>`<div class="preview-thumb"><img src="${URL.createObjectURL(f)}"></div>`).join('');
   });
 }
-previewImg('logoInput','logoPreview',true);previewImg('bannerInput','bannerPreview',true);previewImg('photosInput','photosPreview',false);
+previewImg('logoInput','logoPreview',true);
+previewImg('bannerInput','bannerPreview',true);
+previewImg('photosInput','photosPreview',false);
 document.getElementById('videoInput').addEventListener('change',function(){if(this.files[0])document.getElementById('videoPreview').innerHTML=`<div class="preview-thumb"><video src="${URL.createObjectURL(this.files[0])}" style="width:100%;height:100%;object-fit:cover;"></video></div>`;});
+
+// ---- IMAGE COMPRESSION (makes uploads much faster) ----
+async function compressImage(file, maxW=1400, quality=0.82){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      let{width:w,height:h}=img;
+      if(w>maxW){h=Math.round(h*(maxW/w));w=maxW;}
+      const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      canvas.toBlob(blob=>resolve(new File([blob],file.name.replace(/\.[^.]+$/,'.jpg'),{type:'image/jpeg'})),'image/jpeg',quality);
+    };
+    img.onerror=()=>resolve(file);
+    img.src=URL.createObjectURL(file);
+  });
+}
 
 async function uploadToPinata(file){
   const form=new FormData();form.append('file',file);form.append('pinataMetadata',JSON.stringify({name:file.name}));
@@ -357,6 +391,7 @@ async function uploadToPinata(file){
   if(!res.ok)throw new Error(`IPFS upload failed: ${res.status}`);
   return (await res.json()).IpfsHash;
 }
+
 function setStatus(msg,type){const el=document.getElementById('uploadStatus');el.className=`upload-status show ${type}`;el.innerHTML=msg;}
 
 window.submitForm=async()=>{
@@ -366,53 +401,73 @@ window.submitForm=async()=>{
   const cat=document.getElementById('category').value;
   const loc=document.getElementById('location').value.trim();
   if(!name||!phone||!cat||!loc){alert('Please fill in: Business Name, Phone, Category, and Location.');return;}
-  btn.disabled=true;btn.innerHTML='<span class="spin">⟳</span> Uploading media…';
-  try{
-    const imageCIDs=[];
-    const logoFile=document.getElementById('logoInput').files[0];
-    if(logoFile){setStatus('<span class="spin">⟳</span> Uploading logo…','loading');imageCIDs.push(await uploadToPinata(logoFile));}
-    const bannerFile=document.getElementById('bannerInput').files[0];
-    if(bannerFile){setStatus('<span class="spin">⟳</span> Uploading banner…','loading');imageCIDs.push(await uploadToPinata(bannerFile));}
-    for(const f of Array.from(document.getElementById('photosInput').files).slice(0,4)){setStatus(`<span class="spin">⟳</span> Uploading photos…`,'loading');imageCIDs.push(await uploadToPinata(f));}
+  btn.disabled=true;btn.innerHTML='<span class="spin">⟳</span> Uploading…';
 
+  try{
+    // Collect image files
+    const rawImages=[];
+    const logoFile=document.getElementById('logoInput').files[0];if(logoFile)rawImages.push(logoFile);
+    const bannerFile=document.getElementById('bannerInput').files[0];if(bannerFile)rawImages.push(bannerFile);
+    Array.from(document.getElementById('photosInput').files).slice(0,4).forEach(f=>rawImages.push(f));
+
+    // Compress all images first
+    let imageCIDs=[];
+    if(rawImages.length){
+      setStatus(`<span class="spin">⟳</span> Compressing ${rawImages.length} image(s)…`,'loading');
+      const compressed=await Promise.all(rawImages.map(f=>f.type.startsWith('image/')?compressImage(f):Promise.resolve(f)));
+      setStatus(`<span class="spin">⟳</span> Uploading ${compressed.length} image(s) in parallel…`,'loading');
+      // Upload all images in parallel — much faster than sequential
+      imageCIDs=await Promise.all(compressed.map(f=>uploadToPinata(f)));
+    }
+
+    // Video (sequential — large file)
     const videoCIDs=[];
     const videoFile=document.getElementById('videoInput').files[0];
     if(videoFile){setStatus('<span class="spin">⟳</span> Uploading video…','loading');videoCIDs.push(await uploadToPinata(videoFile));}
 
-    btn.innerHTML='<span class="spin">⟳</span> Saving listing…';
-    setStatus('<span class="spin">⟳</span> Saving…','loading');
+    btn.innerHTML='<span class="spin">⟳</span> Saving to Global Biz Hub…';
+    setStatus('<span class="spin">⟳</span> Saving listing…','loading');
 
-    // Price range — ensure ₦ prefix is stored
     const rawPrice=document.getElementById('priceRange').value.trim();
-    const priceRange=rawPrice?rawPrice.replace(/^₦/,''):'';
+    const priceRange=rawPrice.replace(/^[₦$£€₵\w]+\s*/,'');
 
     const merchant={
-      businessName:name,ownerName:document.getElementById('ownerName').value.trim(),
-      phone,category:cat,location:loc,
+      businessName:name,
+      ownerName:document.getElementById('ownerName').value.trim(),
+      phone,
+      contacts:[{type:'whatsapp',number:phone}],
+      category:cat,
+      location:loc,
       description:document.getElementById('description').value.trim(),
       website:document.getElementById('website').value.trim(),
       staffCount:parseInt(document.getElementById('staffCount').value)||0,
       yearsInBusiness:parseInt(document.getElementById('yearsInBusiness').value)||0,
       dailyCustomers:parseInt(document.getElementById('dailyCustomers').value)||0,
       priceRange,
-      delivers:radioVal('deliverGroup'),whatsappBusiness:radioVal('waGroup'),
+      currencyCode:detectedCurrency,
+      delivers:radioVal('deliverGroup'),
+      whatsappBusiness:radioVal('waGroup'),
       uniqueness:document.getElementById('uniqueness').value.trim(),
       socialLinks:getSocialLinks(),
-      lat:pinnedLat?parseFloat(pinnedLat):null,lng:pinnedLng?parseFloat(pinnedLng):null,
-      images:imageCIDs,videoCIDs,
+      lat:pinnedLat?parseFloat(pinnedLat):null,
+      lng:pinnedLng?parseFloat(pinnedLng):null,
+      images:imageCIDs,
+      videoCIDs,
       status:'pending',featured:false,verified:false,
       leadScore:0,pipelineStage:'Profile Created',directoryStatus:'Pending',
+      platform:'Global Biz Hub',
       createdAt:new Date()
     };
 
     const ref=await addDoc(collection(db,'merchants'),merchant);
     newId=ref.id;
-    setStatus('✓ Submitted successfully!','success');
+    setStatus('✓ Submitted to Global Biz Hub!','success');
     document.getElementById('successOverlay').classList.add('show');
   }catch(err){
-    console.error(err);setStatus(`✕ Error: ${err.message}`,'error');
-    alert('Error: '+err.message);
-    btn.disabled=false;btn.innerHTML='🚀 Submit Listing for Review';
+    console.error(err);
+    setStatus(`✕ Error: ${err.message}`,'error');
+    btn.disabled=false;
+    btn.innerHTML='🚀 List My Business on Global Biz Hub';
   }
 };
 
