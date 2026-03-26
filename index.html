@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BigScope — Find Local Businesses</title>
+<title>Global Biz Hub — The Digital Home for Every Business</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== THEME ===== */
 [data-theme="dark"]{
   --bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--border:#2A2A2A;
   --text:#F0EDE8;--muted:#7A7570;--card-hover:rgba(255,255,255,.02);
@@ -25,57 +24,84 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 a{text-decoration:none;color:inherit;}
 
 /* ===== NAV ===== */
-nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s,border-color .25s;}
-.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);flex-shrink:0;}
+nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 20px;height:62px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
+.nav-logo{font-family:var(--font-head);font-size:19px;font-weight:800;color:var(--gold);flex-shrink:0;letter-spacing:-.3px;}
 .nav-logo span{color:var(--text);}
+.nav-logo sub{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);vertical-align:middle;margin-left:3px;}
 .nav-right{display:flex;gap:8px;align-items:center;}
 .btn-primary{padding:8px 16px;background:var(--gold);color:#000;font-family:var(--font-body);font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
-.btn-primary:hover{background:#e09c1a;}
+.btn-primary:hover{background:#e09c1a;transform:translateY(-1px);}
 .btn-icon{width:36px;height:36px;border:1px solid var(--border);background:var(--surface);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;color:var(--text);}
 .btn-icon:hover{border-color:var(--gold);}
 
 /* ===== HERO ===== */
-.hero{padding:48px 16px 28px;max-width:900px;margin:0 auto;text-align:center;}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.25);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:20px;}
-.hero h1{font-family:var(--font-head);font-size:clamp(28px,6vw,60px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:14px;}
+.hero{padding:52px 20px 30px;max-width:860px;margin:0 auto;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.28);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:22px;}
+.hero h1{font-family:var(--font-head);font-size:clamp(30px,6vw,62px);font-weight:800;line-height:1.04;letter-spacing:-2px;margin-bottom:16px;}
 .hero h1 em{font-style:normal;color:var(--gold);}
-.hero p{font-size:15px;color:var(--muted);max-width:460px;margin:0 auto 24px;line-height:1.65;}
-.search-wrap{max-width:560px;margin:0 auto 10px;display:flex;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s,background .25s;}
-.search-wrap:focus-within{border-color:var(--gold);}
-.search-wrap input{flex:1;padding:13px 15px;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:14px;min-width:0;}
+.hero p{font-size:15px;color:var(--muted);max-width:480px;margin:0 auto 10px;line-height:1.7;}
+.hero-tagline{font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;display:block;opacity:.8;}
+.search-wrap{max-width:580px;margin:0 auto;display:flex;background:var(--surface);border:1.5px solid var(--border);border-radius:13px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.search-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.12);}
+.search-wrap input{flex:1;padding:14px 16px;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:14px;min-width:0;}
 .search-wrap input::placeholder{color:var(--muted);}
-.search-wrap button{padding:9px 18px;background:var(--gold);border:none;cursor:pointer;color:#000;font-weight:700;font-size:13px;font-family:var(--font-body);margin:5px;border-radius:8px;flex-shrink:0;}
+.search-wrap button{padding:10px 20px;background:var(--gold);border:none;cursor:pointer;color:#000;font-weight:700;font-size:13px;font-family:var(--font-body);margin:5px;border-radius:9px;flex-shrink:0;transition:background .2s;}
+.search-wrap button:hover{background:#e09c1a;}
 
-/* ===== FILTER BAR ===== */
-.filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0;transition:background .25s;}
-.filter-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:stretch;gap:0;}
-.filter-tab{padding:12px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-body);transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
-.filter-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.filter-tab:hover{color:var(--text);}
-.filter-scroll{display:flex;overflow-x:auto;scrollbar-width:none;}
-.filter-scroll::-webkit-scrollbar{display:none;}
+/* ===== LOCATION FILTER BAR ===== */
+.loc-filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 20px;transition:background .25s;}
+.loc-filter-inner{max-width:1200px;margin:0 auto;}
+.loc-filter-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.loc-selects{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.loc-select{padding:7px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:12px;font-weight:500;outline:none;cursor:pointer;transition:border-color .2s,background .25s;min-width:130px;}
+.loc-select:focus,.loc-select:hover{border-color:var(--gold);}
+.loc-select:disabled{opacity:.4;cursor:default;}
+.loc-select option{background:var(--surface);}
+.btn-clear-loc{padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:var(--font-body);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-clear-loc:hover{border-color:var(--danger);color:var(--danger);}
+.active-loc-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.3);color:var(--gold);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:6px;}
 
-/* CHIPS */
-.chips-wrap{padding:10px 16px;max-width:1200px;margin:0 auto;display:flex;gap:6px;flex-wrap:wrap;}
-.chip{padding:5px 12px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:500;border-radius:100px;cursor:pointer;transition:all .2s;font-family:var(--font-body);white-space:nowrap;}
+/* ===== CATEGORY CHIPS ===== */
+.cat-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;transition:background .25s;}
+.cat-bar-inner{max-width:1200px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.cat-bar-inner::-webkit-scrollbar{display:none;}
+.chip{padding:6px 14px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:500;border-radius:100px;cursor:pointer;transition:all .2s;font-family:var(--font-body);white-space:nowrap;flex-shrink:0;}
 .chip:hover,.chip.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
-.chip-panel{display:none;border-bottom:1px solid var(--border);background:var(--surface);}
-.chip-panel.open{display:block;}
+
+/* ===== AD BOARD ===== */
+.ad-board{max-width:1200px;margin:16px auto;padding:0 20px;}
+.ad-carousel{position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);}
+.ad-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.ad-slide{min-width:100%;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--surface);}
+.ad-slide-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0;}
+.ad-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ad-tag{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:2px;}
+.ad-title{font-family:var(--font-head);font-size:14px;font-weight:800;line-height:1.2;margin-bottom:2px;}
+.ad-desc{font-size:11px;color:var(--muted);}
+.ad-cta{padding:8px 16px;border-radius:7px;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;border:none;white-space:nowrap;flex-shrink:0;transition:opacity .2s;}
+.ad-cta:hover{opacity:.85;}
+.ad-dots{display:flex;gap:5px;justify-content:center;padding:8px 0 4px;background:var(--surface);border-top:1px solid var(--border);}
+.ad-dot{width:6px;height:6px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s,transform .2s;}
+.ad-dot.active{background:var(--gold);transform:scale(1.3);}
+.ad-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);backdrop-filter:blur(4px);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:5;}
+.ad-nav:hover{background:rgba(0,0,0,.7);}
+.ad-nav.prev{left:8px;}
+.ad-nav.next{right:8px;}
 
 /* ===== STATS ===== */
-.stats-bar{display:flex;justify-content:center;gap:28px;padding:12px 16px;border-bottom:1px solid var(--border);margin-bottom:0;flex-wrap:wrap;background:var(--surface);transition:background .25s;}
+.stats-bar{display:flex;justify-content:center;gap:32px;padding:12px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--surface);transition:background .25s;}
 .stat{text-align:center;}
-.stat-num{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--gold);display:block;}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.stat-num{font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--gold);display:block;}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
 
 /* ===== SORT BAR ===== */
-.sort-bar{padding:10px 16px;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.sort-bar{padding:10px 20px;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 .sort-label{font-size:12px;color:var(--muted);}
-.sort-right{display:flex;gap:8px;align-items:center;}
 .sort-select{padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font-body);font-size:12px;outline:none;cursor:pointer;transition:background .25s;}
+.sort-select:focus{border-color:var(--gold);}
 
 /* ===== SECTION ===== */
-.section{max-width:1200px;margin:0 auto;padding:20px 16px 48px;}
+.section{max-width:1200px;margin:0 auto;padding:20px 20px 40px;}
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:8px;flex-wrap:wrap;}
 .section-title{font-family:var(--font-head);font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .badge-section{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 7px;border-radius:4px;}
@@ -83,76 +109,83 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .badge-green{background:rgba(0,166,81,.15);color:var(--green);}
 
 /* ===== PREMIUM BADGES ===== */
-/* VERIFIED - Holographic prismatic */
 .badge-verified-premium{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.4px;
+  display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;
+  font-size:10px;font-weight:800;letter-spacing:.4px;
   background:linear-gradient(135deg,#00c853,#69f0ae,#00bcd4,#00c853);
-  background-size:300% 300%;
-  animation:holo 2.5s ease infinite;
+  background-size:300% 300%;animation:holo 2.5s ease infinite;
   color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);
-  box-shadow:0 0 10px rgba(0,200,83,.4),0 0 20px rgba(0,200,83,.15),inset 0 1px 0 rgba(255,255,255,.2);
+  box-shadow:0 0 10px rgba(0,200,83,.4),inset 0 1px 0 rgba(255,255,255,.2);
   position:relative;overflow:hidden;
 }
-.badge-verified-premium::before{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);
-  animation:shimmerSlide 2.5s ease infinite;
-}
+.badge-verified-premium::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);animation:shimmerSlide 2.5s ease infinite;}
 @keyframes holo{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 @keyframes shimmerSlide{0%{transform:translateX(-100%) rotate(45deg);}100%{transform:translateX(200%) rotate(45deg);}}
-
-/* FEATURED - Crown gold shimmer */
 .badge-featured-premium{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.4px;
+  display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;
+  font-size:10px;font-weight:800;letter-spacing:.4px;
   background:linear-gradient(135deg,#F5A623,#FFD700,#FF8C00,#FFD700,#F5A623);
-  background-size:300% 300%;
-  animation:goldPulse 2s ease infinite;
-  color:#000;
-  box-shadow:0 0 12px rgba(245,166,35,.5),0 0 24px rgba(245,166,35,.2),inset 0 1px 0 rgba(255,255,255,.3);
+  background-size:300% 300%;animation:goldPulse 2s ease infinite;color:#000;
+  box-shadow:0 0 12px rgba(245,166,35,.5),inset 0 1px 0 rgba(255,255,255,.3);
   position:relative;overflow:hidden;
 }
-.badge-featured-premium::before{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
-  animation:shimmerSlide 1.8s ease infinite;
-}
+.badge-featured-premium::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);animation:shimmerSlide 1.8s ease infinite;}
 @keyframes goldPulse{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 
-/* ===== CARDS ===== */
-.featured-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
-.featured-card{background:var(--surface);border:1px solid rgba(245,166,35,.25);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .25s;position:relative;}
-.featured-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+/* ===== FEATURED CARDS ===== */
+.featured-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.featured-card{background:var(--surface);border:1px solid rgba(245,166,35,.22);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .25s;position:relative;cursor:pointer;}
+.featured-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.35);}
 .featured-ribbon{position:absolute;top:12px;left:-2px;z-index:3;background:linear-gradient(135deg,#F5A623,#FFD700);color:#000;font-size:9px;font-weight:800;letter-spacing:.5px;padding:4px 10px 4px 8px;border-radius:0 4px 4px 0;box-shadow:2px 2px 8px rgba(0,0,0,.3);}
-.featured-ribbon::before{content:'';position:absolute;left:0;bottom:-4px;border:2px solid #c47e00;border-left-color:transparent;border-bottom-color:transparent;}
-.featured-img{width:100%;height:180px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--muted);overflow:hidden;flex-shrink:0;position:relative;}
+.featured-img{width:100%;height:190px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:42px;color:var(--muted);overflow:hidden;flex-shrink:0;position:relative;}
 .featured-img img{width:100%;height:100%;object-fit:cover;}
-.featured-body{padding:14px;flex:1;display:flex;flex-direction:column;}
+.featured-body{padding:15px;flex:1;display:flex;flex-direction:column;}
 
-.merchant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
-.merchant-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;position:relative;}
-.merchant-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25);}
-.card-img{width:100%;height:150px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--muted);overflow:hidden;position:relative;}
+/* ===== MERCHANT CARDS — VERTICAL (mobile) + HORIZONTAL (desktop) ===== */
+.merchant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+
+/* Vertical layout base */
+.merchant-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;position:relative;display:flex;flex-direction:column;cursor:pointer;}
+.merchant-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.25);}
+.card-img{width:100%;height:160px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--muted);overflow:hidden;position:relative;flex-shrink:0;}
 .card-img img{width:100%;height:100%;object-fit:cover;}
-.card-body{padding:13px;}
+.card-body{padding:14px;flex:1;display:flex;flex-direction:column;}
 .card-cat{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
-.card-name{font-family:var(--font-head);font-size:14px;font-weight:700;line-height:1.2;margin-bottom:5px;}
+.card-name{font-family:var(--font-head);font-size:14px;font-weight:800;line-height:1.2;margin-bottom:5px;}
 .card-loc{font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:3px;}
+.card-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .card-badges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;min-height:20px;}
-.card-actions{display:flex;gap:5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
-.btn-wa{flex:1;padding:7px;background:#25D366;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .2s;}
+.card-actions{display:flex;gap:6px;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);}
+.btn-wa{flex:1;padding:8px;background:#25D366;color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .2s;text-decoration:none;}
 .btn-wa:hover{background:#1ebe59;}
-.btn-view{padding:7px 11px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:6px;font-family:var(--font-body);font-size:11px;font-weight:600;transition:all .2s;cursor:pointer;}
-.btn-view:hover{border-color:var(--gold);color:var(--gold);}
+.btn-view{padding:8px 12px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:7px;font-family:var(--font-body);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:3px;white-space:nowrap;}
+.btn-view:hover{background:var(--gold);color:#000;border-color:var(--gold);}
 
-/* LIKE / SAVE */
-.card-engage{position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:2;}
-.engage-btn{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(13,13,13,.7);backdrop-filter:blur(4px);transition:all .2s;}
+/* DESKTOP: side-by-side card layout */
+@media(min-width:700px){
+  .merchant-grid{grid-template-columns:1fr 1fr;}
+  .merchant-card{flex-direction:row;height:160px;}
+  .card-img{width:150px;height:100%;flex-shrink:0;border-radius:0;}
+  .card-body{padding:12px 14px;overflow:hidden;}
+  .card-name{font-size:13px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;}
+  .card-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .card-badges{flex-wrap:nowrap;overflow:hidden;}
+  .card-actions{padding-top:8px;}
+}
+@media(min-width:900px){
+  .merchant-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+@media(min-width:1100px){
+  .merchant-grid{grid-template-columns:1fr 1fr 1fr 1fr;}
+}
+
+/* LIKE / SAVE engage */
+.card-engage{position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:3;}
+.engage-btn{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;background:rgba(13,13,13,.72);backdrop-filter:blur(4px);transition:all .2s;}
 .engage-btn:hover{transform:scale(1.15);}
 .engage-btn.liked{background:rgba(224,90,43,.9);}
 .engage-btn.saved{background:rgba(245,166,35,.9);}
-.like-count{font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:3px;margin-top:4px;}
+.like-count{font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:3px;}
 
 /* ===== EMPTY / LOADER ===== */
 .empty-state{text-align:center;padding:48px 16px;color:var(--muted);grid-column:1/-1;}
@@ -164,14 +197,15 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .loader-dots span:nth-child(3){animation-delay:.2s;}
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
-/* ===== CTA ===== */
-.cta-wrap{max-width:1200px;margin:0 auto;padding:0 16px 48px;}
-.cta-inner{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(0,166,81,.04));border:1px solid rgba(245,166,35,.18);border-radius:14px;padding:28px 20px;text-align:center;}
-.cta-inner h2{font-family:var(--font-head);font-size:clamp(18px,4vw,26px);font-weight:800;margin-bottom:8px;}
-.cta-inner p{color:var(--muted);margin-bottom:18px;font-size:14px;}
+/* ===== CTA STRIP ===== */
+.cta-wrap{max-width:1200px;margin:0 auto;padding:0 20px 56px;}
+.cta-inner{background:linear-gradient(135deg,rgba(245,166,35,.09),rgba(0,166,81,.05));border:1px solid rgba(245,166,35,.2);border-radius:14px;padding:32px 24px;text-align:center;}
+.cta-tag{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block;}
+.cta-inner h2{font-family:var(--font-head);font-size:clamp(18px,4vw,28px);font-weight:800;margin-bottom:8px;}
+.cta-inner p{color:var(--muted);margin-bottom:20px;font-size:14px;}
 
 /* ===== FOOTER ===== */
-footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(--surface);transition:background .25s;}
+footer{border-top:1px solid var(--border);padding:28px 20px 20px;background:var(--surface);transition:background .25s;}
 .footer-inner{max-width:1200px;margin:0 auto;}
 .footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:20px;flex-wrap:wrap;}
 .footer-logo{font-family:var(--font-head);font-size:18px;font-weight:800;color:var(--gold);}
@@ -218,11 +252,9 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
   .consent-actions{flex-direction:column;}
   .footer-top{flex-direction:column;}
   .footer-links{gap:12px;}
-  .merchant-grid{grid-template-columns:1fr 1fr;}
+  .loc-selects{flex-direction:column;}
+  .loc-select{width:100%;}
   .featured-row{grid-template-columns:1fr;}
-}
-@media(max-width:380px){
-  .merchant-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -231,10 +263,10 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
 <!-- CONSENT -->
 <div class="consent-overlay" id="consentOverlay">
   <div class="consent-box">
-    <h3>👋 Welcome to BigScope</h3>
-    <p>Before you explore, please agree to our <button onclick="openModal('termsModal')">Terms of Service</button> and <button onclick="openModal('privacyModal')">Privacy Policy</button>. We use your data only to power this business directory.</p>
+    <h3>👋 Welcome to Global Biz Hub</h3>
+    <p>Before you explore, please agree to our <button onclick="openModal('termsModal')">Terms of Service</button> and <button onclick="openModal('privacyModal')">Privacy Policy</button>. We use your data only to power this platform.</p>
     <div class="consent-actions">
-      <button class="btn-primary" style="flex:1;padding:11px;" onclick="acceptConsent()">I Agree — Enter Directory</button>
+      <button class="btn-primary" style="flex:1;padding:12px;" onclick="acceptConsent()">I Agree — Enter Platform</button>
       <button class="btn-outline" onclick="window.history.back()">Decline</button>
     </div>
   </div>
@@ -242,7 +274,7 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Big<span>Scope</span></div>
+  <div class="nav-logo">Global Biz <span>Hub</span> <sub>GBH</sub></div>
   <div class="nav-right">
     <button class="btn-icon" onclick="toggleSaves()" title="Saved businesses" id="savesBtn">🔖</button>
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
@@ -252,27 +284,42 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-tag">🇳🇬 Nigeria's Business Directory</div>
-  <h1>Find <em>Real</em> Businesses<br>Near You</h1>
-  <p>Discover verified local merchants, connect on WhatsApp, and support businesses in your community.</p>
+  <div class="hero-tag">🌍 The Digital Home for Every Business</div>
+  <h1>Your Business,<br><em>Gone Global.</em></h1>
+  <p>Build your digital presence, connect with customers worldwide, and take your business beyond borders — starting right here.</p>
+  <span class="hero-tagline">✦ List Your Business. Go Global.</span>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="Search businesses, categories, locations…">
     <button onclick="runSearch()">Search</button>
   </div>
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <div class="filter-bar-inner">
-    <div class="filter-scroll">
-      <button class="filter-tab active" onclick="showPanel('category',this)">📂 Category</button>
-      <button class="filter-tab" onclick="showPanel('location',this)">📍 Location</button>
+<!-- LOCATION FILTER -->
+<div class="loc-filter-bar">
+  <div class="loc-filter-inner">
+    <div class="loc-filter-label">📍 Filter by Location</div>
+    <div class="loc-selects">
+      <select class="loc-select" id="selContinent" onchange="onContinentChange()">
+        <option value="">🌍 All Continents</option>
+      </select>
+      <select class="loc-select" id="selCountry" onchange="onCountryChange()" disabled>
+        <option value="">🏳 All Countries</option>
+      </select>
+      <select class="loc-select" id="selRegion" onchange="onRegionChange()" disabled>
+        <option value="">📌 All Regions</option>
+      </select>
+      <select class="loc-select" id="selCity" onchange="onCityChange()" disabled>
+        <option value="">🏙 All Cities</option>
+      </select>
+      <button class="btn-clear-loc" onclick="clearLocation()">✕ Clear</button>
     </div>
+    <div id="activeLoc" style="display:none;" class="active-loc-tag"></div>
   </div>
 </div>
 
-<div class="chip-panel open" id="panel-category">
-  <div class="chips-wrap">
+<!-- CATEGORY CHIPS -->
+<div class="cat-bar">
+  <div class="cat-bar-inner">
     <button class="chip active" onclick="filterCat('',this)">All</button>
     <button class="chip" onclick="filterCat('Fashion',this)">👗 Fashion</button>
     <button class="chip" onclick="filterCat('Food',this)">🍲 Food</button>
@@ -283,14 +330,9 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
     <button class="chip" onclick="filterCat('Health',this)">🏥 Health</button>
     <button class="chip" onclick="filterCat('Finance',this)">💰 Finance</button>
     <button class="chip" onclick="filterCat('Agriculture',this)">🌾 Agriculture</button>
-    <button class="chip" onclick="filterCat('Real Estate',this)">🏘️ Real Estate</button>
+    <button class="chip" onclick="filterCat('Real Estate',this)">🏘 Real Estate</button>
     <button class="chip" onclick="filterCat('Education',this)">📚 Education</button>
-  </div>
-</div>
-
-<div class="chip-panel" id="panel-location">
-  <div class="chips-wrap" id="locationChips">
-    <button class="chip active" onclick="filterLoc('',this)">Everywhere</button>
+    <button class="chip" onclick="filterCat('Entertainment',this)">🎭 Entertainment</button>
   </div>
 </div>
 
@@ -302,18 +344,26 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
   <div class="stat"><span class="stat-num" id="savedCount">0</span><span class="stat-label">Saved</span></div>
 </div>
 
+<!-- AD BOARD -->
+<div class="ad-board">
+  <div class="ad-carousel" id="adCarousel">
+    <div class="ad-track" id="adTrack"></div>
+    <button class="ad-nav prev" onclick="adMove(-1)">‹</button>
+    <button class="ad-nav next" onclick="adMove(1)">›</button>
+    <div class="ad-dots" id="adDots"></div>
+  </div>
+</div>
+
 <!-- SORT BAR -->
 <div class="sort-bar">
   <span class="sort-label" id="resultLabel">Loading…</span>
-  <div class="sort-right">
-    <select class="sort-select" id="sortSelect" onchange="renderAll()">
-      <option value="featured">Featured First</option>
-      <option value="location">Sort by Location</option>
-      <option value="category">Sort by Category</option>
-      <option value="name">Sort by Name</option>
-      <option value="newest">Newest First</option>
-    </select>
-  </div>
+  <select class="sort-select" id="sortSelect" onchange="renderAll()">
+    <option value="featured">Featured First</option>
+    <option value="location">Sort by Location</option>
+    <option value="category">Sort by Category</option>
+    <option value="name">Sort by Name</option>
+    <option value="newest">Newest First</option>
+  </select>
 </div>
 
 <!-- FEATURED -->
@@ -326,7 +376,7 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
   </div>
 </div>
 
-<!-- ALL -->
+<!-- ALL BUSINESSES -->
 <div class="section" style="padding-top:0;">
   <div class="section-head">
     <div class="section-title">🏪 All Businesses <span class="badge-section badge-green" id="listingBadge">Loading…</span></div>
@@ -336,11 +386,13 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
   </div>
 </div>
 
+<!-- CTA -->
 <div class="cta-wrap">
   <div class="cta-inner">
-    <h2>Is Your Business Listed?</h2>
-    <p>Join hundreds of local businesses getting discovered every day. Free to start.</p>
-    <a href="add.html" class="btn-primary" style="font-size:14px;padding:11px 24px;">List Your Business for FREE →</a>
+    <span class="cta-tag">List Your Business. Go Global.</span>
+    <h2>Your Business Deserves a Digital Home</h2>
+    <p>Join businesses across Africa and beyond getting discovered every day. Free to start — go live in under 5 minutes.</p>
+    <a href="add.html" class="btn-primary" style="font-size:14px;padding:12px 26px;display:inline-block;">Claim Your Digital Home →</a>
   </div>
 </div>
 
@@ -348,8 +400,8 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="footer-logo">Big<span>Scope</span></div>
-        <div class="footer-tagline">Nigeria's Business Discovery Platform · Powered by TEKNNUKU Studio</div>
+        <div class="footer-logo">Global Biz <span>Hub</span></div>
+        <div class="footer-tagline">The Digital Home for Every Business · Global Biz Hub by TEKNNUKU</div>
       </div>
       <div class="footer-links">
         <button class="footer-link" onclick="openModal('termsModal')">Terms of Service</button>
@@ -359,22 +411,23 @@ footer{border-top:1px solid var(--border);padding:28px 16px 20px;background:var(
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2025 BigScope. All listings subject to approval.</span>
+      <span class="footer-copy">© 2025 Global Biz Hub. All listings subject to approval.</span>
+      <span class="footer-copy" style="color:var(--gold);">GBH · Powered by TEKNNUKU</span>
     </div>
   </div>
 </footer>
 
 <!-- SAVES PANEL -->
 <div class="saves-panel" id="savesPanel">
-  <h3>🔖 Saved Businesses <button class="saves-panel-close" onclick="toggleSaves()">✕</button></h3>
-  <div id="savedList"><p style="font-size:13px;color:var(--muted);">No saved businesses yet. Click 🔖 on any card to save.</p></div>
+  <h3>🔖 Saved <button class="saves-panel-close" onclick="toggleSaves()">✕</button></h3>
+  <div id="savedList"><p style="font-size:13px;color:var(--muted);">No saved businesses yet. Click 🔖 to save.</p></div>
 </div>
 
 <!-- MODALS -->
-<div class="modal-overlay" id="termsModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('termsModal')">✕</button><h2>Terms of Service</h2><p>Last updated: January 2025</p><h3>1. Acceptance</h3><p>By accessing BigScope you agree to these Terms.</p><h3>2. Business Listings</h3><ul><li>All new listings are reviewed within 48 hours, then auto-approved if no action taken.</li><li>You must provide accurate, truthful business information.</li><li>BigScope reserves the right to remove listings violating community guidelines.</li><li>Featured and Verified status require payment and may be revoked for violations.</li></ul><h3>3. Payments</h3><p>Payments for Featured placement and Verification badges are processed via Flutterwave. Featured listings are valid for 28 days. Verification is one-time. All payments are final.</p><h3>4. Content</h3><p>You retain ownership of submitted content. By submitting, you grant BigScope a non-exclusive licence to display your business information and media.</p><h3>5. Prohibited Use</h3><ul><li>Submitting false or misleading business information.</li><li>Using the platform for illegal activities.</li><li>Attempting to circumvent payment or approval systems.</li></ul><h3>6. Limitation of Liability</h3><p>BigScope is a directory service and is not responsible for transactions between visitors and listed businesses.</p><h3>Contact</h3><p>hello@bigscope.ng</p></div></div>
-<div class="modal-overlay" id="privacyModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('privacyModal')">✕</button><h2>Privacy Policy</h2><p>Last updated: January 2025</p><h3>What We Collect</h3><ul><li>Business information submitted via the listing form.</li><li>Usage data: pages visited, search queries.</li><li>Consent records for first-time visitors.</li><li>Likes/saves stored locally in your browser.</li></ul><h3>How We Use Your Data</h3><ul><li>To display your business on the BigScope directory.</li><li>To contact you about your listing or upgrade requests.</li><li>To improve platform quality.</li></ul><h3>Data Storage</h3><p>Business data is stored in Google Firebase Firestore. Media files stored on IPFS via Pinata. We do not sell your data to third parties.</p><h3>Your Rights</h3><p>Request removal or correction: hello@bigscope.ng</p></div></div>
-<div class="modal-overlay" id="cookieModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('cookieModal')">✕</button><h2>Cookie Policy</h2><h3>What We Use</h3><p>BigScope uses browser localStorage to store: your consent preference, theme choice (dark/light), saved businesses, and liked businesses. No advertising or tracking cookies are used.</p></div></div>
-<div class="modal-overlay" id="contactModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('contactModal')">✕</button><h2>Contact BigScope</h2><h3>General Enquiries</h3><p>📧 hello@bigscope.ng</p><h3>WhatsApp Support</h3><p><a href="https://wa.me/2348000000000" style="color:var(--gold);">💬 Chat on WhatsApp</a></p><h3>Report a Listing</h3><p>report@bigscope.ng</p><h3>Upgrade / Billing</h3><p>billing@bigscope.ng</p></div></div>
+<div class="modal-overlay" id="termsModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('termsModal')">✕</button><h2>Terms of Service</h2><p>Last updated: January 2025</p><h3>1. Acceptance</h3><p>By accessing Global Biz Hub you agree to these Terms.</p><h3>2. Business Listings</h3><ul><li>All new listings are reviewed within 48 hours, then auto-approved if no action taken.</li><li>You must provide accurate, truthful business information.</li><li>Global Biz Hub reserves the right to remove listings violating community guidelines.</li><li>Featured and Verified status require payment and may be revoked for violations.</li></ul><h3>3. Payments</h3><p>Payments processed via Flutterwave. Featured listings valid for 28 days. Verification is one-time. All payments are final.</p><h3>4. Content</h3><p>You retain ownership of submitted content. By submitting, you grant Global Biz Hub a non-exclusive licence to display your business information and media.</p><h3>5. Prohibited Use</h3><ul><li>Submitting false or misleading business information.</li><li>Using the platform for illegal activities.</li></ul><h3>6. Limitation of Liability</h3><p>Global Biz Hub is not responsible for transactions between visitors and listed businesses.</p><h3>Contact</h3><p>hello@globalbiz.hub</p></div></div>
+<div class="modal-overlay" id="privacyModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('privacyModal')">✕</button><h2>Privacy Policy</h2><p>Last updated: January 2025</p><h3>What We Collect</h3><ul><li>Business information submitted via the listing form.</li><li>Usage data: pages visited, search queries.</li><li>Consent records for first-time visitors.</li><li>Likes/saves stored locally in your browser.</li></ul><h3>How We Use Your Data</h3><ul><li>To display your business on Global Biz Hub.</li><li>To contact you about your listing or upgrade requests.</li><li>To improve platform quality.</li></ul><h3>Data Storage</h3><p>Business data is stored in Google Firebase Firestore. Media files stored on IPFS via Pinata. We do not sell your data to third parties.</p><h3>Your Rights</h3><p>Request removal or correction: hello@globalbiz.hub</p></div></div>
+<div class="modal-overlay" id="cookieModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('cookieModal')">✕</button><h2>Cookie Policy</h2><h3>What We Use</h3><p>Global Biz Hub uses browser localStorage to store: your consent preference, theme choice, saved businesses, and liked businesses. No advertising or tracking cookies are used.</p></div></div>
+<div class="modal-overlay" id="contactModal"><div class="modal-box"><button class="modal-close" onclick="closeModal('contactModal')">✕</button><h2>Contact Global Biz Hub</h2><h3>General Enquiries</h3><p>📧 hello@globalbiz.hub</p><h3>WhatsApp Support</h3><p><a href="https://wa.me/2348000000000" style="color:var(--gold);">💬 Chat on WhatsApp</a></p><h3>Report a Listing</h3><p>report@globalbiz.hub</p><h3>Upgrade / Billing</h3><p>billing@globalbiz.hub</p></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -391,54 +444,456 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+/* ============================================================
+   LOCATION HIERARCHY DATA
+   Continent → Country → Region → City
+   ============================================================ */
+const LOCATIONS = {
+  'Africa': {
+    'Nigeria': {
+      'Lagos State': ['Lagos Island','Lagos Mainland','Victoria Island','Lekki','Ikeja','Surulere','Yaba','Apapa','Mushin','Ikorodu','Badagry','Epe','Agege','Ojo','Amuwo-Odofin'],
+      'FCT Abuja': ['Wuse','Garki','Asokoro','Maitama','Gwarinpa','Kubwa','Karu','Nyanya','Apo','Utako','Central Area'],
+      'Kano State': ['Kano City','Nassarawa','Fagge','Gwale','Tarauni','Ungogo'],
+      'Rivers State': ['Port Harcourt','Obio-Akpor','Eleme','Bonny','Okrika'],
+      'Oyo State': ['Ibadan','Ogbomosho','Oyo Town','Iseyin','Saki'],
+      'Anambra State': ['Onitsha','Awka','Nnewi','Ekwulobia','Ogidi'],
+      'Kaduna State': ['Kaduna City','Zaria','Kafanchan','Soba'],
+      'Delta State': ['Warri','Asaba','Sapele','Ughelli','Agbor'],
+      'Enugu State': ['Enugu City','Nsukka','Oji River','Agbani'],
+      'Imo State': ['Owerri','Orlu','Okigwe','Oguta'],
+      'Edo State': ['Benin City','Auchi','Ekpoma','Uromi'],
+      'Ogun State': ['Abeokuta','Sagamu','Ijebu-Ode','Ota','Ilaro'],
+      'Plateau State': ['Jos','Bukuru','Shendam','Pankshin'],
+      'Borno State': ['Maiduguri','Biu','Gwoza','Konduga'],
+      'Kwara State': ['Ilorin','Offa','Oro','Oke-Ode'],
+      'Akwa Ibom State': ['Uyo','Eket','Ikot Ekpene','Oron'],
+      'Cross River State': ['Calabar','Ogoja','Ikom','Abi'],
+      'Abia State': ['Umuahia','Aba','Ohafia','Arochukwu'],
+      'Osun State': ['Osogbo','Ile-Ife','Ilesha','Ede'],
+      'Ekiti State': ['Ado-Ekiti','Ikere-Ekiti','Ikole-Ekiti','Omuo-Ekiti'],
+      'Ondo State': ['Akure','Ondo Town','Owo','Okitipupa'],
+      'Kogi State': ['Lokoja','Idah','Kabba','Okene'],
+      'Niger State': ['Minna','Suleja','Bida','Kontagora'],
+      'Benue State': ['Makurdi','Gboko','Otukpo','Katsina-Ala'],
+      'Nassarawa State': ['Lafia','Keffi','Akwanga','Nasarawa Town'],
+      'Sokoto State': ['Sokoto City','Tambuwal','Gwadabawa','Bodinga'],
+      'Kebbi State': ['Birnin Kebbi','Argungu','Yauri','Zuru'],
+      'Zamfara State': ['Gusau','Kaura Namoda','Talata Mafara','Anka'],
+      'Bauchi State': ['Bauchi City','Azare','Misau','Katagum'],
+      'Gombe State': ['Gombe City','Kaltungo','Dukku','Billiri'],
+      'Yobe State': ['Damaturu','Potiskum','Gashua','Nguru'],
+      'Taraba State': ['Jalingo','Wukari','Bali','Gembu'],
+      'Adamawa State': ['Yola','Mubi','Jimeta','Ganye'],
+      'Jigawa State': ['Dutse','Hadejia','Kazaure','Gumel'],
+      'Katsina State': ['Katsina City','Daura','Funtua','Dutsin-Ma'],
+      'Bayelsa State': ['Yenagoa','Ogbia','Sagbama','Brass'],
+      'Ebonyi State': ['Abakaliki','Afikpo','Onueke','Ezza South'],
+    },
+    'Ghana': {
+      'Greater Accra': ['Accra','Tema','Madina','Kasoa','Adenta'],
+      'Ashanti': ['Kumasi','Obuasi','Ejisu','Konongo'],
+      'Western': ['Takoradi','Sekondi','Tarkwa','Axim'],
+      'Eastern': ['Koforidua','Nkawkaw','Akosombo','Nsawam'],
+      'Central': ['Cape Coast','Winneba','Mankessim'],
+      'Northern': ['Tamale','Yendi','Savelugu','Damongo'],
+      'Brong-Ahafo': ['Sunyani','Techiman','Berekum','Kintampo'],
+      'Volta': ['Ho','Hohoe','Keta','Sogakope'],
+    },
+    'Kenya': {
+      'Nairobi County': ['Nairobi CBD','Westlands','Eastleigh','Karen','Kilimani','Kasarani','Langata'],
+      'Mombasa County': ['Mombasa CBD','Nyali','Likoni','Bamburi','Tudor'],
+      'Kisumu County': ['Kisumu City','Mamboleo','Kondele'],
+      'Nakuru County': ['Nakuru City','Naivasha','Gilgil'],
+      'Uasin Gishu County': ['Eldoret','Turbo','Burnt Forest'],
+      'Kiambu County': ['Thika','Ruiru','Kiambu Town'],
+    },
+    'South Africa': {
+      'Gauteng': ['Johannesburg','Pretoria','Soweto','Sandton','Midrand','Centurion','Randburg'],
+      'Western Cape': ['Cape Town','Stellenbosch','George','Paarl','Worcester'],
+      'KwaZulu-Natal': ['Durban','Pietermaritzburg','Richards Bay','Newcastle'],
+      'Eastern Cape': ['Port Elizabeth','East London','Mthatha','Bhisho'],
+      'Limpopo': ['Polokwane','Thohoyandou','Tzaneen','Mokopane'],
+      'Mpumalanga': ['Mbombela','Witbank','Middelburg'],
+    },
+    'Egypt': {
+      'Cairo Governorate': ['Cairo','Heliopolis','Nasr City','Maadi','Zamalek'],
+      'Alexandria Governorate': ['Alexandria','Smouha','Montazah'],
+      'Giza Governorate': ['Giza','6th of October City','Sheikh Zayed'],
+      'Aswan Governorate': ['Aswan City'],
+    },
+    'Ethiopia': {
+      'Addis Ababa': ['Bole','Kirkos','Yeka','Arada','Gulele'],
+      'Oromia': ['Adama','Jimma','Bishoftu','Nekemte'],
+      'Amhara': ['Bahir Dar','Gondar','Dessie','Debre Birhan'],
+      'Tigray': ['Mekelle','Axum','Adwa'],
+    },
+    'Tanzania': {
+      'Dar es Salaam': ['Ilala','Kinondoni','Temeke','Ubungo'],
+      'Arusha': ['Arusha City','Moshi'],
+      'Mwanza': ['Mwanza City','Musoma'],
+      'Zanzibar': ['Stone Town','Zanzibar City'],
+    },
+    'Senegal': {
+      'Dakar': ['Dakar Plateau','Yoff','Parcelles Assainies','Pikine','Guédiawaye'],
+      'Thiès': ['Thiès City','Mbour','Tivaouane'],
+      'Saint-Louis': ['Saint-Louis City','Podor','Richard-Toll'],
+      'Ziguinchor': ['Ziguinchor City','Oussouye'],
+    },
+    'Ivory Coast': {
+      'Abidjan': ['Plateau','Yopougon','Cocody','Abobo','Adjamé','Marcory'],
+      'Bouaké': ['Bouaké City','Sakasso'],
+      'Yamoussoukro': ['Yamoussoukro City'],
+      'San-Pédro': ['San-Pédro City','Tabou'],
+    },
+    'Cameroon': {
+      'Centre': ['Yaoundé','Obala','Soa'],
+      'Littoral': ['Douala','Edéa','Nkongsamba'],
+      'West': ['Bafoussam','Dschang','Foumban'],
+      'North West': ['Bamenda','Kumbo','Wum'],
+    },
+    'Uganda': {
+      'Kampala': ['Kampala CBD','Makindye','Kawempe','Nakawa','Rubaga'],
+      'Wakiso': ['Entebbe','Kajjansi','Kira'],
+      'Mbarara': ['Mbarara City','Bushenyi'],
+      'Gulu': ['Gulu City','Lira'],
+    },
+  },
+  'Europe': {
+    'United Kingdom': {
+      'England': ['London','Manchester','Birmingham','Leeds','Sheffield','Liverpool','Bristol','Nottingham','Leicester','Newcastle'],
+      'Scotland': ['Edinburgh','Glasgow','Aberdeen','Dundee','Inverness'],
+      'Wales': ['Cardiff','Swansea','Newport','Wrexham'],
+      'Northern Ireland': ['Belfast','Londonderry','Lisburn'],
+    },
+    'Germany': {
+      'Berlin': ['Berlin Centre','Mitte','Prenzlauer Berg','Friedrichshain','Kreuzberg'],
+      'Bavaria': ['Munich','Nuremberg','Augsburg','Regensburg'],
+      'Hamburg': ['Hamburg City','Altona','Wandsbek','Harburg'],
+      'North Rhine-Westphalia': ['Cologne','Düsseldorf','Dortmund','Essen','Duisburg'],
+      'Baden-Württemberg': ['Stuttgart','Karlsruhe','Mannheim','Freiburg'],
+    },
+    'France': {
+      'Île-de-France': ['Paris','Boulogne-Billancourt','Saint-Denis','Versailles'],
+      'Auvergne-Rhône-Alpes': ['Lyon','Grenoble','Clermont-Ferrand','Annecy'],
+      'Provence-Alpes-Côte d\'Azur': ['Marseille','Nice','Toulon','Aix-en-Provence'],
+      'Occitanie': ['Toulouse','Montpellier','Nîmes'],
+    },
+    'Netherlands': {
+      'North Holland': ['Amsterdam','Haarlem','Alkmaar'],
+      'South Holland': ['Rotterdam','The Hague','Leiden','Delft'],
+      'Utrecht': ['Utrecht City','Amersfoort'],
+    },
+    'Spain': {
+      'Madrid': ['Madrid CBD','Getafe','Alcalá de Henares','Leganés'],
+      'Catalonia': ['Barcelona','Hospitalet','Badalona','Terrassa'],
+      'Andalusia': ['Seville','Málaga','Córdoba','Granada'],
+    },
+    'Italy': {
+      'Lombardy': ['Milan','Bergamo','Brescia','Monza'],
+      'Lazio': ['Rome','Tivoli','Viterbo'],
+      'Campania': ['Naples','Salerno','Caserta'],
+      'Sicily': ['Palermo','Catania','Messina'],
+    },
+  },
+  'North America': {
+    'United States': {
+      'California': ['Los Angeles','San Francisco','San Diego','San Jose','Sacramento','Fresno'],
+      'New York': ['New York City','Buffalo','Rochester','Albany','Yonkers'],
+      'Texas': ['Houston','Dallas','Austin','San Antonio','Fort Worth'],
+      'Florida': ['Miami','Orlando','Tampa','Jacksonville','Fort Lauderdale'],
+      'Georgia': ['Atlanta','Savannah','Augusta','Columbus'],
+      'Illinois': ['Chicago','Aurora','Rockford','Naperville'],
+      'Washington': ['Seattle','Spokane','Tacoma','Bellevue'],
+      'Massachusetts': ['Boston','Worcester','Springfield','Cambridge'],
+    },
+    'Canada': {
+      'Ontario': ['Toronto','Ottawa','Mississauga','Hamilton','Brampton'],
+      'British Columbia': ['Vancouver','Surrey','Burnaby','Victoria','Richmond'],
+      'Quebec': ['Montreal','Quebec City','Laval','Gatineau'],
+      'Alberta': ['Calgary','Edmonton','Red Deer','Lethbridge'],
+    },
+    'Mexico': {
+      'Mexico City': ['Ciudad de México','Tlalpan','Coyoacán','Xochimilco'],
+      'Jalisco': ['Guadalajara','Zapopan','Tlaquepaque'],
+      'Nuevo León': ['Monterrey','San Pedro Garza','Guadalupe'],
+      'Puebla': ['Puebla City','Tehuacán','San Andrés'],
+    },
+  },
+  'South America': {
+    'Brazil': {
+      'São Paulo': ['São Paulo City','Guarulhos','Campinas','Santos','Osasco'],
+      'Rio de Janeiro': ['Rio de Janeiro City','Niterói','Nova Iguaçu','Duque de Caxias'],
+      'Minas Gerais': ['Belo Horizonte','Uberlândia','Contagem','Betim'],
+      'Bahia': ['Salvador','Feira de Santana','Vitória da Conquista'],
+    },
+    'Colombia': {
+      'Bogotá D.C.': ['Bogotá Centre','Chapinero','Usaquén','Suba','Kennedy'],
+      'Antioquia': ['Medellín','Bello','Envigado','Itagüí'],
+      'Valle del Cauca': ['Cali','Palmira','Buenaventura','Tuluá'],
+    },
+    'Argentina': {
+      'Buenos Aires': ['Buenos Aires City','La Plata','Mar del Plata','Quilmes'],
+      'Córdoba': ['Córdoba City','Villa Carlos Paz','Río Cuarto'],
+      'Santa Fe': ['Rosario','Santa Fe City','Rafaela'],
+    },
+  },
+  'Asia': {
+    'India': {
+      'Maharashtra': ['Mumbai','Pune','Nagpur','Nashik','Aurangabad'],
+      'Delhi NCT': ['New Delhi','Noida','Gurgaon','Faridabad','Ghaziabad'],
+      'Karnataka': ['Bangalore','Mysore','Hubli','Mangalore'],
+      'Tamil Nadu': ['Chennai','Coimbatore','Madurai','Salem'],
+      'Telangana': ['Hyderabad','Warangal','Nizamabad'],
+      'West Bengal': ['Kolkata','Howrah','Durgapur','Asansol'],
+    },
+    'United Arab Emirates': {
+      'Dubai': ['Downtown Dubai','Deira','Bur Dubai','Jumeirah','Business Bay','Dubai Marina','JBR'],
+      'Abu Dhabi': ['Abu Dhabi City','Al Ain','Khalifa City','Musaffah'],
+      'Sharjah': ['Sharjah City','Industrial Area','Al Nahda'],
+      'Ajman': ['Ajman City','Al Nuaimiyah'],
+      'Ras Al Khaimah': ['RAK City','Al Hamra'],
+    },
+    'China': {
+      'Guangdong': ['Guangzhou','Shenzhen','Dongguan','Foshan','Zhuhai'],
+      'Beijing': ['Beijing CBD','Chaoyang','Haidian','Xicheng'],
+      'Shanghai': ['Pudong','Jing\'an','Yangpu','Xuhui'],
+      'Zhejiang': ['Hangzhou','Ningbo','Wenzhou'],
+    },
+    'Singapore': {
+      'Central Region': ['CBD','Orchard','Marina Bay','Bugis','Chinatown'],
+      'West Region': ['Jurong','Clementi','Buona Vista','Tuas'],
+      'East Region': ['Tampines','Bedok','Pasir Ris','Changi'],
+      'North Region': ['Woodlands','Yishun','Sembawang'],
+    },
+    'Malaysia': {
+      'Kuala Lumpur': ['KLCC','Bukit Bintang','Chow Kit','Bangsar'],
+      'Selangor': ['Shah Alam','Petaling Jaya','Klang','Subang Jaya'],
+      'Penang': ['George Town','Butterworth','Bayan Lepas'],
+      'Johor': ['Johor Bahru','Iskandar Puteri','Batu Pahat'],
+    },
+    'Indonesia': {
+      'Jakarta': ['Central Jakarta','South Jakarta','North Jakarta','East Jakarta','West Jakarta'],
+      'West Java': ['Bandung','Bogor','Depok','Bekasi'],
+      'East Java': ['Surabaya','Malang','Kediri'],
+      'Bali': ['Denpasar','Kuta','Ubud','Seminyak'],
+    },
+  },
+  'Oceania': {
+    'Australia': {
+      'New South Wales': ['Sydney','Newcastle','Wollongong','Parramatta'],
+      'Victoria': ['Melbourne','Geelong','Ballarat','Bendigo'],
+      'Queensland': ['Brisbane','Gold Coast','Sunshine Coast','Cairns','Townsville'],
+      'Western Australia': ['Perth','Fremantle','Mandurah','Bunbury'],
+    },
+    'New Zealand': {
+      'Auckland': ['Auckland City','Manukau','North Shore','Waitakere'],
+      'Wellington': ['Wellington City','Lower Hutt','Porirua'],
+      'Canterbury': ['Christchurch','Rolleston','Rangiora'],
+    },
+  },
+  'Middle East': {
+    'Saudi Arabia': {
+      'Riyadh': ['Riyadh City','Al Olaya','Al Malaz','Al Sulimaniyah','Diriyah'],
+      'Mecca': ['Mecca City','Jeddah','Taif'],
+      'Eastern Province': ['Dammam','Al Khobar','Dhahran','Jubail'],
+    },
+    'Qatar': {
+      'Ad Dawhah': ['Doha CBD','The Pearl','Lusail','West Bay'],
+      'Al Rayyan': ['Al Rayyan City','Education City'],
+    },
+    'Kuwait': {
+      'Al Asimah': ['Kuwait City','Salmiya','Hawalli'],
+      'Ahmadi': ['Ahmadi City','Fahaheel'],
+    },
+  },
+};
+
+/* ============================================================
+   AD BOARD DATA  — edit these to advertise anything
+   ============================================================ */
+const ADS = [
+  {
+    icon:'🚀',iconBg:'rgba(245,166,35,.15)',tag:'FREE LISTING',tagCol:'var(--gold)',
+    title:'Claim Your Digital Home Today',
+    desc:'List your business in minutes and reach customers everywhere.',
+    cta:'List for Free →',ctaHref:'add.html',ctaBg:'var(--gold)',ctaCol:'#000'
+  },
+  {
+    icon:'⭐',iconBg:'rgba(74,158,255,.15)',tag:'FEATURED SLOTS',tagCol:'#4A9EFF',
+    title:'Get Featured — Be Seen First',
+    desc:'Featured businesses get 10× more profile views. Only ₦10,000 for 28 days.',
+    cta:'Get Featured →',ctaHref:'add.html',ctaBg:'#4A9EFF',ctaCol:'#fff'
+  },
+  {
+    icon:'✦',iconBg:'rgba(0,200,83,.12)',tag:'VERIFIED BADGE',tagCol:'var(--green)',
+    title:'Build Trust with a Verified Badge',
+    desc:'The holographic ✦ VERIFIED badge signals quality and authenticity.',
+    cta:'Get Verified →',ctaHref:'add.html',ctaBg:'var(--green)',ctaCol:'#fff'
+  },
+  {
+    icon:'🌍',iconBg:'rgba(155,89,182,.15)',tag:'GO GLOBAL',tagCol:'#9B59B6',
+    title:'Your Business Has No Borders',
+    desc:'Global Biz Hub connects you to customers across Africa and beyond.',
+    cta:'Learn More →',ctaHref:'add.html',ctaBg:'#9B59B6',ctaCol:'#fff'
+  },
+];
+
+let adIdx = 0;
+let adTimer = null;
+
+function buildAds() {
+  const track = document.getElementById('adTrack');
+  const dots = document.getElementById('adDots');
+  track.innerHTML = ADS.map(a => `
+    <div class="ad-slide">
+      <div class="ad-slide-left">
+        <div class="ad-icon" style="background:${a.iconBg};color:${a.tagCol};">${a.icon}</div>
+        <div>
+          <div class="ad-tag" style="color:${a.tagCol};">${a.tag}</div>
+          <div class="ad-title">${a.title}</div>
+          <div class="ad-desc">${a.desc}</div>
+        </div>
+      </div>
+      <a href="${a.ctaHref}" class="ad-cta" style="background:${a.ctaBg};color:${a.ctaCol};">${a.cta}</a>
+    </div>`).join('');
+  dots.innerHTML = ADS.map((_,i) => `<div class="ad-dot${i===0?' active':''}" onclick="adGo(${i})"></div>`).join('');
+  startAdTimer();
+}
+
+function adGo(i) {
+  adIdx = ((i % ADS.length) + ADS.length) % ADS.length;
+  document.getElementById('adTrack').style.transform = `translateX(-${adIdx*100}%)`;
+  document.querySelectorAll('.ad-dot').forEach((d,j) => d.classList.toggle('active', j===adIdx));
+  resetAdTimer();
+}
+window.adMove = d => adGo(adIdx + d);
+function startAdTimer(){ adTimer = setInterval(() => adGo(adIdx+1), 6000); }
+function resetAdTimer(){ clearInterval(adTimer); startAdTimer(); }
+
+/* ============================================================
+   LOCATION CASCADE
+   ============================================================ */
+function populateSelect(sel, opts, placeholder) {
+  sel.innerHTML = `<option value="">${placeholder}</option>` +
+    opts.map(o => `<option value="${o}">${o}</option>`).join('');
+  sel.disabled = false;
+}
+function disableSelect(sel, placeholder) {
+  sel.innerHTML = `<option value="">${placeholder}</option>`;
+  sel.disabled = true;
+  sel.value = '';
+}
+
+// Populate continent dropdown on load
+(function initContinents() {
+  const sel = document.getElementById('selContinent');
+  sel.innerHTML = `<option value="">🌍 All Continents</option>` +
+    Object.keys(LOCATIONS).map(c => `<option value="${c}">${c}</option>`).join('');
+})();
+
+window.onContinentChange = () => {
+  const cont = document.getElementById('selContinent').value;
+  disableSelect(document.getElementById('selRegion'), '📌 All Regions');
+  disableSelect(document.getElementById('selCity'), '🏙 All Cities');
+  if (cont) populateSelect(document.getElementById('selCountry'), Object.keys(LOCATIONS[cont]), '🏳 All Countries');
+  else disableSelect(document.getElementById('selCountry'), '🏳 All Countries');
+  updateActiveLoc(); renderAll();
+};
+window.onCountryChange = () => {
+  const cont = document.getElementById('selContinent').value;
+  const coun = document.getElementById('selCountry').value;
+  disableSelect(document.getElementById('selCity'), '🏙 All Cities');
+  if (cont && coun) populateSelect(document.getElementById('selRegion'), Object.keys(LOCATIONS[cont][coun]), '📌 All Regions');
+  else disableSelect(document.getElementById('selRegion'), '📌 All Regions');
+  updateActiveLoc(); renderAll();
+};
+window.onRegionChange = () => {
+  const cont = document.getElementById('selContinent').value;
+  const coun = document.getElementById('selCountry').value;
+  const reg = document.getElementById('selRegion').value;
+  if (cont && coun && reg) populateSelect(document.getElementById('selCity'), LOCATIONS[cont][coun][reg], '🏙 All Cities');
+  else disableSelect(document.getElementById('selCity'), '🏙 All Cities');
+  updateActiveLoc(); renderAll();
+};
+window.onCityChange = () => { updateActiveLoc(); renderAll(); };
+
+function updateActiveLoc() {
+  const parts = [
+    document.getElementById('selContinent').value,
+    document.getElementById('selCountry').value,
+    document.getElementById('selRegion').value,
+    document.getElementById('selCity').value,
+  ].filter(Boolean);
+  const el = document.getElementById('activeLoc');
+  if (parts.length) { el.style.display = ''; el.textContent = '📍 ' + parts.join(' › '); }
+  else el.style.display = 'none';
+}
+window.clearLocation = () => {
+  ['selContinent','selCountry','selRegion','selCity'].forEach(id => {
+    const s = document.getElementById(id);
+    s.value = '';
+    if (id !== 'selContinent') { s.innerHTML = `<option value="">${s.querySelector('option').textContent}</option>`; s.disabled = true; }
+  });
+  document.getElementById('activeLoc').style.display = 'none';
+  renderAll();
+};
+
+function getLocFilter() {
+  return [
+    document.getElementById('selContinent').value,
+    document.getElementById('selCountry').value,
+    document.getElementById('selRegion').value,
+    document.getElementById('selCity').value,
+  ].filter(Boolean);
+}
+
+/* ============================================================
+   APP STATE
+   ============================================================ */
 let allMerchants = [];
 let activeCategory = '';
-let activeLocation = '';
-let likes = JSON.parse(localStorage.getItem('bs_likes')||'{}');
-let saves = JSON.parse(localStorage.getItem('bs_saves')||'[]');
+let likes = JSON.parse(localStorage.getItem('gbh_likes')||'{}');
+let saves = JSON.parse(localStorage.getItem('gbh_saves')||'[]');
 
 // ---- THEME ----
-const savedTheme = localStorage.getItem('bs_theme')||'dark';
+const savedTheme = localStorage.getItem('gbh_theme')||'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
 document.getElementById('themeBtn').textContent = savedTheme==='dark'?'🌙':'☀️';
 window.toggleTheme = () => {
   const cur = document.documentElement.getAttribute('data-theme');
   const next = cur==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',next);
-  localStorage.setItem('bs_theme',next);
+  localStorage.setItem('gbh_theme',next);
   document.getElementById('themeBtn').textContent = next==='dark'?'🌙':'☀️';
 };
 
 // ---- CONSENT ----
-window.acceptConsent = () => { localStorage.setItem('bs_consent','1'); document.getElementById('consentOverlay').style.display='none'; };
-if (localStorage.getItem('bs_consent')) document.getElementById('consentOverlay').style.display='none';
+window.acceptConsent = () => { localStorage.setItem('gbh_consent','1'); document.getElementById('consentOverlay').style.display='none'; };
+if (localStorage.getItem('gbh_consent')) document.getElementById('consentOverlay').style.display='none';
 
 // ---- MODALS ----
 window.openModal = id => document.getElementById(id).classList.add('open');
 window.closeModal = id => document.getElementById(id).classList.remove('open');
-document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
 
-// ---- FILTER PANELS ----
-window.showPanel = (name, el) => {
-  document.querySelectorAll('.chip-panel').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(`panel-${name}`).classList.add('open');
+// ---- CATEGORY FILTER ----
+window.filterCat = (cat, el) => {
+  activeCategory = cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
+  renderAll();
 };
-window.filterCat = (cat,el) => { activeCategory=cat; document.querySelectorAll('#panel-category .chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); renderAll(); };
-window.filterLoc = (loc,el) => { activeLocation=loc; document.querySelectorAll('#panel-location .chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); renderAll(); };
 window.runSearch = () => renderAll(document.getElementById('searchInput').value.toLowerCase().trim());
-document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')window.runSearch();});
+document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') window.runSearch(); });
 
 // ---- SAVES PANEL ----
 window.toggleSaves = () => { document.getElementById('savesPanel').classList.toggle('open'); renderSavesPanel(); };
-
 function renderSavesPanel() {
-  const saved = allMerchants.filter(m=>saves.includes(m.id));
+  const saved = allMerchants.filter(m => saves.includes(m.id));
   const el = document.getElementById('savedList');
   if (!saved.length) { el.innerHTML='<p style="font-size:13px;color:var(--muted);">No saved businesses yet.</p>'; return; }
-  el.innerHTML = saved.map(m=>`
-    <a href="merchant.html?id=${m.id}" class="saved-item" style="text-decoration:none;color:inherit;">
+  el.innerHTML = saved.map(m => `
+    <a href="merchant.html?id=${m.id}" class="saved-item">
       <div class="saved-thumb">${m.data.images?.[0]?`<img src="${ipfs(m.data.images[0])}" onerror="this.parentElement.innerHTML='🏪'">` : '🏪'}</div>
       <div class="saved-info"><div class="saved-name">${m.data.businessName}</div><div class="saved-cat">${m.data.category||''} · ${m.data.location||''}</div></div>
     </a>`).join('');
@@ -449,68 +904,49 @@ function renderSavesPanel() {
 window.toggleLike = function(id, e) {
   e.preventDefault(); e.stopPropagation();
   const btn = document.querySelector(`[data-like="${id}"]`);
-  if (likes[id]) {
-    delete likes[id];
-    btn.classList.remove('liked');
-    btn.textContent = '❤️';
-  } else {
-    likes[id] = 1;
-    btn.classList.add('liked');
-    btn.textContent = '❤️';
-    // Increment in Firestore
-    updateDoc(doc(db,'merchants',id), {likes: increment(1)}).catch(()=>{});
-  }
-  localStorage.setItem('bs_likes', JSON.stringify(likes));
+  if (likes[id]) { delete likes[id]; btn.classList.remove('liked'); }
+  else { likes[id]=1; btn.classList.add('liked'); updateDoc(doc(db,'merchants',id),{likes:increment(1)}).catch(()=>{}); }
+  localStorage.setItem('gbh_likes', JSON.stringify(likes));
 };
-
 window.toggleSave = function(id, e) {
   e.preventDefault(); e.stopPropagation();
   const btn = document.querySelector(`[data-save="${id}"]`);
-  if (saves.includes(id)) {
-    saves = saves.filter(s=>s!==id);
-    btn.classList.remove('saved');
-  } else {
-    saves.push(id);
-    btn.classList.add('saved');
-  }
-  localStorage.setItem('bs_saves', JSON.stringify(saves));
+  if (saves.includes(id)) { saves=saves.filter(s=>s!==id); btn.classList.remove('saved'); }
+  else { saves.push(id); btn.classList.add('saved'); }
+  localStorage.setItem('gbh_saves', JSON.stringify(saves));
   document.getElementById('savedCount').textContent = saves.length;
 };
 
 // ---- HELPERS ----
 const ipfs = cid => `https://gateway.pinata.cloud/ipfs/${cid}`;
-const waNum = p => p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
+const waNum = p => p ? p.replace(/\s+/g,'').replace(/^0/,'234') : '';
 function isVisible(d) {
   if (d.status==='declined') return false;
   if (d.status==='approved') {
-    // Check featured expiry
     if (d.featured && d.featuredUntil) {
-      const exp = d.featuredUntil?.toDate?d.featuredUntil.toDate():new Date(d.featuredUntil);
-      if (exp < new Date()) { d.featured = false; } // expired - hide featured (actual Firestore update done by admin)
+      const exp = d.featuredUntil?.toDate ? d.featuredUntil.toDate() : new Date(d.featuredUntil);
+      if (exp < new Date()) d.featured = false;
     }
     return true;
   }
   if (d.status==='pending') {
-    const t=d.createdAt?.toDate?d.createdAt.toDate():new Date(d.createdAt||0);
-    return (Date.now()-t.getTime())>=172800000;
+    const t = d.createdAt?.toDate ? d.createdAt.toDate() : new Date(d.createdAt||0);
+    return (Date.now()-t.getTime()) >= 172800000;
   }
   return true;
 }
+const verifiedBadge = () => `<span class="badge-verified-premium">✦ VERIFIED</span>`;
+const featuredBadge = () => `<span class="badge-featured-premium">★ FEATURED</span>`;
 
-function verifiedBadge() {
-  return `<span class="badge-verified-premium">✦ VERIFIED</span>`;
-}
-function featuredBadge() {
-  return `<span class="badge-featured-premium">★ FEATURED</span>`;
-}
-
+// ---- CARD HTML ----
 function cardHTML(id, d, feat=false) {
-  const img = d.images?.[0]?ipfs(d.images[0]):'';
-  const imgHTML = img?`<img src="${img}" alt="${d.businessName}" onerror="this.parentElement.innerHTML='🏪'">` : '🏪';
+  const img = d.images?.[0] ? ipfs(d.images[0]) : '';
+  const imgHTML = img ? `<img src="${img}" alt="${d.businessName}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">` : '🏪';
   const phone = waNum(d.phone);
   const isLiked = !!likes[id];
   const isSaved = saves.includes(id);
   const likeCount = d.likes||0;
+  const desc = d.description ? d.description.slice(0,90) + (d.description.length>90?'…':'') : '';
 
   if (feat) return `
     <a href="merchant.html?id=${id}" class="featured-card">
@@ -518,18 +954,19 @@ function cardHTML(id, d, feat=false) {
       <div class="featured-img">
         ${imgHTML}
         <div class="card-engage">
-          <button class="engage-btn${isLiked?' liked':''}" data-like="${id}" onclick="toggleLike('${id}',event)" title="Like">❤️</button>
-          <button class="engage-btn${isSaved?' saved':''}" data-save="${id}" onclick="toggleSave('${id}',event)" title="Save">🔖</button>
+          <button class="engage-btn${isLiked?' liked':''}" data-like="${id}" onclick="toggleLike('${id}',event)">❤️</button>
+          <button class="engage-btn${isSaved?' saved':''}" data-save="${id}" onclick="toggleSave('${id}',event)">🔖</button>
         </div>
       </div>
       <div class="featured-body">
         <div class="card-cat">${d.category||'Business'}</div>
-        <div class="card-name" style="font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:6px;">${d.businessName}</div>
-        <div class="card-loc">📍 ${d.location||'Nigeria'}</div>
+        <div class="card-name" style="font-family:var(--font-head);font-size:17px;font-weight:800;margin-bottom:5px;">${d.businessName}</div>
+        <div class="card-loc">📍 ${d.location||'—'}</div>
+        ${desc ? `<div class="card-desc" style="font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.5;">${desc}</div>` : ''}
         <div class="card-badges">${d.verified?verifiedBadge():''}${likeCount>0?`<span class="like-count">❤️ ${likeCount}</span>`:''}</div>
         <div class="card-actions" style="margin-top:auto;padding-top:10px;border-top:1px solid var(--border);">
-          ${phone?`<a href="https://wa.me/${phone}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
-          <span class="btn-view">View →</span>
+          ${phone?`<a href="https://wa.me/${phone}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:'<span></span>'}
+          <a href="merchant.html?id=${id}" class="btn-view" onclick="event.stopPropagation()">View →</a>
         </div>
       </div>
     </a>`;
@@ -539,87 +976,99 @@ function cardHTML(id, d, feat=false) {
       <div class="card-img">
         ${imgHTML}
         <div class="card-engage">
-          <button class="engage-btn${isLiked?' liked':''}" data-like="${id}" onclick="toggleLike('${id}',event)" title="Like">❤️</button>
-          <button class="engage-btn${isSaved?' saved':''}" data-save="${id}" onclick="toggleSave('${id}',event)" title="Save">🔖</button>
+          <button class="engage-btn${isLiked?' liked':''}" data-like="${id}" onclick="toggleLike('${id}',event)">❤️</button>
+          <button class="engage-btn${isSaved?' saved':''}" data-save="${id}" onclick="toggleSave('${id}',event)">🔖</button>
         </div>
       </div>
       <div class="card-body">
         <div class="card-cat">${d.category||'Business'}</div>
         <div class="card-name">${d.businessName}</div>
-        <div class="card-loc">📍 ${d.location||'Nigeria'}</div>
+        <div class="card-loc">📍 ${d.location||'—'}</div>
+        ${desc ? `<div class="card-desc">${desc}</div>` : ''}
         <div class="card-badges">${d.verified?verifiedBadge():''}${d.featured?featuredBadge():''}${likeCount>0?`<span class="like-count">❤️ ${likeCount}</span>`:''}</div>
         <div class="card-actions">
-          ${phone?`<a href="https://wa.me/${phone}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:'<span></span>'}
-          <span class="btn-view">View →</span>
+          ${phone?`<a href="https://wa.me/${phone}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:'<span style="flex:1;"></span>'}
+          <a href="merchant.html?id=${id}" class="btn-view" onclick="event.stopPropagation()">View →</a>
         </div>
       </div>
     </a>`;
 }
 
+// ---- SORT ----
 function sortMerchants(list) {
   const sort = document.getElementById('sortSelect').value;
   const sorted = [...list];
-  if (sort==='location') sorted.sort((a,b)=>(a.data.location||'').localeCompare(b.data.location||''));
-  else if (sort==='category') sorted.sort((a,b)=>(a.data.category||'').localeCompare(b.data.category||''));
-  else if (sort==='name') sorted.sort((a,b)=>a.data.businessName.localeCompare(b.data.businessName));
-  else if (sort==='newest') sorted.sort((a,b)=>{
+  if (sort==='location') sorted.sort((a,b) => (a.data.location||'').localeCompare(b.data.location||''));
+  else if (sort==='category') sorted.sort((a,b) => (a.data.category||'').localeCompare(b.data.category||''));
+  else if (sort==='name') sorted.sort((a,b) => a.data.businessName.localeCompare(b.data.businessName));
+  else if (sort==='newest') sorted.sort((a,b) => {
     const at=a.data.createdAt?.toDate?.()||new Date(0);
     const bt=b.data.createdAt?.toDate?.()||new Date(0);
     return bt-at;
   });
-  else sorted.sort((a,b)=>(b.data.featured?1:0)-(a.data.featured?1:0));
+  else sorted.sort((a,b) => (b.data.featured?1:0)-(a.data.featured?1:0));
   return sorted;
 }
 
+// ---- RENDER ALL ----
 window.renderAll = function(q='') {
-  let list = allMerchants.filter(m=>isVisible(m.data));
-  if (activeCategory) list=list.filter(m=>m.data.category===activeCategory);
-  if (activeLocation) list=list.filter(m=>(m.data.location||'').toLowerCase().includes(activeLocation.toLowerCase()));
-  if (q) list=list.filter(m=>[m.data.businessName,m.data.location,m.data.category,m.data.ownerName].filter(Boolean).some(v=>v.toLowerCase().includes(q)));
+  let list = allMerchants.filter(m => isVisible(m.data));
+
+  // Category filter
+  if (activeCategory) list = list.filter(m => m.data.category===activeCategory);
+
+  // Location hierarchy filter — match against location string
+  const locParts = getLocFilter();
+  if (locParts.length) {
+    list = list.filter(m => {
+      const loc = (m.data.location||'').toLowerCase();
+      // Also check structured location fields if present
+      const contMatch = !locParts[0] || loc.includes(locParts[0].toLowerCase()) || (m.data.continent||'').toLowerCase()===locParts[0].toLowerCase();
+      const counMatch = !locParts[1] || loc.includes(locParts[1].toLowerCase()) || (m.data.country||'').toLowerCase()===locParts[1].toLowerCase();
+      const regMatch  = !locParts[2] || loc.includes(locParts[2].toLowerCase()) || (m.data.region||'').toLowerCase()===locParts[2].toLowerCase();
+      const cityMatch = !locParts[3] || loc.includes(locParts[3].toLowerCase()) || (m.data.city||'').toLowerCase()===locParts[3].toLowerCase();
+      return contMatch && counMatch && regMatch && cityMatch;
+    });
+  }
+
+  // Search query
+  if (q) list = list.filter(m => [m.data.businessName, m.data.location, m.data.category, m.data.ownerName, m.data.description].filter(Boolean).some(v => v.toLowerCase().includes(q)));
 
   list = sortMerchants(list);
-  const featured = list.filter(m=>m.data.featured);
-  const regular = list.filter(m=>!m.data.featured);
+  const featured = list.filter(m => m.data.featured);
+  const regular = list.filter(m => !m.data.featured);
 
   document.getElementById('resultLabel').textContent = `${list.length} business${list.length!==1?'es':''} found`;
   document.getElementById('listingBadge').textContent = `${regular.length} businesses`;
 
   document.getElementById('featuredList').innerHTML = featured.length
-    ? featured.map(m=>cardHTML(m.id,m.data,true)).join('')
+    ? featured.map(m => cardHTML(m.id, m.data, true)).join('')
     : '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⭐</div><h3>No featured listings</h3><p>Businesses can upgrade from their profile page.</p></div>';
 
   document.getElementById('merchantList').innerHTML = regular.length
-    ? regular.map(m=>cardHTML(m.id,m.data)).join('')
-    : `<div class="empty-state"><div class="icon">${q?'🔍':'🏪'}</div><h3>${q?'No results':'No businesses yet'}</h3></div>`;
+    ? regular.map(m => cardHTML(m.id, m.data)).join('')
+    : `<div class="empty-state"><div class="icon">${q||locParts.length?'🔍':'🏪'}</div><h3>${q||locParts.length?'No results found':'No businesses yet'}</h3><p>${q||locParts.length?'Try a different search or clear your filters.':'Be the first to list your business!'}</p></div>`;
 };
 
+// ---- LOAD ----
 async function load() {
+  buildAds();
   try {
     const snap = await getDocs(collection(db,'merchants'));
-    allMerchants = snap.docs.map(d=>({id:d.id,data:d.data()}));
+    allMerchants = snap.docs.map(d => ({id:d.id, data:d.data()}));
 
-    const vis = allMerchants.filter(m=>isVisible(m.data));
-    const locs = [...new Set(vis.map(m=>m.data.location).filter(Boolean))].sort();
+    const vis = allMerchants.filter(m => isVisible(m.data));
+    const uniqueLocs = [...new Set(vis.map(m => m.data.location).filter(Boolean))];
 
     document.getElementById('totalCount').textContent = vis.length;
-    document.getElementById('verifiedCount').textContent = vis.filter(m=>m.data.verified).length;
-    document.getElementById('locationCount').textContent = locs.length;
+    document.getElementById('verifiedCount').textContent = vis.filter(m => m.data.verified).length;
+    document.getElementById('locationCount').textContent = uniqueLocs.length;
     document.getElementById('savedCount').textContent = saves.length;
-
-    // Build location chips
-    const locChips = document.getElementById('locationChips');
-    locs.forEach(l=>{
-      const btn = document.createElement('button');
-      btn.className='chip';
-      btn.textContent='📍 '+l;
-      btn.onclick = function(){filterLoc(l,this);};
-      locChips.appendChild(btn);
-    });
 
     renderAll();
   } catch(err) {
-    document.getElementById('merchantList').innerHTML=`<div class="empty-state"><div class="icon">⚠️</div><h3>Error loading</h3><p>${err.message}</p></div>`;
-    document.getElementById('featuredList').innerHTML='';
+    document.getElementById('merchantList').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><h3>Error loading</h3><p>${err.message}</p></div>`;
+    document.getElementById('featuredList').innerHTML = '';
   }
 }
 load();
