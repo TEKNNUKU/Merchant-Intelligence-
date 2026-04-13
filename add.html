@@ -7,112 +7,172 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-[data-theme="dark"]{--bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--border:#2A2A2A;--text:#F0EDE8;--muted:#7A7570;}
-[data-theme="light"]{--bg:#F5F4F0;--surface:#FFFFFF;--surface2:#F0EEE9;--border:#E0DDD8;--text:#1A1A1A;--muted:#7A7570;}
-:root{--gold:#F5A623;--green:#00A651;--danger:#E05A2B;--radius:12px;--font-head:'Syne',sans-serif;--font-body:'Manrope',sans-serif;}
+[data-theme="dark"]{--bg:#0D0D0D;--sf:#161616;--sf2:#1E1E1E;--br:#2A2A2A;--tx:#F0EDE8;--mu:#7A7570;}
+[data-theme="light"]{--bg:#F5F4F0;--sf:#FFFFFF;--sf2:#F0EEE9;--br:#E0DDD8;--tx:#1A1A1A;--mu:#7A7570;}
+:root{--gold:#F5A623;--green:#00A651;--red:#E05A2B;--r:12px;--fh:'Syne',sans-serif;--fb:'Manrope',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{overflow-x:hidden;}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;transition:background .25s,color .25s;}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .25s,color .25s;}
 
-nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
-.nav-brand{line-height:1.1;}
-.nav-logo{font-family:var(--font-head);font-size:17px;font-weight:800;letter-spacing:-.2px;}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--br);padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
+.nav-brand{line-height:1.15;}
+.nav-logo{font-family:var(--fh);font-size:17px;font-weight:800;letter-spacing:-.2px;}
 .nav-logo .g{color:var(--gold);}
-.nav-powered{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
+.nav-by{font-size:8.5px;color:var(--mu);letter-spacing:.4px;}
 .nav-right{display:flex;gap:8px;align-items:center;}
-.btn-back{padding:7px 14px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;}
+.btn-back{padding:7px 14px;border:1px solid var(--br);background:transparent;color:var(--tx);font-family:var(--fb);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;}
 .btn-back:hover{border-color:var(--gold);color:var(--gold);}
-.btn-icon{width:36px;height:36px;border:1px solid var(--border);background:var(--surface);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
-.btn-icon:hover{border-color:var(--gold);}
+.ni{width:35px;height:35px;border:1px solid var(--br);background:var(--sf);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;}
+.ni:hover{border-color:var(--gold);}
 
-.page-wrap{max-width:680px;margin:0 auto;padding:32px 16px 80px;}
-.page-title{font-family:var(--font-head);font-size:26px;font-weight:800;margin-bottom:4px;}
-.page-tagline{font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.page-sub{color:var(--muted);font-size:14px;margin-bottom:32px;line-height:1.6;}
+/* PAGE */
+.pw{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
+.page-tl{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;}
+.page-h{font-family:var(--fh);font-size:26px;font-weight:800;margin-bottom:6px;}
+.page-sub{color:var(--mu);font-size:14px;margin-bottom:32px;line-height:1.65;}
 
-.section-label{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+/* SECTION LABEL */
+.sec{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:8px;}
 
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.form-row.full{grid-template-columns:1fr;}
-.form-row.triple{grid-template-columns:1fr 1fr 1fr;}
-
+/* FORM GRID */
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.row.full{grid-template-columns:1fr;}
+.row.triple{grid-template-columns:1fr 1fr 1fr;}
 .field{display:flex;flex-direction:column;gap:5px;}
-.field label{font-size:12px;font-weight:600;color:var(--muted);}
+.field label{font-size:12px;font-weight:600;color:var(--mu);}
 .field label .req{color:var(--gold);}
-.field input,.field select,.field textarea{padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .2s,background .25s;width:100%;}
+.field input,.field select,.field textarea{
+  padding:11px 13px;background:var(--sf);border:1px solid var(--br);
+  border-radius:9px;color:var(--tx);font-family:var(--fb);font-size:14px;
+  outline:none;transition:border-color .2s,background .25s;width:100%;
+}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
-.field select option{background:var(--surface);}
+.field select option{background:var(--sf);}
+.field select:disabled{opacity:.4;cursor:not-allowed;}
 .field textarea{resize:vertical;min-height:80px;line-height:1.6;}
-.field-hint{font-size:11px;color:var(--muted);margin-top:3px;}
+.fhint{font-size:11px;color:var(--mu);margin-top:3px;}
 
+/* ── LOCATION SECTION ── */
+.loc-chain{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.loc-chain-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+/* Specific area text input below the dropdowns */
+.loc-area-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:10px;}
+.loc-area-row input{min-width:0;}
+
+/* Map use-my-location button */
+.btn-gps{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;
+  background:rgba(0,166,81,.1);border:1px solid rgba(0,166,81,.35);
+  color:var(--green);border-radius:9px;cursor:pointer;
+  font-family:var(--fb);font-size:13px;font-weight:700;
+  transition:all .2s;white-space:nowrap;
+}
+.btn-gps:hover{background:rgba(0,166,81,.2);border-color:var(--green);}
+.btn-gps:disabled{opacity:.45;cursor:not-allowed;}
+
+/* Selected location pill */
+.loc-pill{
+  display:none;align-items:center;gap:6px;flex-wrap:wrap;
+  background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);
+  border-radius:9px;padding:8px 12px;margin-bottom:12px;font-size:12px;
+}
+.loc-pill.show{display:flex;}
+.loc-pill-item{font-weight:700;color:var(--gold);}
+.loc-sep{color:var(--mu);}
+
+/* Map */
+.map-search-row{display:flex;gap:8px;margin-bottom:8px;}
+.map-search-row input{flex:1;padding:10px 12px;background:var(--sf);border:1px solid var(--br);border-radius:8px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;min-width:0;transition:border-color .2s;}
+.map-search-row input:focus{border-color:var(--gold);}
+.map-search-row button{padding:10px 16px;background:var(--gold);border:none;border-radius:8px;color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--fb);white-space:nowrap;flex-shrink:0;transition:background .2s;}
+.map-search-row button:hover{background:#e09c1a;}
+.map-wrap{border-radius:var(--r);overflow:hidden;border:1px solid var(--br);margin-bottom:8px;}
+#locationMap{height:250px;width:100%;background:var(--sf2);}
+.map-coords{font-size:11px;color:var(--mu);padding:6px 10px;background:var(--sf);border:1px solid var(--br);border-top:none;border-radius:0 0 var(--r) var(--r);display:flex;align-items:center;gap:6px;}
+
+/* Map search suggestions */
+.map-suggestions{position:relative;}
+.sugg-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--sf);border:1px solid var(--br);border-radius:9px;overflow:hidden;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;}
+.sugg-list.show{display:block;}
+.sugg-item{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--br);transition:background .15s;}
+.sugg-item:last-child{border-bottom:none;}
+.sugg-item:hover{background:var(--sf2);}
+.sugg-item .sugg-main{font-weight:600;color:var(--tx);}
+.sugg-item .sugg-sub{font-size:11px;color:var(--mu);margin-top:2px;}
+
+/* GPS loading spinner overlay on map */
+.map-overlay{position:absolute;inset:0;background:rgba(13,13,13,.65);display:none;align-items:center;justify-content:center;z-index:500;border-radius:var(--r);}
+.map-overlay.show{display:flex;}
+.map-overlay-inner{background:var(--sf);border-radius:10px;padding:16px 22px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--green);}
+
+/* PRICE */
 .price-field{position:relative;}
 .price-prefix{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--gold);pointer-events:none;z-index:1;}
-.price-field input{padding-left:28px;}
+.price-field input{padding-left:30px;}
 
-.radio-group{display:flex;gap:8px;flex-wrap:wrap;}
-.radio-btn{padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;user-select:none;}
-.radio-btn.active{background:rgba(245,166,35,.1);border-color:var(--gold);color:var(--gold);}
+/* RADIOS */
+.rg{display:flex;gap:8px;flex-wrap:wrap;}
+.rb{padding:7px 14px;background:var(--sf);border:1px solid var(--br);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--mu);transition:all .2s;user-select:none;}
+.rb.on{background:rgba(245,166,35,.1);border-color:var(--gold);color:var(--gold);}
 
+/* SOCIAL */
+.slist{display:flex;flex-direction:column;gap:8px;}
+.srow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.srow select{width:130px;flex-shrink:0;padding:9px 10px;background:var(--sf);border:1px solid var(--br);border-radius:8px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;}
+.srow input{flex:1;padding:9px 12px;background:var(--sf);border:1px solid var(--br);border-radius:8px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;min-width:0;}
+.srow input:focus,.srow select:focus{border-color:var(--gold);}
+.rm-s{background:none;border:1px solid var(--br);color:var(--mu);padding:7px 10px;border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0;}
+.rm-s:hover{border-color:var(--red);color:var(--red);}
+.btn-add-s{padding:8px 16px;background:transparent;border:1px dashed var(--br);color:var(--mu);font-family:var(--fb);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;width:100%;margin-top:8px;}
+.btn-add-s:hover{border-color:var(--gold);color:var(--gold);}
+
+/* UPLOAD */
 .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
-.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);position:relative;overflow:hidden;}
-.upload-zone:hover{border-color:var(--gold);background:rgba(245,166,35,.02);}
-.upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.upload-icon{font-size:22px;margin-bottom:5px;}
-.upload-title{font-size:12px;font-weight:700;margin-bottom:3px;}
-.upload-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;margin-bottom:4px;}
-.upload-badge.logo-badge{background:rgba(245,166,35,.15);color:var(--gold);}
-.upload-badge.banner-badge{background:rgba(74,158,255,.15);color:#4A9EFF;}
-.upload-hint{font-size:11px;color:var(--muted);}
-.upload-preview{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
-.preview-thumb{width:48px;height:48px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
-.preview-thumb img{width:100%;height:100%;object-fit:cover;}
+.uz{border:2px dashed var(--br);border-radius:var(--r);padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;background:var(--sf);position:relative;overflow:hidden;}
+.uz:hover{border-color:var(--gold);background:rgba(245,166,35,.02);}
+.uz input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.ui{font-size:22px;margin-bottom:5px;}
+.ubadge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;margin-bottom:4px;}
+.ubadge.lb{background:rgba(245,166,35,.15);color:var(--gold);}
+.ubadge.bb{background:rgba(74,158,255,.15);color:#4A9EFF;}
+.ut{font-size:12px;font-weight:700;margin-bottom:3px;}
+.uh{font-size:11px;color:var(--mu);}
+.up{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.pt{width:48px;height:48px;border-radius:6px;overflow:hidden;border:1px solid var(--br);background:var(--sf2);}
+.pt img{width:100%;height:100%;object-fit:cover;}
 
-.social-list{display:flex;flex-direction:column;gap:8px;}
-.social-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.social-row select{width:130px;flex-shrink:0;padding:9px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;transition:background .25s;}
-.social-row input{flex:1;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;min-width:0;transition:background .25s;}
-.social-row input:focus,.social-row select:focus{border-color:var(--gold);}
-.remove-social{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 10px;border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0;}
-.remove-social:hover{border-color:var(--danger);color:var(--danger);}
-.btn-add-social{padding:8px 16px;background:transparent;border:1px dashed var(--border);color:var(--muted);font-family:var(--font-body);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;width:100%;margin-top:8px;}
-.btn-add-social:hover{border-color:var(--gold);color:var(--gold);}
-
-.map-wrap{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:8px;}
-#locationMap{height:240px;width:100%;background:var(--surface2);}
-.map-coords{font-size:11px;color:var(--muted);padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);display:flex;align-items:center;gap:6px;transition:background .25s;}
-.map-search-row{display:flex;gap:8px;margin-bottom:8px;}
-.map-search-row input{flex:1;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;min-width:0;transition:background .25s;}
-.map-search-row input:focus{border-color:var(--gold);}
-.map-search-row button{padding:10px 16px;background:var(--gold);border:none;border-radius:8px;color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--font-body);white-space:nowrap;}
-
-.upload-status{display:none;align-items:center;gap:8px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:13px;margin-top:8px;}
-.upload-status.show{display:flex;}
-.upload-status.loading{color:var(--gold);}
-.upload-status.success{color:var(--green);}
-.upload-status.error{color:var(--danger);}
+/* UPLOAD STATUS */
+.ustat{display:none;align-items:center;gap:8px;padding:10px 12px;background:var(--sf2);border-radius:8px;font-size:13px;margin-top:8px;}
+.ustat.show{display:flex;}
+.ustat.loading{color:var(--gold);}.ustat.success{color:var(--green);}.ustat.error{color:var(--red);}
 .spin{display:inline-block;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-.submit-btn{width:100%;padding:14px;background:var(--gold);color:#000;font-family:var(--font-head);font-size:15px;font-weight:800;border:none;border-radius:10px;cursor:pointer;margin-top:24px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.submit-btn:hover{background:#e09c1a;transform:translateY(-1px);}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* SUBMIT */
+.sub-btn{width:100%;padding:14px;background:var(--gold);color:#000;font-family:var(--fh);font-size:15px;font-weight:800;border:none;border-radius:10px;cursor:pointer;margin-top:24px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sub-btn:hover{background:#e09c1a;transform:translateY(-1px);}
+.sub-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-.success-overlay{position:fixed;inset:0;background:rgba(0,0,0,.97);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;text-align:center;gap:16px;padding:24px;}
-.success-overlay.show{display:flex;}
-.success-icon{font-size:56px;}
-.success-overlay h2{font-family:var(--font-head);font-size:24px;font-weight:800;}
-.success-overlay p{color:var(--muted);max-width:360px;font-size:14px;line-height:1.65;}
-.pending-box{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:12px;padding:16px 20px;max-width:400px;font-size:13px;color:var(--muted);line-height:1.65;}
-.pending-box strong{color:var(--gold);}
-.success-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-.btn-primary{padding:11px 22px;background:var(--gold);color:#000;font-family:var(--font-body);font-size:14px;font-weight:700;border-radius:8px;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block;}
-.btn-outline{padding:11px 22px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:var(--font-body);font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+/* SUCCESS OVERLAY */
+.sov{position:fixed;inset:0;background:rgba(0,0,0,.97);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;text-align:center;gap:16px;padding:24px;}
+.sov.show{display:flex;}
+.sov h2{font-family:var(--fh);font-size:24px;font-weight:800;}
+.pbox{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:12px;padding:16px 20px;max-width:400px;font-size:13px;color:var(--mu);line-height:1.65;}
+.pbox strong{color:var(--gold);}
+.sbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.btn-p{padding:11px 22px;background:var(--gold);color:#000;font-family:var(--fb);font-size:14px;font-weight:700;border-radius:8px;cursor:pointer;border:none;text-decoration:none;display:inline-block;}
+.btn-o{padding:11px 22px;border:1px solid var(--br);background:transparent;color:var(--tx);font-family:var(--fb);font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;}
 
 @media(max-width:560px){
-  .form-row{grid-template-columns:1fr;}
-  .form-row.triple{grid-template-columns:1fr 1fr;}
+  .row{grid-template-columns:1fr;}
+  .row.triple{grid-template-columns:1fr 1fr;}
   .upload-grid{grid-template-columns:1fr;}
-  .social-row select{width:100%;}
+  .srow select{width:100%;}
+  .loc-chain{grid-template-columns:1fr;}
+  .loc-chain-row{grid-template-columns:1fr;}
+  .loc-area-row{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -121,256 +181,651 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);backdrop-filter:blur(
 <nav>
   <div class="nav-brand">
     <div class="nav-logo"><span class="g">Global</span> Biz Hub</div>
-    <div class="nav-powered">by TEKNNUKU</div>
+    <div class="nav-by">by TEKNNUKU</div>
   </div>
   <div class="nav-right">
-    <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="ni" onclick="toggleTheme()" id="themeBtn">🌙</button>
     <a href="index.html" class="btn-back">← Back</a>
   </div>
 </nav>
 
-<div class="page-wrap">
-  <div class="page-tagline">The Digital Home for Every Business</div>
-  <div class="page-title">List Your Business</div>
-  <p class="page-sub">Fill in your details below. Your listing will be reviewed and go live within 48 hours — after which it is automatically published if no response from our team.</p>
+<div class="pw">
+  <div class="page-tl">The Digital Home for Every Business</div>
+  <div class="page-h">List Your Business</div>
+  <p class="page-sub">Fill in your details below. Your listing will be reviewed and go live within 48 hours — automatically published if no response from our team. <strong style="color:var(--gold)">List Your Business. Go Global.</strong></p>
 
-  <div class="section-label">📋 Business Information</div>
-  <div class="form-row">
+  <!-- ── BUSINESS INFO ── -->
+  <div class="sec">📋 Business Information</div>
+  <div class="row">
     <div class="field"><label>Business Name <span class="req">*</span></label><input type="text" id="businessName" placeholder="e.g. Amina Fabrics"></div>
     <div class="field"><label>Owner Name</label><input type="text" id="ownerName" placeholder="e.g. Amina Ibrahim"></div>
   </div>
-  <div class="form-row">
+  <div class="row">
     <div class="field">
       <label>Category <span class="req">*</span></label>
       <select id="category">
         <option value="">Select category…</option>
-        <option>Fashion</option><option>Food</option><option>Electronics</option><option>Beauty</option>
-        <option>Logistics</option><option>Services</option><option>Finance</option><option>Health</option>
-        <option>Agriculture</option><option>Real Estate</option><option>Education</option><option>Entertainment</option><option>Other</option>
+        <!-- Options populated from Firestore settings + hardcoded defaults -->
       </select>
     </div>
     <div class="field"><label>Years in Business</label><input type="number" id="yearsInBusiness" placeholder="e.g. 5" min="0"></div>
   </div>
-  <div class="form-row full">
+  <div class="row full">
     <div class="field"><label>What do you sell / What is your business about? <span class="req">*</span></label><textarea id="description" placeholder="Describe what you sell, who your customers are, and what makes your business great…"></textarea></div>
   </div>
 
-  <div class="section-label">📍 Location</div>
-  <div class="form-row full">
-    <div class="field"><label>Business Address / Area <span class="req">*</span></label><input type="text" id="location" placeholder="e.g. Wuse Market, Zone 5, Abuja"></div>
-  </div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">📌 Optional: Pin your exact location so customers can get directions via Google Maps, Uber, or Bolt.</p>
-  <div class="map-search-row">
-    <input type="text" id="mapSearchInput" placeholder="Search address on map…">
-    <button onclick="searchMap()">Search Map</button>
-  </div>
-  <div class="map-wrap">
-    <div id="locationMap"></div>
-    <div class="map-coords" id="mapCoords">Click on the map to pin your location (optional)</div>
+  <!-- ── LOCATION (structured dropdowns + area text) ── -->
+  <div class="sec">📍 Location</div>
+  <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Select your location step by step. The more specific you are, the easier customers can find you.</p>
+
+  <!-- Row 1: Continent + Country -->
+  <div class="loc-chain">
+    <div class="field">
+      <label>Continent <span class="req">*</span></label>
+      <select id="locC" onchange="onLocC()"><option value="">🌍 Select Continent…</option></select>
+    </div>
+    <div class="field">
+      <label>Country <span class="req">*</span></label>
+      <select id="locN" onchange="onLocN()" disabled><option value="">🏳 Select Country…</option></select>
+    </div>
   </div>
 
-  <div class="section-label">📞 Contact Details</div>
-  <div class="form-row">
-    <div class="field"><label>WhatsApp / Phone Number <span class="req">*</span></label><input type="tel" id="phone" placeholder="e.g. 08012345678"></div>
+  <!-- Row 2: Region/State + City -->
+  <div class="loc-chain-row">
+    <div class="field">
+      <label>Region / State</label>
+      <select id="locR" onchange="onLocR()" disabled><option value="">📌 Select Region / State…</option></select>
+    </div>
+    <div class="field">
+      <label>City / Town</label>
+      <select id="locT" onchange="onLocT()" disabled><option value="">🏙 Select City / Town…</option></select>
+    </div>
+  </div>
+
+  <!-- Row 3: Specific area text + GPS button -->
+  <div class="loc-area-row">
+    <div class="field">
+      <label>Specific Area / Street / Market</label>
+      <input type="text" id="areaInput" placeholder="e.g. Wuse Market, Zone 5 — or type your full address">
+      <span class="fhint">The exact spot where your business is located — market, estate, road, etc.</span>
+    </div>
+    <button class="btn-gps" id="gpsBtn" onclick="useMyLocation()" title="Use my current GPS location">
+      📡 Use My Location
+    </button>
+  </div>
+
+  <!-- Selected location pill -->
+  <div class="loc-pill" id="locPill">
+    <span>📍</span>
+    <span class="loc-pill-item" id="pilC"></span>
+    <span class="loc-sep" id="sep1" style="display:none;">›</span>
+    <span class="loc-pill-item" id="pilN"></span>
+    <span class="loc-sep" id="sep2" style="display:none;">›</span>
+    <span class="loc-pill-item" id="pilR"></span>
+    <span class="loc-sep" id="sep3" style="display:none;">›</span>
+    <span class="loc-pill-item" id="pilT"></span>
+    <span class="loc-sep" id="sep4" style="display:none;">›</span>
+    <span class="loc-pill-item" id="pilA" style="color:var(--tx);font-weight:500;"></span>
+  </div>
+
+  <!-- Map: address search + pin -->
+  <div style="font-size:12px;color:var(--mu);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+    📌 <strong>Optional:</strong> Confirm your exact pin on the map so customers can get directions via Google Maps, Uber, or Bolt.
+  </div>
+  <div class="map-suggestions">
+    <div class="map-search-row">
+      <input type="text" id="mapSearchInput" placeholder="Type your address to search on map…" autocomplete="off" oninput="onMapSearchInput()" onkeydown="if(event.key==='Enter'){event.preventDefault();doMapSearch();}">
+      <button onclick="doMapSearch()">Search Map</button>
+    </div>
+    <div class="sugg-list" id="suggList"></div>
+  </div>
+  <div style="position:relative;">
+    <div class="map-wrap"><div id="locationMap"></div><div class="map-coords" id="mapCoords">Click on the map to pin your exact location (optional)</div></div>
+    <div class="map-overlay" id="mapOverlay"><div class="map-overlay-inner"><span class="spin">⟳</span> Getting your location…</div></div>
+  </div>
+
+  <!-- ── CONTACT ── -->
+  <div class="sec">📞 Contact Details</div>
+  <div class="row">
+    <div class="field"><label>WhatsApp / Phone Number <span class="req">*</span></label><input type="tel" id="phone" placeholder="e.g. 08012345678 or +1 555 000 1234"></div>
     <div class="field">
       <label>Online Store / Website Link</label>
       <input type="url" id="website" placeholder="https://yourstore.com or selar link">
-      <span class="field-hint">Shopify, Selar, Paystack store, or any website</span>
+      <span class="fhint">Shopify, Selar, Paystack store, or any website</span>
     </div>
   </div>
 
-  <div class="section-label">🔗 Social Media Links</div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Add as many social links as you have. These appear on your business profile.</p>
-  <div class="social-list" id="socialList">
-    <div class="social-row">
-      <select class="social-platform"><option value="instagram">📸 Instagram</option><option value="tiktok">🎵 TikTok</option><option value="facebook">📘 Facebook</option><option value="twitter">🐦 X / Twitter</option><option value="youtube">▶️ YouTube</option><option value="linkedin">💼 LinkedIn</option><option value="telegram">✈️ Telegram</option><option value="snapchat">👻 Snapchat</option><option value="other">🔗 Other</option></select>
-      <input type="text" class="social-url" placeholder="Profile URL or @handle">
-      <button class="remove-social" onclick="removeSocial(this)">✕</button>
+  <!-- ── SOCIAL ── -->
+  <div class="sec">🔗 Social Media Links</div>
+  <p style="font-size:12px;color:var(--mu);margin-bottom:14px;">Add as many social links as you have. These appear on your business profile.</p>
+  <div class="slist" id="socialList">
+    <div class="srow">
+      <select class="sp"><option value="instagram">📸 Instagram</option><option value="tiktok">🎵 TikTok</option><option value="facebook">📘 Facebook</option><option value="twitter">🐦 X / Twitter</option><option value="youtube">▶️ YouTube</option><option value="linkedin">💼 LinkedIn</option><option value="telegram">✈️ Telegram</option><option value="snapchat">👻 Snapchat</option><option value="other">🔗 Other</option></select>
+      <input type="text" class="su" placeholder="Profile URL or @handle">
+      <button class="rm-s" onclick="removeSocial(this)">✕</button>
     </div>
   </div>
-  <button class="btn-add-social" onclick="addSocial()">+ Add Another Social Link</button>
+  <button class="btn-add-s" onclick="addSocial()">+ Add Another Social Link</button>
 
-  <div class="section-label">📊 Business Details</div>
-  <div class="form-row triple">
+  <!-- ── BUSINESS DETAILS ── -->
+  <div class="sec">📊 Business Details</div>
+  <div class="row triple">
     <div class="field"><label>Staff Count</label><input type="number" id="staffCount" placeholder="e.g. 3" min="0"></div>
     <div class="field"><label>Daily Customers (est.)</label><input type="number" id="dailyCustomers" placeholder="e.g. 30" min="0"></div>
     <div class="field">
       <label>Price Range</label>
-      <div class="price-field">
-        <span class="price-prefix" id="currencyPrefix">₦</span>
-        <input type="text" id="priceRange" placeholder="500 – 50,000">
-      </div>
-      <span class="field-hint">Currency auto-detected by location</span>
+      <div class="price-field"><span class="price-prefix" id="currPfx">₦</span><input type="text" id="priceRange" placeholder="500 – 50,000"></div>
+      <span class="fhint">Currency auto-detected by location</span>
     </div>
   </div>
-  <div class="form-row">
+  <div class="row">
     <div class="field">
       <label>Do you deliver?</label>
-      <div class="radio-group" id="deliverGroup">
-        <span class="radio-btn active" data-val="Yes" onclick="pick('deliverGroup',this)">✓ Yes</span>
-        <span class="radio-btn" data-val="No" onclick="pick('deliverGroup',this)">✗ No</span>
-        <span class="radio-btn" data-val="Sometimes" onclick="pick('deliverGroup',this)">⚡ Sometimes</span>
+      <div class="rg" id="deliverGroup">
+        <span class="rb on" data-val="Yes" onclick="pick('deliverGroup',this)">✓ Yes</span>
+        <span class="rb" data-val="No" onclick="pick('deliverGroup',this)">✗ No</span>
+        <span class="rb" data-val="Sometimes" onclick="pick('deliverGroup',this)">⚡ Sometimes</span>
       </div>
     </div>
     <div class="field">
       <label>WhatsApp Business Account?</label>
-      <div class="radio-group" id="waGroup">
-        <span class="radio-btn active" data-val="Yes" onclick="pick('waGroup',this)">Yes</span>
-        <span class="radio-btn" data-val="No" onclick="pick('waGroup',this)">No</span>
+      <div class="rg" id="waGroup">
+        <span class="rb on" data-val="Yes" onclick="pick('waGroup',this)">Yes</span>
+        <span class="rb" data-val="No" onclick="pick('waGroup',this)">No</span>
       </div>
     </div>
   </div>
 
-  <div class="section-label">💬 Your Business Story</div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Share in your own words — this appears on your business profile and helps customers connect with you.</p>
-  <div class="form-row full">
-    <div class="field"><label>What makes your business special?</label><textarea id="uniqueness" placeholder="e.g. We've served Wuse Market for 8 years. Our fabrics come directly from Aba…"></textarea></div>
+  <!-- ── STORY ── -->
+  <div class="sec">💬 Your Business Story</div>
+  <p style="font-size:12px;color:var(--mu);margin-bottom:14px;">Share in your own words — this appears on your profile and helps customers connect with you.</p>
+  <div class="row full">
+    <div class="field"><label>What makes your business special?</label><textarea id="uniqueness" placeholder="e.g. We've served our community for 8 years. Our products come directly from the source…"></textarea></div>
   </div>
 
-  <div class="section-label">🖼️ Photos & Video</div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Images are compressed automatically for fast uploads. Stored on IPFS — permanently accessible.</p>
+  <!-- ── PHOTOS & VIDEO ── -->
+  <div class="sec">🖼️ Photos & Video</div>
+  <p style="font-size:12px;color:var(--mu);margin-bottom:14px;">Images are compressed automatically for fast uploads. Stored permanently on IPFS.</p>
   <div class="upload-grid">
     <div class="field">
       <label>Profile Logo <span class="req">*</span></label>
-      <div class="upload-zone" id="logoZone">
-        <input type="file" id="logoInput" accept="image/*">
-        <div class="upload-icon">🔵</div>
-        <span class="upload-badge logo-badge">LOGO / PROFILE PHOTO</span>
-        <div class="upload-title">Upload Logo</div>
-        <div class="upload-hint">Square image · PNG or JPG<br>Shows as your profile avatar</div>
-        <div class="upload-preview" id="logoPreview"></div>
-      </div>
+      <div class="uz"><input type="file" id="logoInput" accept="image/*"><div class="ui">🔵</div><span class="ubadge lb">LOGO / PROFILE PHOTO</span><div class="ut">Upload Logo</div><div class="uh">Square · PNG or JPG</div><div class="up" id="logoPreview"></div></div>
     </div>
     <div class="field">
       <label>Cover Banner</label>
-      <div class="upload-zone" id="bannerZone">
-        <input type="file" id="bannerInput" accept="image/*">
-        <div class="upload-icon">🖼️</div>
-        <span class="upload-badge banner-badge">COVER / BANNER IMAGE</span>
-        <div class="upload-title">Upload Banner</div>
-        <div class="upload-hint">Wide (16:9) · PNG or JPG<br>Shows at top of your profile</div>
-        <div class="upload-preview" id="bannerPreview"></div>
-      </div>
+      <div class="uz"><input type="file" id="bannerInput" accept="image/*"><div class="ui">🖼️</div><span class="ubadge bb">COVER / BANNER IMAGE</span><div class="ut">Upload Banner</div><div class="uh">Wide 16:9 · PNG or JPG</div><div class="up" id="bannerPreview"></div></div>
     </div>
   </div>
   <div class="field" style="margin-bottom:12px;margin-top:12px;">
-    <label>Additional Photos (up to 4 more)</label>
-    <div class="upload-zone"><input type="file" id="photosInput" accept="image/*" multiple><div class="upload-icon">📸</div><div class="upload-title">Click or drag photos here</div><div class="upload-hint">JPG, PNG · Select multiple</div><div class="upload-preview" id="photosPreview"></div></div>
+    <label>Additional Photos (up to 4)</label>
+    <div class="uz"><input type="file" id="photosInput" accept="image/*" multiple><div class="ui">📸</div><div class="ut">Click or drag photos here</div><div class="uh">JPG, PNG · Multiple OK</div><div class="up" id="photosPreview"></div></div>
   </div>
   <div class="field" style="margin-bottom:12px;">
     <label>Business Video (optional)</label>
-    <div class="upload-zone"><input type="file" id="videoInput" accept="video/*"><div class="upload-icon">🎬</div><div class="upload-title">Upload Video</div><div class="upload-hint">MP4, MOV · Max 100MB</div><div class="upload-preview" id="videoPreview"></div></div>
+    <div class="uz"><input type="file" id="videoInput" accept="video/*"><div class="ui">🎬</div><div class="ut">Upload Video</div><div class="uh">MP4, MOV · Max 100MB</div><div class="up" id="videoPreview"></div></div>
   </div>
 
-  <div class="upload-status" id="uploadStatus"></div>
+  <div class="ustat" id="uploadStatus"></div>
 
-  <button class="submit-btn" id="submitBtn" onclick="submitForm()">🚀 List My Business on Global Biz Hub</button>
-  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Reviewed within 48 hours · Goes live automatically if not reviewed · <strong style="color:var(--gold)">List Your Business. Go Global.</strong></p>
+  <button class="sub-btn" id="submitBtn" onclick="submitForm()">🚀 List My Business on Global Biz Hub</button>
+  <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px;">Reviewed within 48 hours · Goes live automatically if not reviewed</p>
 </div>
 
-<div class="success-overlay" id="successOverlay">
-  <div class="success-icon">🎉</div>
+<!-- SUCCESS -->
+<div class="sov" id="successOverlay">
+  <div style="font-size:56px;">🎉</div>
   <h2>You're on Global Biz Hub!</h2>
-  <div class="pending-box">
-    <strong>⏳ Pending Review</strong><br>
-    Your business is being reviewed by the Global Biz Hub team. It will go live within 48 hours. Once approved, upgrade to Featured or Verified directly from your profile page.
-  </div>
-  <div class="success-btns">
-    <button class="btn-primary" onclick="viewListing()">View My Listing →</button>
-    <a href="index.html" class="btn-outline">Explore Directory</a>
-    <a href="add.html" class="btn-outline">Add Another</a>
+  <div class="pbox"><strong>⏳ Pending Review</strong><br>Your business is being reviewed by the Global Biz Hub team. It will go live within 48 hours. Once approved, upgrade to Featured or Verified directly from your profile page.</div>
+  <div class="sbtns">
+    <button class="btn-p" onclick="viewListing()">View My Listing →</button>
+    <a href="index.html" class="btn-o">Explore Platform</a>
+    <a href="add.html" class="btn-o">Add Another</a>
   </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
+const db = getFirestore(initializeApp({
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
   authDomain:"merchant-intelligence.firebaseapp.com",
   projectId:"merchant-intelligence",
   storageBucket:"merchant-intelligence.firebasestorage.app",
   messagingSenderId:"1032906945513",
   appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
+}));
+
+const PINATA_JWT="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZjI1YWU0YS1mOWNhLTQzZTQtOGRhNi0zOWZiMDQxYzEzODgiLCJlbWFpbCI6ImdhdGFwcm90b2NvbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODBiOTdkNWI5YmQxNjI5NDg2M2UiLCJzY29wZWRLZXlTZWNyZXQiOiI0Zjg1YjE4NmE1NTc2MDdkMzYyNThhZGI5YTFkNWM0ZDllMjVlNjgyNGYzNzJjNGMyYmIyNTQ4ZWY4YTU1NzY1IiwiZXhwIjoxODA1MzA5OTQyfQ.NuFKLMmeVEqpRO0lk-gtKipxho_r8cHtp26qBVtTyn0";
+
+/* ═══════════════════════════════════════
+   LOCATION HIERARCHY DATA
+   (same structure as homepage — add new
+   entries via Admin → Locations & Categories)
+═══════════════════════════════════════ */
+const LOC={
+  Africa:{
+    Nigeria:{
+      'Lagos State':['Lagos Island','Lagos Mainland','Victoria Island','Lekki','Ikeja','Surulere','Yaba','Apapa','Mushin','Ikorodu','Badagry','Epe','Agege','Ojo','Amuwo-Odofin','Alimosho','Kosofe'],
+      'FCT Abuja':['Wuse','Garki','Asokoro','Maitama','Gwarinpa','Kubwa','Karu','Nyanya','Apo','Utako','Central Area','Lugbe','Kuje','Gwagwalada','Bwari'],
+      'Kano State':['Kano City','Nassarawa','Fagge','Gwale','Tarauni','Ungogo','Dala','Kumbotso'],
+      'Rivers State':['Port Harcourt','Obio-Akpor','Eleme','Bonny','Okrika','Rumuola','GRA Phase 1','GRA Phase 2'],
+      'Oyo State':['Ibadan','Ogbomosho','Oyo Town','Iseyin','Saki','Eruwa','Lanlate'],
+      'Anambra State':['Onitsha','Awka','Nnewi','Ekwulobia','Ogidi','Agulu','Nnewichi'],
+      'Kaduna State':['Kaduna City','Zaria','Kafanchan','Rigasa','Barnawa'],
+      'Delta State':['Warri','Asaba','Sapele','Ughelli','Agbor','Abraka','Ozoro'],
+      'Enugu State':['Enugu City','Nsukka','Oji River','Agbani','Awgu','Udi'],
+      'Imo State':['Owerri','Orlu','Okigwe','Oguta','Mbaise','Nnokwa'],
+      'Edo State':['Benin City','Auchi','Ekpoma','Uromi','Agenebode'],
+      'Ogun State':['Abeokuta','Sagamu','Ijebu-Ode','Ota','Ilaro','Mowe','Ibafo'],
+      'Plateau State':['Jos','Bukuru','Shendam','Pankshin'],
+      'Borno State':['Maiduguri','Biu','Gwoza','Konduga'],
+      'Kwara State':['Ilorin','Offa','Oro','Oke-Ode'],
+      'Akwa Ibom State':['Uyo','Eket','Ikot Ekpene','Oron','Abak'],
+      'Cross River State':['Calabar','Ogoja','Ikom','Abi','Obudu'],
+      'Abia State':['Umuahia','Aba','Ohafia','Arochukwu'],
+      'Osun State':['Osogbo','Ile-Ife','Ilesha','Ede','Iwo'],
+      'Ekiti State':['Ado-Ekiti','Ikere-Ekiti','Ikole-Ekiti'],
+      'Ondo State':['Akure','Ondo Town','Owo','Okitipupa'],
+      'Kogi State':['Lokoja','Idah','Kabba','Okene'],
+      'Niger State':['Minna','Suleja','Bida','Kontagora'],
+      'Benue State':['Makurdi','Gboko','Otukpo','Katsina-Ala'],
+      'Nassarawa State':['Lafia','Keffi','Akwanga'],
+      'Sokoto State':['Sokoto City','Tambuwal'],
+      'Kebbi State':['Birnin Kebbi','Argungu'],
+      'Zamfara State':['Gusau','Kaura Namoda'],
+      'Bauchi State':['Bauchi City','Azare'],
+      'Gombe State':['Gombe City','Kaltungo'],
+      'Yobe State':['Damaturu','Potiskum'],
+      'Taraba State':['Jalingo','Wukari'],
+      'Adamawa State':['Yola','Mubi','Jimeta'],
+      'Jigawa State':['Dutse','Hadejia'],
+      'Katsina State':['Katsina City','Daura'],
+      'Bayelsa State':['Yenagoa','Ogbia'],
+      'Ebonyi State':['Abakaliki','Afikpo'],
+    },
+    Ghana:{'Greater Accra':['Accra','Tema','Madina','Kasoa','Adenta'],'Ashanti':['Kumasi','Obuasi','Ejisu'],'Western':['Takoradi','Sekondi','Tarkwa'],'Northern':['Tamale','Yendi']},
+    Kenya:{'Nairobi County':['Nairobi CBD','Westlands','Eastleigh','Karen','Kilimani','Kasarani'],'Mombasa County':['Mombasa CBD','Nyali','Likoni','Bamburi'],'Kisumu County':['Kisumu City'],'Nakuru County':['Nakuru City','Naivasha']},
+    'South Africa':{Gauteng:['Johannesburg','Pretoria','Soweto','Sandton','Midrand'],'Western Cape':['Cape Town','Stellenbosch','George'],'KwaZulu-Natal':['Durban','Pietermaritzburg']},
+    Egypt:{'Cairo Governorate':['Cairo','Heliopolis','Nasr City','Maadi'],'Alexandria Governorate':['Alexandria','Smouha']},
+    Ethiopia:{'Addis Ababa':['Bole','Kirkos','Yeka','Arada']},
+    Tanzania:{'Dar es Salaam':['Ilala','Kinondoni','Temeke'],'Zanzibar':['Stone Town']},
+    Uganda:{Kampala:['Kampala CBD','Makindye','Kawempe','Nakawa']},
+    Senegal:{Dakar:['Dakar Plateau','Yoff','Pikine','Guédiawaye']},
+    Cameroon:{Centre:['Yaoundé'],Littoral:['Douala']},
+  },
+  Europe:{
+    'United Kingdom':{England:['London','Manchester','Birmingham','Leeds','Liverpool','Bristol'],Scotland:['Edinburgh','Glasgow'],Wales:['Cardiff','Swansea'],'Northern Ireland':['Belfast']},
+    Germany:{Berlin:['Mitte','Prenzlauer Berg','Friedrichshain'],Bavaria:['Munich','Nuremberg'],Hamburg:['Hamburg City']},
+    France:{'Île-de-France':['Paris','Versailles'],'Auvergne-Rhône-Alpes':['Lyon']},
+    Netherlands:{'North Holland':['Amsterdam','Haarlem'],'South Holland':['Rotterdam','The Hague']},
+    Spain:{Madrid:['Madrid CBD'],Catalonia:['Barcelona']},
+    Italy:{Lombardy:['Milan'],Lazio:['Rome']},
+  },
+  'North America':{
+    'United States':{California:['Los Angeles','San Francisco','San Diego','San Jose'],'New York':['New York City','Brooklyn','Queens','Buffalo'],Texas:['Houston','Dallas','Austin','San Antonio'],Florida:['Miami','Orlando','Tampa'],Georgia:['Atlanta'],Illinois:['Chicago'],Washington:['Seattle'],Massachusetts:['Boston']},
+    Canada:{Ontario:['Toronto','Ottawa','Mississauga'],'British Columbia':['Vancouver','Surrey'],Quebec:['Montreal']},
+    Mexico:{'Mexico City':['Ciudad de México'],Jalisco:['Guadalajara']},
+  },
+  'South America':{
+    Brazil:{'São Paulo':['São Paulo City','Campinas'],'Rio de Janeiro':['Rio de Janeiro City'],'Minas Gerais':['Belo Horizonte']},
+    Colombia:{'Bogotá D.C.':['Bogotá Centre','Chapinero'],'Antioquia':['Medellín']},
+    Argentina:{'Buenos Aires':['Buenos Aires City']},
+  },
+  Asia:{
+    India:{Maharashtra:['Mumbai','Pune'],'Delhi NCT':['New Delhi','Noida','Gurgaon'],Karnataka:['Bangalore'],'Tamil Nadu':['Chennai','Coimbatore'],Telangana:['Hyderabad']},
+    'United Arab Emirates':{Dubai:['Downtown Dubai','Deira','Bur Dubai','Jumeirah','Business Bay','Dubai Marina'],'Abu Dhabi':['Abu Dhabi City','Al Ain'],Sharjah:['Sharjah City']},
+    China:{Guangdong:['Guangzhou','Shenzhen'],Beijing:['Beijing CBD'],Shanghai:['Pudong']},
+    Singapore:{'Central Region':['CBD','Orchard','Marina Bay'],'West Region':['Jurong'],'East Region':['Tampines','Bedok']},
+    Malaysia:{'Kuala Lumpur':['KLCC','Bukit Bintang'],Selangor:['Shah Alam','Petaling Jaya']},
+    Indonesia:{Jakarta:['Central Jakarta','South Jakarta'],'West Java':['Bandung','Bogor'],Bali:['Denpasar','Kuta','Ubud']},
+  },
+  Oceania:{
+    Australia:{'New South Wales':['Sydney','Newcastle'],Victoria:['Melbourne','Geelong'],Queensland:['Brisbane','Gold Coast'],'Western Australia':['Perth']},
+    'New Zealand':{Auckland:['Auckland City'],Wellington:['Wellington City']},
+  },
+  'Middle East':{
+    'Saudi Arabia':{Riyadh:['Riyadh City','Al Olaya'],Mecca:['Jeddah','Taif'],'Eastern Province':['Dammam','Al Khobar']},
+    Qatar:{'Ad Dawhah':['Doha CBD','The Pearl','Lusail','West Bay']},
+    Kuwait:{'Al Asimah':['Kuwait City','Salmiya']},
+  },
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZjI1YWU0YS1mOWNhLTQzZTQtOGRhNi0zOWZiMDQxYzEzODgiLCJlbWFpbCI6ImdhdGFwcm90b2NvbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiODBiOTdkNWI5YmQxNjI5NDg2M2UiLCJzY29wZWRLZXlTZWNyZXQiOiI0Zjg1YjE4NmE1NTc2MDdkMzYyNThhZGI5YTFkNWM0ZDllMjVlNjgyNGYzNzJjNGMyYmIyNTQ4ZWY4YTU1NzY1IiwiZXhwIjoxODA1MzA5OTQyfQ.NuFKLMmeVEqpRO0lk-gtKipxho_r8cHtp26qBVtTyn0";
+/* ═══════════════════════════════════════
+   CATEGORIES (defaults + Firestore custom)
+═══════════════════════════════════════ */
+const DEFAULT_CATS=['Fashion','Food','Electronics','Beauty','Logistics','Services','Finance','Health','Agriculture','Real Estate','Education','Entertainment','Other'];
+const DEFAULT_CAT_EMOJIS={Fashion:'👗',Food:'🍲',Electronics:'📱',Beauty:'💄',Logistics:'🚚',Services:'🔧',Finance:'💰',Health:'🏥',Agriculture:'🌾','Real Estate':'🏘',Education:'📚',Entertainment:'🎭',Other:'📌'};
+let allCats=[...DEFAULT_CATS],catEmojis={...DEFAULT_CAT_EMOJIS};
 
-// Currency detection by IP
-const CURRENCY_MAP = {'Nigeria':'NGN','Ghana':'GHS','Kenya':'KES','South Africa':'ZAR','Egypt':'EGP','United States':'USD','United Kingdom':'GBP','Germany':'EUR','France':'EUR','Netherlands':'EUR','Spain':'EUR','Italy':'EUR','UAE':'AED','United Arab Emirates':'AED','Saudi Arabia':'SAR','Canada':'CAD','Australia':'AUD','India':'INR','Japan':'JPY','China':'CNY','Brazil':'BRL','Singapore':'SGD','Malaysia':'MYR'};
-const CURRENCY_SYMBOLS = {'NGN':'₦','GHS':'₵','KES':'KSh','ZAR':'R','EGP':'E£','USD':'$','GBP':'£','EUR':'€','AED':'AED','SAR':'SR','CAD':'CA$','AUD':'A$','INR':'₹','JPY':'¥','CNY':'¥','BRL':'R$','SGD':'S$','MYR':'RM'};
-let detectedCurrency = 'NGN';
-fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-  const cur = CURRENCY_MAP[d.country_name] || d.currency || 'NGN';
-  detectedCurrency = cur;
-  document.getElementById('currencyPrefix').textContent = CURRENCY_SYMBOLS[cur] || cur + ' ';
-}).catch(()=>{});
+async function loadPlatformSettings(){
+  try{
+    const d=await getDoc(doc(db,'settings','platform'));
+    if(d.exists()){
+      const data=d.data();
+      if(data.customCategories?.length)allCats=[...new Set([...DEFAULT_CATS,...data.customCategories])];
+      if(data.categoryEmojis)catEmojis={...DEFAULT_CAT_EMOJIS,...data.categoryEmojis};
+      // Merge custom locations into LOC
+      if(data.customLocations?.length){
+        data.customLocations.forEach(l=>{
+          if(!l.continent)return;
+          if(!LOC[l.continent])LOC[l.continent]={};
+          if(!l.country)return;
+          if(!LOC[l.continent][l.country])LOC[l.continent][l.country]={};
+          if(!l.region)return;
+          if(!LOC[l.continent][l.country][l.region])LOC[l.continent][l.country][l.region]=[];
+          if(l.city&&!LOC[l.continent][l.country][l.region].includes(l.city))
+            LOC[l.continent][l.country][l.region].push(l.city);
+        });
+      }
+    }
+  }catch(e){console.warn('Could not load platform settings:',e.message);}
+  populateCategorySelect();
+  populateContinentSelect();
+}
 
-// ---- THEME ----
+function populateCategorySelect(){
+  const sel=document.getElementById('category');
+  sel.innerHTML='<option value="">Select category…</option>'+allCats.map(c=>`<option value="${c}">${catEmojis[c]||''} ${c}</option>`).join('');
+}
+function populateContinentSelect(){
+  const sel=document.getElementById('locC');
+  sel.innerHTML='<option value="">🌍 Select Continent…</option>'+Object.keys(LOC).map(k=>`<option value="${k}">${k}</option>`).join('');
+}
+
+/* ═══════════════════════════════════════
+   LOCATION CASCADE
+═══════════════════════════════════════ */
+function rSel(id,ph){const s=document.getElementById(id);s.innerHTML=`<option value="">${ph}</option>`;s.disabled=true;s.value='';}
+function fSel(id,opts,ph){const s=document.getElementById(id);s.innerHTML=`<option value="">${ph}</option>`+opts.map(o=>`<option value="${o}">${o}</option>`).join('');s.disabled=false;}
+function sv(id){return document.getElementById(id).value;}
+
+window.onLocC=()=>{
+  const c=sv('locC');
+  rSel('locR','📌 Select Region / State…');rSel('locT','🏙 Select City / Town…');
+  c?fSel('locN',Object.keys(LOC[c]),'🏳 Select Country…'):rSel('locN','🏳 Select Country…');
+  updateLocPill();
+};
+window.onLocN=()=>{
+  const c=sv('locC'),n=sv('locN');
+  rSel('locT','🏙 Select City / Town…');
+  c&&n?fSel('locR',Object.keys(LOC[c][n]),'📌 Select Region / State…'):rSel('locR','📌 Select Region / State…');
+  updateLocPill();
+};
+window.onLocR=()=>{
+  const c=sv('locC'),n=sv('locN'),r=sv('locR');
+  c&&n&&r?fSel('locT',LOC[c][n][r],'🏙 Select City / Town…'):rSel('locT','🏙 Select City / Town…');
+  updateLocPill();
+  // Auto-update map search with region
+  if(r)autoMapSearch();
+};
+window.onLocT=()=>{updateLocPill();autoMapSearch();};
+
+function updateLocPill(){
+  const c=sv('locC'),n=sv('locN'),r=sv('locR'),t=sv('locT'),a=document.getElementById('areaInput').value.trim();
+  const pill=document.getElementById('locPill');
+  if(!c&&!n&&!r&&!t&&!a){pill.classList.remove('show');return;}
+  document.getElementById('pilC').textContent=c;
+  document.getElementById('sep1').style.display=n?'':'none';
+  document.getElementById('pilN').textContent=n;
+  document.getElementById('sep2').style.display=r?'':'none';
+  document.getElementById('pilR').textContent=r;
+  document.getElementById('sep3').style.display=t?'':'none';
+  document.getElementById('pilT').textContent=t;
+  document.getElementById('sep4').style.display=a?'':'none';
+  document.getElementById('pilA').textContent=a;
+  pill.classList.add('show');
+}
+document.getElementById('areaInput').addEventListener('input',updateLocPill);
+
+// Build full location string for submission
+function buildLocationString(){
+  const parts=[sv('locT')||sv('locR'),sv('locN'),sv('locC')].filter(Boolean);
+  const area=document.getElementById('areaInput').value.trim();
+  if(area)parts.unshift(area);
+  return parts.join(', ');
+}
+
+// Auto-search map when region/city selected
+let autoSearchDebounce;
+function autoMapSearch(){
+  clearTimeout(autoSearchDebounce);
+  autoSearchDebounce=setTimeout(()=>{
+    const city=sv('locT'),region=sv('locR'),country=sv('locN');
+    const q=[city,region,country].filter(Boolean).join(', ');
+    if(q){document.getElementById('mapSearchInput').value=q;doMapSearch(true);}
+  },600);
+}
+
+/* ═══════════════════════════════════════
+   MAP
+═══════════════════════════════════════ */
+const map=L.map('locationMap',{zoomControl:true}).setView([20,20],2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+let mapMarker=null,pinnedLat=null,pinnedLng=null;
+
+function setPin(lat,lng,label){
+  pinnedLat=parseFloat(lat).toFixed(6);
+  pinnedLng=parseFloat(lng).toFixed(6);
+  if(mapMarker)map.removeLayer(mapMarker);
+  mapMarker=L.marker([+pinnedLat,+pinnedLng]).addTo(map);
+  if(label)mapMarker.bindPopup(label).openPopup();
+  document.getElementById('mapCoords').textContent=`📍 Pinned: ${pinnedLat}, ${pinnedLng}`;
+}
+
+map.on('click',e=>setPin(e.latlng.lat,e.latlng.lng,'Your pin'));
+
+/* ── MAP SEARCH WITH AUTOCOMPLETE ── */
+let suggTimer;
+window.onMapSearchInput=()=>{
+  clearTimeout(suggTimer);
+  const q=document.getElementById('mapSearchInput').value.trim();
+  if(q.length<3){hideSugg();return;}
+  suggTimer=setTimeout(()=>fetchSuggestions(q),380);
+};
+
+async function fetchSuggestions(q){
+  try{
+    // Build context from selected location to make search more accurate
+    const country=sv('locN'),region=sv('locR');
+    const countrycodes=getCountryCode(country);
+    let url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1&accept-language=en`;
+    if(countrycodes)url+=`&countrycodes=${countrycodes}`;
+    const res=await fetch(url,{headers:{'Accept-Language':'en'}});
+    const data=await res.json();
+    showSugg(data);
+  }catch{hideSugg();}
+}
+
+function showSugg(results){
+  const list=document.getElementById('suggList');
+  if(!results.length){hideSugg();return;}
+  list.innerHTML=results.map((r,i)=>{
+    const main=r.address?.road||r.address?.suburb||r.address?.city||r.address?.town||r.name||r.display_name.split(',')[0];
+    const sub=r.display_name.split(',').slice(1,4).join(',').trim();
+    return `<div class="sugg-item" onclick="pickSugg(${r.lat},${r.lon},'${escJ(r.display_name)}')">
+      <div class="sugg-main">📍 ${escH(main)}</div>
+      <div class="sugg-sub">${escH(sub)}</div>
+    </div>`;
+  }).join('');
+  list.classList.add('show');
+}
+function hideSugg(){document.getElementById('suggList').classList.remove('show');}
+window.pickSugg=(lat,lon,label)=>{
+  map.setView([+lat,+lon],17);
+  setPin(lat,lon,label.split(',')[0]);
+  document.getElementById('mapSearchInput').value=label.split(',').slice(0,3).join(',');
+  hideSugg();
+};
+const escH=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const escJ=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+
+// Close suggestions when clicking outside
+document.addEventListener('click',e=>{if(!e.target.closest('.map-suggestions'))hideSugg();});
+
+// Country code map for more accurate Nominatim searches
+const COUNTRY_CODES={'Nigeria':'ng','Ghana':'gh','Kenya':'ke','South Africa':'za','Egypt':'eg','Ethiopia':'et','Tanzania':'tz','Uganda':'ug','Senegal':'sn','Cameroon':'cm','United Kingdom':'gb','Germany':'de','France':'fr','Netherlands':'nl','Spain':'es','Italy':'it','United States':'us','Canada':'ca','Mexico':'mx','Brazil':'br','Colombia':'co','Argentina':'ar','India':'in','United Arab Emirates':'ae','China':'cn','Singapore':'sg','Malaysia':'my','Indonesia':'id','Australia':'au','New Zealand':'nz','Saudi Arabia':'sa','Qatar':'qa','Kuwait':'kw'};
+function getCountryCode(country){return COUNTRY_CODES[country]||'';}
+
+// Full search (button press or Enter)
+window.doMapSearch=async(silent=false)=>{
+  const q=document.getElementById('mapSearchInput').value.trim();
+  if(!q)return;
+  hideSugg();
+  // Add country/region context automatically
+  const country=sv('locN'),region=sv('locR');
+  let searchQ=q;
+  if(country&&!q.toLowerCase().includes(country.toLowerCase()))searchQ=`${q}, ${country}`;
+  else if(region&&!q.toLowerCase().includes(region.toLowerCase()))searchQ=`${q}, ${region}`;
+
+  try{
+    const countrycodes=getCountryCode(sv('locN'));
+    let url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchQ)}&format=json&limit=1&addressdetails=1&accept-language=en`;
+    if(countrycodes)url+=`&countrycodes=${countrycodes}`;
+    const res=await fetch(url,{headers:{'Accept-Language':'en'}});
+    const data=await res.json();
+    if(!data.length){
+      // Try without country restriction
+      const res2=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchQ)}&format=json&limit=1&accept-language=en`,{headers:{'Accept-Language':'en'}});
+      const data2=await res2.json();
+      if(!data2.length){if(!silent)alert('Location not found. Try adding more detail, e.g. "Wuse Market Abuja Nigeria"');return;}
+      const{lat,lon,display_name}=data2[0];
+      map.setView([+lat,+lon],16);
+      setPin(lat,lon,display_name.split(',')[0]);
+      if(!document.getElementById('areaInput').value)document.getElementById('areaInput').value=display_name.split(',').slice(0,3).join(',').trim();
+      return;
+    }
+    const{lat,lon,display_name}=data[0];
+    map.setView([+lat,+lon],silent?13:16);
+    if(!silent)setPin(lat,lon,display_name.split(',')[0]);
+    if(!document.getElementById('areaInput').value&&!silent)document.getElementById('areaInput').value=display_name.split(',').slice(0,2).join(',').trim();
+  }catch(e){if(!silent)alert('Map search failed. Please pin manually on the map.');}
+};
+
+/* ── USE MY LOCATION (GPS) ── */
+window.useMyLocation=async()=>{
+  if(!navigator.geolocation){alert('Geolocation is not supported by your browser.');return;}
+  const btn=document.getElementById('gpsBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spin">⟳</span> Getting location…';
+  document.getElementById('mapOverlay').classList.add('show');
+  navigator.geolocation.getCurrentPosition(
+    async pos=>{
+      const lat=pos.coords.latitude,lng=pos.coords.longitude;
+      map.setView([lat,lng],17);
+      setPin(lat,lng,'Your current location');
+      // Reverse geocode to get address
+      try{
+        const res=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&accept-language=en`);
+        const data=await res.json();
+        if(data&&data.address){
+          const addr=data.address;
+          // Try to auto-fill the location dropdowns
+          autoFillFromAddress(addr);
+          // Fill area input with specific address
+          const area=[addr.road,addr.suburb,addr.neighbourhood,addr.quarter].filter(Boolean).join(', ');
+          if(area)document.getElementById('areaInput').value=area;
+          else if(data.display_name)document.getElementById('areaInput').value=data.display_name.split(',').slice(0,2).join(',').trim();
+          document.getElementById('mapSearchInput').value=data.display_name.split(',').slice(0,3).join(',');
+          document.getElementById('mapCoords').textContent=`📍 ${data.display_name.split(',').slice(0,3).join(',')}`;
+        }
+      }catch(e){console.warn('Reverse geocode failed:',e);}
+      btn.disabled=false;btn.innerHTML='📡 Use My Location';
+      document.getElementById('mapOverlay').classList.remove('show');
+    },
+    err=>{
+      btn.disabled=false;btn.innerHTML='📡 Use My Location';
+      document.getElementById('mapOverlay').classList.remove('show');
+      const msgs={1:'Location access denied. Please allow location permission in your browser.',2:'Location unavailable. Please try again or pin manually.',3:'Location request timed out. Please try again.'};
+      alert(msgs[err.code]||'Could not get location. Please pin manually on the map.');
+    },
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+  );
+};
+
+// Auto-fill dropdown selects from reverse-geocoded address
+function autoFillFromAddress(addr){
+  // Find matching country
+  const country=addr.country||'';
+  const countryEntry=Object.entries(COUNTRY_CODES).find(([k])=>k.toLowerCase()===country.toLowerCase());
+  if(!countryEntry)return;
+  const countryName=countryEntry[0];
+  // Find which continent contains this country
+  const continent=Object.entries(LOC).find(([_,cs])=>Object.keys(cs).includes(countryName))?.[0];
+  if(!continent)return;
+  // Set continent
+  document.getElementById('locC').value=continent;
+  onLocC();
+  setTimeout(()=>{
+    document.getElementById('locN').value=countryName;
+    onLocN();
+    // Try to match region/state
+    setTimeout(()=>{
+      const state=addr.state||addr.province||addr.region||'';
+      const regionSel=document.getElementById('locR');
+      const regionOpts=[...regionSel.options].map(o=>o.value.toLowerCase());
+      const matchRegion=[...regionSel.options].find(o=>state.toLowerCase().includes(o.value.toLowerCase())||o.value.toLowerCase().includes(state.toLowerCase().split(' ')[0]));
+      if(matchRegion&&matchRegion.value){
+        document.getElementById('locR').value=matchRegion.value;
+        onLocR();
+        // Try city
+        setTimeout(()=>{
+          const city=addr.city||addr.town||addr.village||addr.municipality||'';
+          const citySel=document.getElementById('locT');
+          const matchCity=[...citySel.options].find(o=>city.toLowerCase().includes(o.value.toLowerCase())||o.value.toLowerCase().includes(city.toLowerCase().split(' ')[0]));
+          if(matchCity&&matchCity.value){document.getElementById('locT').value=matchCity.value;onLocT();}
+        },200);
+      }
+    },200);
+  },200);
+}
+
+/* ═══════════════════════════════════════
+   THEME
+═══════════════════════════════════════ */
 const t=localStorage.getItem('gbh_theme')||'dark';
 document.documentElement.setAttribute('data-theme',t);
 document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'☀️';
-window.toggleTheme=()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('gbh_theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';};
+window.toggleTheme=()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('gbh_theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';};
 
-let newId=null,pinnedLat=null,pinnedLng=null,mapMarker=null;
+/* ═══════════════════════════════════════
+   CURRENCY DETECTION
+═══════════════════════════════════════ */
+const CMAP={'Nigeria':'NGN','Ghana':'GHS','Kenya':'KES','South Africa':'ZAR','Egypt':'EGP','United States':'USD','United Kingdom':'GBP','Germany':'EUR','France':'EUR','UAE':'AED','United Arab Emirates':'AED','Saudi Arabia':'SAR','Canada':'CAD','Australia':'AUD','India':'INR','Brazil':'BRL','Singapore':'SGD','Malaysia':'MYR'};
+const CSYM={'NGN':'₦','GHS':'₵','KES':'KSh','ZAR':'R','EGP':'E£','USD':'$','GBP':'£','EUR':'€','AED':'د.إ','SAR':'﷼','CAD':'CA$','AUD':'A$','INR':'₹','BRL':'R$','SGD':'S$','MYR':'RM'};
+let detCur='NGN';
+fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+  const c=CMAP[d.country_name]||d.currency||'NGN';
+  detCur=c;
+  document.getElementById('currPfx').textContent=CSYM[c]||c+' ';
+}).catch(()=>{});
 
-// MAP
-const map=L.map('locationMap',{zoomControl:true}).setView([9.0765,7.3986],4);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
-map.on('click',e=>{
-  pinnedLat=e.latlng.lat.toFixed(6);pinnedLng=e.latlng.lng.toFixed(6);
-  if(mapMarker)map.removeLayer(mapMarker);
-  mapMarker=L.marker([pinnedLat,pinnedLng]).addTo(map);
-  document.getElementById('mapCoords').textContent=`📍 Pinned: ${pinnedLat}, ${pinnedLng}`;
-});
-
-window.searchMap=async()=>{
-  const q=document.getElementById('mapSearchInput').value.trim();
-  if(!q)return;
-  try{
-    // Global search — no country restriction
-    const res=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&addressdetails=1`,{headers:{'Accept-Language':'en'}});
-    const data=await res.json();
-    if(!data.length){alert('Location not found. Try adding more detail, e.g. "Wuse Market Abuja Nigeria"');return;}
-    const{lat,lon,display_name}=data[0];
-    map.setView([+lat,+lon],15);
-    if(mapMarker)map.removeLayer(mapMarker);
-    mapMarker=L.marker([+lat,+lon]).addTo(map);
-    pinnedLat=parseFloat(lat).toFixed(6);pinnedLng=parseFloat(lon).toFixed(6);
-    document.getElementById('mapCoords').textContent=`📍 ${display_name.split(',').slice(0,4).join(',')}`;
-    if(!document.getElementById('location').value)document.getElementById('location').value=display_name.split(',').slice(0,3).join(',').trim();
-  }catch(e){alert('Map search failed. Please pin manually on the map.');}
-};
-
-window.pick=(g,el)=>{document.querySelectorAll(`#${g} .radio-btn`).forEach(b=>b.classList.remove('active'));el.classList.add('active');};
-function radioVal(g){return document.querySelector(`#${g} .radio-btn.active`)?.dataset.val||'';}
+/* ═══════════════════════════════════════
+   FORM HELPERS
+═══════════════════════════════════════ */
+window.pick=(g,el)=>{document.querySelectorAll(`#${g} .rb`).forEach(b=>b.classList.remove('on'));el.classList.add('on');};
+function radioVal(g){return document.querySelector(`#${g} .rb.on`)?.dataset.val||'';}
 
 window.addSocial=()=>{
-  const div=document.createElement('div');div.className='social-row';
-  div.innerHTML=`<select class="social-platform"><option value="instagram">📸 Instagram</option><option value="tiktok">🎵 TikTok</option><option value="facebook">📘 Facebook</option><option value="twitter">🐦 X / Twitter</option><option value="youtube">▶️ YouTube</option><option value="linkedin">💼 LinkedIn</option><option value="telegram">✈️ Telegram</option><option value="snapchat">👻 Snapchat</option><option value="other">🔗 Other</option></select><input type="text" class="social-url" placeholder="Profile URL or @handle"><button class="remove-social" onclick="removeSocial(this)">✕</button>`;
+  const div=document.createElement('div');div.className='srow';
+  div.innerHTML=`<select class="sp"><option value="instagram">📸 Instagram</option><option value="tiktok">🎵 TikTok</option><option value="facebook">📘 Facebook</option><option value="twitter">🐦 X / Twitter</option><option value="youtube">▶️ YouTube</option><option value="linkedin">💼 LinkedIn</option><option value="telegram">✈️ Telegram</option><option value="snapchat">👻 Snapchat</option><option value="other">🔗 Other</option></select><input type="text" class="su" placeholder="Profile URL or @handle"><button class="rm-s" onclick="removeSocial(this)">✕</button>`;
   document.getElementById('socialList').appendChild(div);
 };
-window.removeSocial=btn=>{if(document.querySelectorAll('.social-row').length>1)btn.closest('.social-row').remove();};
-function getSocialLinks(){return[...document.querySelectorAll('.social-row')].map(r=>({platform:r.querySelector('.social-platform').value,url:r.querySelector('.social-url').value.trim()})).filter(s=>s.url);}
+window.removeSocial=btn=>{if(document.querySelectorAll('.srow').length>1)btn.closest('.srow').remove();};
+function getSocials(){return[...document.querySelectorAll('.srow')].map(r=>({platform:r.querySelector('.sp').value,url:r.querySelector('.su').value.trim()})).filter(s=>s.url);}
 
-function previewImg(inputId,previewId,single=true){
-  document.getElementById(inputId).addEventListener('change',function(){
-    const preview=document.getElementById(previewId);
+function prevImg(inId,prevId,single=true){
+  document.getElementById(inId).addEventListener('change',function(){
+    const p=document.getElementById(prevId);
     const files=Array.from(this.files).slice(0,single?1:4);
-    preview.innerHTML=files.map(f=>`<div class="preview-thumb"><img src="${URL.createObjectURL(f)}"></div>`).join('');
+    p.innerHTML=files.map(f=>`<div class="pt"><img src="${URL.createObjectURL(f)}"></div>`).join('');
   });
 }
-previewImg('logoInput','logoPreview',true);
-previewImg('bannerInput','bannerPreview',true);
-previewImg('photosInput','photosPreview',false);
-document.getElementById('videoInput').addEventListener('change',function(){if(this.files[0])document.getElementById('videoPreview').innerHTML=`<div class="preview-thumb"><video src="${URL.createObjectURL(this.files[0])}" style="width:100%;height:100%;object-fit:cover;"></video></div>`;});
+prevImg('logoInput','logoPreview',true);prevImg('bannerInput','bannerPreview',true);prevImg('photosInput','photosPreview',false);
+document.getElementById('videoInput').addEventListener('change',function(){if(this.files[0])document.getElementById('videoPreview').innerHTML=`<div class="pt"><video src="${URL.createObjectURL(this.files[0])}" style="width:100%;height:100%;object-fit:cover;"></video></div>`;});
 
-// ---- IMAGE COMPRESSION (makes uploads much faster) ----
-async function compressImage(file, maxW=1400, quality=0.82){
+/* ── IMAGE COMPRESSION ── */
+async function compressImage(file,maxW=1400,quality=0.82){
   return new Promise(resolve=>{
     const img=new Image();
     img.onload=()=>{
@@ -391,36 +846,40 @@ async function uploadToPinata(file){
   if(!res.ok)throw new Error(`IPFS upload failed: ${res.status}`);
   return (await res.json()).IpfsHash;
 }
+function setStatus(msg,type){const el=document.getElementById('uploadStatus');el.className=`ustat show ${type}`;el.innerHTML=msg;}
 
-function setStatus(msg,type){const el=document.getElementById('uploadStatus');el.className=`upload-status show ${type}`;el.innerHTML=msg;}
-
+/* ═══════════════════════════════════════
+   SUBMIT
+═══════════════════════════════════════ */
+let newId=null;
 window.submitForm=async()=>{
   const btn=document.getElementById('submitBtn');
   const name=document.getElementById('businessName').value.trim();
   const phone=document.getElementById('phone').value.trim();
   const cat=document.getElementById('category').value;
-  const loc=document.getElementById('location').value.trim();
-  if(!name||!phone||!cat||!loc){alert('Please fill in: Business Name, Phone, Category, and Location.');return;}
+  const continent=sv('locC'),country=sv('locN');
+  const locStr=buildLocationString();
+
+  if(!name||!phone||!cat){alert('Please fill in: Business Name, Phone Number, and Category.');return;}
+  if(!continent||!country){alert('Please select at least a Continent and Country for your location.');return;}
+  if(!locStr){alert('Please complete your location details.');return;}
+
   btn.disabled=true;btn.innerHTML='<span class="spin">⟳</span> Uploading…';
 
   try{
-    // Collect image files
     const rawImages=[];
     const logoFile=document.getElementById('logoInput').files[0];if(logoFile)rawImages.push(logoFile);
     const bannerFile=document.getElementById('bannerInput').files[0];if(bannerFile)rawImages.push(bannerFile);
     Array.from(document.getElementById('photosInput').files).slice(0,4).forEach(f=>rawImages.push(f));
 
-    // Compress all images first
     let imageCIDs=[];
     if(rawImages.length){
       setStatus(`<span class="spin">⟳</span> Compressing ${rawImages.length} image(s)…`,'loading');
       const compressed=await Promise.all(rawImages.map(f=>f.type.startsWith('image/')?compressImage(f):Promise.resolve(f)));
-      setStatus(`<span class="spin">⟳</span> Uploading ${compressed.length} image(s) in parallel…`,'loading');
-      // Upload all images in parallel — much faster than sequential
+      setStatus(`<span class="spin">⟳</span> Uploading ${compressed.length} image(s)…`,'loading');
       imageCIDs=await Promise.all(compressed.map(f=>uploadToPinata(f)));
     }
 
-    // Video (sequential — large file)
     const videoCIDs=[];
     const videoFile=document.getElementById('videoInput').files[0];
     if(videoFile){setStatus('<span class="spin">⟳</span> Uploading video…','loading');videoCIDs.push(await uploadToPinata(videoFile));}
@@ -429,34 +888,38 @@ window.submitForm=async()=>{
     setStatus('<span class="spin">⟳</span> Saving listing…','loading');
 
     const rawPrice=document.getElementById('priceRange').value.trim();
-    const priceRange=rawPrice.replace(/^[₦$£€₵\w]+\s*/,'');
 
     const merchant={
       businessName:name,
       ownerName:document.getElementById('ownerName').value.trim(),
       phone,
-      contacts:[{type:'whatsapp',number:phone}],
       category:cat,
-      location:loc,
+      // Structured location fields
+      continent,
+      country,
+      region:sv('locR'),
+      city:sv('locT'),
+      area:document.getElementById('areaInput').value.trim(),
+      location:locStr, // full string for backwards compatibility
+      lat:pinnedLat?parseFloat(pinnedLat):null,
+      lng:pinnedLng?parseFloat(pinnedLng):null,
       description:document.getElementById('description').value.trim(),
       website:document.getElementById('website').value.trim(),
       staffCount:parseInt(document.getElementById('staffCount').value)||0,
       yearsInBusiness:parseInt(document.getElementById('yearsInBusiness').value)||0,
       dailyCustomers:parseInt(document.getElementById('dailyCustomers').value)||0,
-      priceRange,
-      currencyCode:detectedCurrency,
+      priceRange:rawPrice.replace(/^[₦₵$£€\w]+\s*/,''),
+      currencyCode:detCur,
       delivers:radioVal('deliverGroup'),
       whatsappBusiness:radioVal('waGroup'),
       uniqueness:document.getElementById('uniqueness').value.trim(),
-      socialLinks:getSocialLinks(),
-      lat:pinnedLat?parseFloat(pinnedLat):null,
-      lng:pinnedLng?parseFloat(pinnedLng):null,
+      socialLinks:getSocials(),
       images:imageCIDs,
       videoCIDs,
       status:'pending',featured:false,verified:false,
       leadScore:0,pipelineStage:'Profile Created',directoryStatus:'Pending',
       platform:'Global Biz Hub',
-      createdAt:new Date()
+      createdAt:new Date(),
     };
 
     const ref=await addDoc(collection(db,'merchants'),merchant);
@@ -470,8 +933,10 @@ window.submitForm=async()=>{
     btn.innerHTML='🚀 List My Business on Global Biz Hub';
   }
 };
-
 window.viewListing=()=>{if(newId)window.location.href=`merchant.html?id=${newId}`;};
+
+/* ── BOOT ── */
+loadPlatformSettings();
 </script>
 </body>
 </html>
