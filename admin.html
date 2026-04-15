@@ -12,6 +12,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{overflow-x:hidden;height:100%;}
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);transition:background .25s,color .25s;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 /* AUTH */
 .auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -19,20 +20,17 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);transition:backg
 .auth-logo{font-family:var(--fh);font-size:26px;font-weight:800;color:var(--gold);margin-bottom:3px;}
 .auth-logo span{color:var(--tx);}
 .auth-sub{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:24px;}
-.auth-box h2{font-family:var(--fh);font-size:21px;font-weight:800;margin-bottom:8px;}
-.auth-box p{font-size:13px;color:var(--mu);margin-bottom:20px;line-height:1.6;}
-@keyframes spin{to{transform:rotate(360deg);}}
 
-/* APP SHELL */
+/* APP */
 .app{display:none;height:100vh;overflow:hidden;}
 .app.flex{display:flex;}
-.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:149;display:none;}
-.sidebar-overlay.show{display:block;}
+.sob{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:149;display:none;}
+.sob.show{display:block;}
 
 /* SIDEBAR */
 .sidebar{width:235px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--br);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .3s ease,background .25s;z-index:150;}
 .sl-logo{padding:16px 16px 12px;border-bottom:1px solid var(--br);flex-shrink:0;}
-.sl-name{font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);}
+.sl-name{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--gold);}
 .sl-name span{color:var(--tx);}
 .sl-name sub{font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--mu);margin-left:3px;}
 .sl-sub{font-size:8px;color:var(--mu);letter-spacing:.4px;margin-top:1px;}
@@ -47,26 +45,29 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);transition:backg
 .uchip{display:flex;align-items:center;gap:8px;padding:8px;background:var(--sf2);border-radius:7px;}
 .uav{width:26px;height:26px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#000;flex-shrink:0;}
 .uname{font-size:11px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.btn-so{background:none;border:none;color:var(--mu);cursor:pointer;font-size:11px;font-family:var(--fb);transition:color .2s;}
+.btn-so{background:none;border:none;color:var(--mu);cursor:pointer;font-size:11px;font-family:var(--fb);transition:color .2s;padding:0;}
 .btn-so:hover{color:var(--red);}
 .nbadge{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:10px;margin-left:4px;}
 
-/* MAIN */
+/* TOP BAR */
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0;}
 .top-bar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--br);padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;transition:background .25s;}
 .tt{font-family:var(--fh);font-size:14px;font-weight:700;}
 .tr{display:flex;gap:6px;align-items:center;}
-.sb{padding:7px 11px;background:var(--sf);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;width:155px;transition:border-color .2s;}
-.sb:focus{border-color:var(--gold);}
+.sb-inp{padding:7px 11px;background:var(--sf);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;width:155px;transition:border-color .2s;}
+.sb-inp:focus{border-color:var(--gold);}
 .bsm{padding:6px 11px;font-size:11px;font-weight:700;font-family:var(--fb);border-radius:6px;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 .bg{background:var(--gold);color:#000;}.bg:hover{background:#e09c1a;}
 .bo{background:transparent;border:1px solid var(--br);color:var(--tx);}.bo:hover{border-color:var(--gold);color:var(--gold);}
 .hmb{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px;border-radius:6px;border:1px solid var(--br);background:var(--sf);}
 .hmb span{display:block;width:18px;height:2px;background:var(--tx);border-radius:2px;}
 .tb{width:30px;height:30px;border:1px solid var(--br);background:var(--sf);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;}
-
 .pb{padding:16px;flex:1;}
 .tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* LIVE INDICATOR */
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:4px;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}};
 
 /* METRICS */
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
@@ -91,7 +92,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);transition:backg
 .fw{grid-column:1/-1;}
 .fl{display:flex;flex-direction:column;gap:7px;}
 .fr{display:flex;align-items:center;gap:8px;}
-.flab{font-size:11px;color:var(--mu);min-width:130px;flex-shrink:0;}
+.flab{font-size:11px;color:var(--mu);min-width:120px;flex-shrink:0;}
 .fbw{flex:1;height:7px;background:var(--sf2);border-radius:4px;overflow:hidden;}
 .fb{height:100%;border-radius:4px;transition:width .6s ease;}
 .fc{font-size:11px;font-weight:700;min-width:22px;text-align:right;}
@@ -123,12 +124,10 @@ thead tr{background:var(--sf2);}
 th{text-align:left;padding:8px 11px;font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--mu);border-bottom:1px solid var(--br);white-space:nowrap;}
 td{padding:9px 11px;border-bottom:1px solid var(--br);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:rgba(255,255,255,.01);}
+tr:hover td{background:rgba(255,255,255,.012);}
 .tdn{font-weight:700;font-size:12px;}
 .tds{font-size:10px;color:var(--mu);margin-top:1px;}
 .tid{font-family:monospace;font-size:10px;color:var(--mu);background:var(--sf2);padding:2px 5px;border-radius:4px;}
-
-/* BADGES */
 .pb2{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.2px;white-space:nowrap;}
 .pn{background:rgba(74,158,255,.15);color:var(--blue);}
 .pc{background:rgba(245,166,35,.15);color:var(--gold);}
@@ -140,8 +139,6 @@ tr:hover td{background:rgba(255,255,255,.01);}
 .l3{background:rgba(245,166,35,.15);color:var(--gold);}
 .l4{background:rgba(155,89,182,.15);color:var(--purple);}
 .l5{background:rgba(0,166,81,.15);color:var(--green);}
-
-/* TOGGLE */
 .tgl{position:relative;display:inline-block;width:34px;height:19px;cursor:pointer;}
 .tgl input{opacity:0;width:0;height:0;}
 .tsl{position:absolute;inset:0;background:var(--br);border-radius:20px;transition:.2s;}
@@ -149,44 +146,37 @@ tr:hover td{background:rgba(255,255,255,.01);}
 input:checked+.tsl{background:var(--gold);}
 input:checked+.tsl::before{transform:translateX(15px);}
 .tg-gr input:checked+.tsl{background:var(--green);}
-
-/* SCORE */
 .sw{display:flex;align-items:center;gap:5px;}
-.si{width:32px;padding:3px 4px;background:var(--sf2);border:1px solid var(--br);color:var(--tx);font-family:var(--fb);font-size:10px;border-radius:4px;outline:none;text-align:center;}
-.sb2{width:40px;height:4px;background:var(--br);border-radius:2px;}
-.sf{height:100%;background:var(--gold);border-radius:2px;}
-
-.ra2{display:flex;gap:3px;}
+.sc-i{width:32px;padding:3px 4px;background:var(--sf2);border:1px solid var(--br);color:var(--tx);font-family:var(--fb);font-size:10px;border-radius:4px;outline:none;text-align:center;}
+.sc-b{width:40px;height:4px;background:var(--br);border-radius:2px;}
+.sc-f{height:100%;background:var(--gold);border-radius:2px;}
+.ra2{display:flex;gap:3px;flex-wrap:wrap;}
 .br2{padding:4px 7px;font-size:10px;font-weight:700;border-radius:4px;cursor:pointer;border:1px solid var(--br);background:transparent;color:var(--mu);font-family:var(--fb);transition:all .2s;}
 .br2:hover{border-color:var(--gold);color:var(--gold);}
 .br2.dn:hover{border-color:var(--red);color:var(--red);}
 .br2.gn:hover{border-color:var(--green);color:var(--green);}
 .br2.bn:hover{border-color:var(--blue);color:var(--blue);}
-
-/* FILTER TABS */
+.br2.or:hover{border-color:var(--gold);color:var(--gold);}
 .ft2{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
 .ftt{padding:5px 11px;font-size:11px;font-weight:600;border:1px solid var(--br);border-radius:5px;cursor:pointer;background:transparent;color:var(--mu);font-family:var(--fb);transition:all .2s;}
 .ftt:hover,.ftt.on{background:var(--gold);color:#000;border-color:var(--gold);}
 
-/* PENDING CARDS */
-.pcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:10px;}
-.pc2{background:var(--sf);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:13px;transition:background .25s;}
+/* PENDING + UPGRADE CARDS */
+.pcs,.ucs{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:10px;}
+.pc2{background:var(--sf);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:13px;}
 .pch{display:flex;gap:10px;align-items:start;margin-bottom:10px;}
 .pav{width:40px;height:40px;border-radius:8px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;overflow:hidden;}
 .pav img{width:100%;height:100%;object-fit:cover;}
 .pnm{font-family:var(--fh);font-size:13px;font-weight:800;line-height:1.2;}
 .pmt{font-size:11px;color:var(--mu);margin-top:2px;}
 .pdt{font-size:11px;color:var(--mu);margin-bottom:9px;line-height:1.5;}
-.pac{display:flex;gap:7px;}
-.bap{flex:1;padding:8px;background:var(--green);color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:12px;font-weight:700;transition:background .2s;}
+.pac{display:flex;gap:7px;flex-wrap:wrap;}
+.bap{flex:1;padding:8px;background:var(--green);color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:12px;font-weight:700;transition:background .2s;min-width:70px;}
 .bap:hover{background:#009344;}
-.bdc{flex:1;padding:8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:12px;font-weight:600;transition:all .2s;}
+.bdc{flex:1;padding:8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:7px;cursor:pointer;font-family:var(--fb);font-size:12px;font-weight:600;transition:all .2s;min-width:70px;}
 .bdc:hover{background:rgba(224,90,43,.08);}
-.bvs{padding:8px 9px;background:var(--sf2);color:var(--tx);border:1px solid var(--br);border-radius:7px;font-family:var(--fb);font-size:11px;font-weight:600;text-decoration:none;}
-
-/* UPGRADE CARDS */
-.ucs{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:10px;}
-.uc{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:13px;transition:background .25s;}
+.bvs{padding:8px 9px;background:var(--sf2);color:var(--tx);border:1px solid var(--br);border-radius:7px;font-family:var(--fb);font-size:11px;font-weight:600;text-decoration:none;cursor:pointer;}
+.uc{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:13px;}
 .uc.fr{border-color:rgba(245,166,35,.3);}
 .uc.vr{border-color:rgba(0,200,83,.25);}
 .uct{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 7px;border-radius:4px;margin-bottom:9px;display:inline-block;}
@@ -199,67 +189,101 @@ input:checked+.tsl::before{transform:translateX(15px);}
 .ain:focus,.ata:focus{border-color:var(--gold);}
 .asel{padding:5px 8px;background:var(--sf2);border:1px solid var(--br);border-radius:5px;color:var(--tx);font-family:var(--fb);font-size:10px;outline:none;cursor:pointer;}
 
-/* PLATFORM CONTENT STYLES */
+/* ECO */
+.eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.mkt-table{width:100%;border-collapse:collapse;min-width:600px;font-size:11px;}
+.mkt-table th{text-align:left;padding:8px 11px;font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu);border-bottom:1px solid var(--br);}
+.mkt-table td{padding:8px 11px;border-bottom:1px solid var(--br);}
+.mi{padding:4px 7px;background:var(--sf2);border:1px solid var(--br);border-radius:5px;color:var(--tx);font-family:var(--fb);font-size:11px;outline:none;width:60px;text-align:center;}
+
+/* ═══ EDIT MERCHANT DRAWER ═══ */
+.edit-drawer{
+  position:fixed;top:0;right:-600px;width:min(580px,100vw);height:100vh;
+  background:var(--sf);border-left:1px solid var(--br);
+  z-index:600;transition:right .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.edit-drawer.open{right:0;}
+.edit-drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:599;display:none;}
+.edit-drawer-overlay.show{display:block;}
+.ed-head{padding:16px 20px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
+.ed-head h2{font-family:var(--fh);font-size:16px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ed-close{background:none;border:1px solid var(--br);color:var(--mu);padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0;}
+.ed-close:hover{border-color:var(--red);color:var(--red);}
+.ed-body{flex:1;overflow-y:auto;padding:16px 20px;}
+.ed-sec{font-family:var(--fh);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);padding:14px 0 8px;border-bottom:1px solid var(--br);margin-bottom:12px;}
+.ed-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ed-row.full{grid-template-columns:1fr;}
+.ed-field{display:flex;flex-direction:column;gap:4px;}
+.ed-field label{font-size:11px;font-weight:600;color:var(--mu);}
+.ed-field input,.ed-field select,.ed-field textarea{
+  padding:9px 11px;background:var(--sf2);border:1px solid var(--br);
+  border-radius:8px;color:var(--tx);font-family:var(--fb);font-size:13px;
+  outline:none;width:100%;transition:border-color .2s;
+}
+.ed-field input:focus,.ed-field select:focus,.ed-field textarea:focus{border-color:var(--gold);}
+.ed-field textarea{resize:vertical;min-height:70px;line-height:1.6;}
+.ed-foot{padding:14px 20px;border-top:1px solid var(--br);display:flex;gap:10px;flex-shrink:0;}
+.ed-save{flex:1;padding:12px;background:var(--gold);color:#000;font-family:var(--fh);font-size:14px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:background .2s;}
+.ed-save:hover{background:#e09c1a;}
+.ed-del{padding:12px 16px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:9px;cursor:pointer;font-family:var(--fb);font-size:13px;font-weight:700;transition:all .2s;}
+.ed-del:hover{background:rgba(224,90,43,.1);}
+
+/* ═══ PLATFORM CONTENT (Ad Manager + Hero) ═══ */
+/* Two-col on desktop, one-col on mobile */
 .pcon-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .pcon-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:16px;}
 .pcon-card h3{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--br);}
+
 /* AD MANAGER */
-.ad-list{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
-.ad-item{background:var(--sf2);border:1px solid var(--br);border-radius:8px;padding:12px;display:flex;gap:10px;align-items:start;}
-.ad-thumb{width:72px;height:52px;border-radius:6px;overflow:hidden;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ad-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.ad-item{
+  background:var(--sf2);border:1px solid var(--br);border-radius:8px;
+  padding:10px;display:grid;
+  grid-template-columns:80px 1fr auto; /* media | text | actions */
+  gap:10px;align-items:center;
+}
+.ad-thumb{width:80px;height:56px;border-radius:6px;overflow:hidden;background:var(--br);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .ad-thumb img,.ad-thumb video{width:100%;height:100%;object-fit:cover;display:block;}
-.ad-info{flex:1;min-width:0;}
-.ad-tag-pill{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;display:inline-block;margin-bottom:3px;}
-.ad-title-sm{font-family:var(--fh);font-size:12px;font-weight:800;line-height:1.2;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ad-info{min-width:0;}
+.ad-tag-pill{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;display:inline-block;margin-bottom:2px;}
+.ad-title-sm{font-family:var(--fh);font-size:12px;font-weight:800;line-height:1.2;margin-bottom:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .ad-desc-sm{font-size:10px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.ad-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
-/* FORM ROWS */
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.form-row.full{grid-template-columns:1fr;}
+.ad-link-sm{font-size:10px;color:var(--mu);}
+.ad-acts{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.ad-act-btn{padding:4px 8px;font-size:10px;font-weight:700;border-radius:5px;cursor:pointer;font-family:var(--fb);border:1px solid var(--br);background:transparent;color:var(--mu);white-space:nowrap;transition:all .2s;}
+.ad-act-btn:hover{border-color:var(--gold);color:var(--gold);}
+.ad-act-btn.del{color:var(--red);}.ad-act-btn.del:hover{border-color:var(--red);}
+
+/* AD FORM */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.frow.full{grid-template-columns:1fr;}
 .field{display:flex;flex-direction:column;gap:4px;}
 .field label{font-size:11px;font-weight:600;color:var(--mu);}
 .field input,.field select,.field textarea{padding:8px 10px;background:var(--sf2);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;transition:border-color .2s;width:100%;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
 .field textarea{resize:vertical;min-height:60px;}
 .field-hint{font-size:10px;color:var(--mu);margin-top:2px;}
-/* COLOR SWATCH */
-.color-row{display:flex;gap:6px;flex-wrap:wrap;}
-.cs{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;}
+.color-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.cs{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;}
 .cs.sel{border-color:var(--tx);transform:scale(1.2);}
+
 /* HERO */
 .hero-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
 .hi-thumb{position:relative;border-radius:7px;overflow:hidden;aspect-ratio:16/9;background:var(--br);cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
 .hi-thumb.sel{border-color:var(--gold);}
 .hi-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-.hi-del{position:absolute;top:4px;right:4px;background:rgba(224,90,43,.9);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.blur-row{display:flex;align-items:center;gap:10px;margin-top:10px;}
-.blur-range{flex:1;cursor:pointer;accent-color:var(--gold);}
-/* LOCATION MANAGER */
-.loc-tree{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;}
-.lt-cont{background:var(--sf2);border-radius:7px;overflow:hidden;}
-.lt-cont-h{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;user-select:none;}
-.lt-cont-h h4{font-size:12px;font-weight:700;color:var(--gold);}
-.lt-countries{padding:6px 12px 8px;display:flex;flex-direction:column;gap:4px;display:none;}
-.lt-countries.open{display:flex;}
-.lt-country{display:flex;align-items:center;justify-content:space-between;font-size:11px;padding:4px 0;}
-.lt-country span{color:var(--tx);}
-/* CAT MANAGER */
+.hi-del{position:absolute;top:4px;right:4px;background:rgba(224,90,43,.9);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;}
+.blur-range{width:100%;cursor:pointer;accent-color:var(--gold);margin-top:6px;}
+
+/* CAT TAGS */
 .cat-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
 .cat-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:var(--sf2);border:1px solid var(--br);border-radius:20px;font-size:11px;font-weight:600;}
 .cat-tag button{background:none;border:none;color:var(--mu);cursor:pointer;font-size:13px;line-height:1;padding:0;transition:color .2s;}
 .cat-tag button:hover{color:var(--red);}
 
-/* ECO */
-.eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
-
-/* MKT */
-.mkt-table{width:100%;border-collapse:collapse;min-width:600px;font-size:11px;}
-.mkt-table th{text-align:left;padding:8px 11px;font-size:9px;font-weight:700;text-transform:uppercase;color:var(--mu);border-bottom:1px solid var(--br);}
-.mkt-table td{padding:8px 11px;border-bottom:1px solid var(--br);}
-.mi{padding:4px 7px;background:var(--sf2);border:1px solid var(--br);border-radius:5px;color:var(--tx);font-family:var(--fb);font-size:11px;outline:none;width:60px;text-align:center;}
-
 /* TOAST */
-.toast{position:fixed;bottom:16px;right:16px;background:var(--sf);border:1px solid var(--br);border-radius:9px;padding:10px 16px;font-size:12px;font-weight:600;z-index:9999;display:none;max-width:300px;}
+.toast{position:fixed;bottom:16px;right:16px;background:var(--sf);border:1px solid var(--br);border-radius:9px;padding:10px 16px;font-size:12px;font-weight:600;z-index:9999;display:none;max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,.3);}
 .toast.show{display:flex;align-items:center;gap:6px;animation:su .3s ease;}
 .toast.ok{border-color:var(--green);color:var(--green);}
 .toast.err{border-color:var(--red);color:var(--red);}
@@ -268,6 +292,7 @@ input:checked+.tsl::before{transform:translateX(15px);}
 .ldr{padding:28px;text-align:center;color:var(--mu);font-size:12px;}
 .spin{display:inline-block;animation:spin .8s linear infinite;}
 
+/* ═══ RESPONSIVE ═══ */
 @media(max-width:900px){
   .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);z-index:150;}
   .sidebar.open{transform:translateX(0);}
@@ -276,8 +301,22 @@ input:checked+.tsl::before{transform:translateX(15px);}
   .dg{grid-template-columns:1fr;}
   .eco-grid{grid-template-columns:1fr 1fr;}
   .pcon-grid{grid-template-columns:1fr;}
+  /* Ad manager mobile: stack media on top */
+  .ad-item{grid-template-columns:60px 1fr;grid-template-rows:auto auto;}
+  .ad-acts{flex-direction:row;grid-column:1/-1;justify-content:flex-end;flex-wrap:wrap;}
+  .ad-thumb{width:60px;height:44px;}
+  .edit-drawer{width:100vw;}
 }
-@media(max-width:560px){.metrics{grid-template-columns:1fr 1fr;}.sb{width:100px;}.eco-grid{grid-template-columns:1fr;}.hero-imgs{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){
+  .metrics{grid-template-columns:1fr 1fr;}
+  .eco-grid{grid-template-columns:1fr;}
+  .hero-imgs{grid-template-columns:1fr 1fr;}
+  .frow{grid-template-columns:1fr;}
+  .ed-row{grid-template-columns:1fr;}
+  .sb-inp{width:90px;}
+  .ad-item{grid-template-columns:1fr;grid-template-rows:auto;}
+  .ad-thumb{width:100%;height:80px;border-radius:6px;}
+}
 </style>
 </head>
 <body>
@@ -288,22 +327,38 @@ input:checked+.tsl::before{transform:translateX(15px);}
     <div class="auth-logo">Global Biz <span>Hub</span></div>
     <div class="auth-sub">Admin Control Tower · GBH</div>
     <h2>Enter Access Code</h2>
-    <p>This dashboard is restricted to authorised administrators only.</p>
+    <p style="font-size:13px;color:var(--mu);margin-bottom:20px;line-height:1.6;">This dashboard is restricted to authorised administrators only.</p>
     <div style="position:relative;margin-bottom:12px;">
       <input type="password" id="adminPwInput" placeholder="Admin password…"
-        style="width:100%;padding:13px 44px 13px 14px;background:#222;border:1px solid #333;border-radius:9px;color:#F0EDE8;font-family:'Manrope',sans-serif;font-size:15px;outline:none;"
+        style="width:100%;padding:13px 44px 13px 14px;background:#1a1a1a;border:1px solid #333;border-radius:9px;color:#F0EDE8;font-family:'Manrope',sans-serif;font-size:15px;outline:none;"
         onkeydown="if(event.key==='Enter')checkPw()"
         oninput="document.getElementById('authErr').style.display='none'">
-      <button onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:#7A7570;">👁️</button>
+      <button onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:#7A7570;padding:0;">👁️</button>
     </div>
-    <button onclick="checkPw()" style="width:100%;padding:13px;background:#F5A623;color:#000;border:none;border-radius:9px;cursor:pointer;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;transition:all .2s;">Enter Dashboard →</button>
+    <button onclick="checkPw()" style="width:100%;padding:13px;background:#F5A623;color:#000;border:none;border-radius:9px;cursor:pointer;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;">Enter Dashboard →</button>
     <div id="authErr" style="margin-top:10px;font-size:12px;color:#E05A2B;display:none;background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:10px 12px;">❌ Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- EDIT MERCHANT DRAWER -->
+<div class="edit-drawer-overlay" id="edOverlay" onclick="closeEdit()"></div>
+<div class="edit-drawer" id="editDrawer">
+  <div class="ed-head">
+    <h2 id="edTitle">Edit Business</h2>
+    <button class="ed-close" onclick="closeEdit()">✕ Close</button>
+  </div>
+  <div class="ed-body" id="edBody">
+    <!-- populated dynamically -->
+  </div>
+  <div class="ed-foot">
+    <button class="ed-save" onclick="saveEdit()">💾 Save Changes</button>
+    <button class="ed-del" onclick="deleteFromEdit()">🗑 Delete</button>
   </div>
 </div>
 
 <!-- APP -->
 <div class="app" id="appShell">
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sob" id="sob" onclick="closeSidebar()"></div>
   <aside class="sidebar" id="sidebar">
     <div class="sl-logo">
       <div class="sl-name">Global Biz <span>Hub</span> <sub>GBH</sub></div>
@@ -330,12 +385,12 @@ input:checked+.tsl::before{transform:translateX(15px);}
       <div class="nd"></div>
       <div class="ns">Quick Links</div>
       <a href="index_v4.html" class="ni" target="_blank"><span class="ic">🌐</span> View Platform</a>
-      <a href="add.html" class="ni" target="_blank"><span class="ic">➕</span> Add Business</a>
+      <a href="add_v2.html" class="ni" target="_blank"><span class="ic">➕</span> Add Business</a>
     </nav>
     <div class="sl-foot">
       <div class="uchip">
-        <div class="uav" id="uav">🔑</div>
-        <span class="uname" id="uname">Admin</span>
+        <div class="uav">🔑</div>
+        <span class="uname">Admin</span>
         <button class="btn-so" onclick="signOut()">Exit</button>
       </div>
     </div>
@@ -345,16 +400,16 @@ input:checked+.tsl::before{transform:translateX(15px);}
     <div class="top-bar">
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="hmb" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+        <span class="live-dot" id="liveDot" title="Real-time data connected" style="display:none;"></span>
         <div class="tt" id="tabTitle">Founder Dashboard</div>
       </div>
       <div class="tr">
-        <input type="text" class="sb" id="adminSearch" placeholder="Search merchants…" oninput="filterTable()" style="display:none;">
-        <button class="bsm bo" onclick="refreshData()">🔄 Refresh</button>
+        <input type="text" class="sb-inp" id="adminSearch" placeholder="Search merchants…" oninput="filterTable()" style="display:none;">
+        <button class="bsm bo" onclick="refreshNow()">🔄</button>
         <button class="tb" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        <a href="add.html" class="bsm bg" target="_blank">+ Add</a>
+        <a href="add_v2.html" class="bsm bg" target="_blank">+ Add</a>
       </div>
     </div>
-
     <div class="pb">
 
       <!-- DASHBOARD -->
@@ -362,8 +417,8 @@ input:checked+.tsl::before{transform:translateX(15px);}
         <div class="metrics">
           <div class="metric gold"><div class="ml">Total Listings</div><div class="mv" id="m-total">—</div><div class="ms" id="m-ps">— pending</div></div>
           <div class="metric green"><div class="ml">Verified</div><div class="mv" id="m-ver">—</div><div class="ms">Paid badges</div></div>
-          <div class="metric blue"><div class="ml">Featured</div><div class="mv" id="m-feat">—</div><div class="ms">Active 28-day slots</div></div>
-          <div class="metric purple"><div class="ml">Total Revenue</div><div class="mv" id="m-rev">—</div><div class="ms">From upgrades</div></div>
+          <div class="metric blue"><div class="ml">Featured</div><div class="mv" id="m-feat">—</div><div class="ms">Active slots</div></div>
+          <div class="metric purple"><div class="ml">Revenue</div><div class="mv" id="m-rev">—</div><div class="ms">From upgrades</div></div>
         </div>
         <div class="dg">
           <div class="dc"><h3>🔽 Pipeline Funnel</h3><div class="fl" id="funnelList"></div></div>
@@ -382,13 +437,13 @@ input:checked+.tsl::before{transform:translateX(15px);}
 
       <!-- PENDING -->
       <div class="tab-panel" id="panel-pending">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Review new submissions. Listings auto-approve after 48h if no action.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Review new submissions. Listings auto-approve after 48h.</p>
         <div class="pcs" id="pendingCards"><div class="ldr"><span class="spin">⟳</span> Loading…</div></div>
       </div>
 
       <!-- UPGRADES -->
       <div class="tab-panel" id="panel-upgrades">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Businesses that paid for Featured or Verified. Approve to activate, or they auto-activate 6 minutes after payment.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Paid upgrade requests. Approve or auto-activate after 6 minutes.</p>
         <div class="ucs" id="upgradeCards"><div class="ldr"><span class="spin">⟳</span> Loading…</div></div>
       </div>
 
@@ -399,12 +454,13 @@ input:checked+.tsl::before{transform:translateX(15px);}
           <button class="ftt" onclick="setFilter('featured',this)">★ Featured</button>
           <button class="ftt" onclick="setFilter('verified',this)">✦ Verified</button>
           <button class="ftt" onclick="setFilter('approved',this)">✓ Approved</button>
-          <button class="ftt" onclick="setFilter('online',this)">🌐 Online Sales</button>
+          <button class="ftt" onclick="setFilter('pending',this)">⏳ Pending</button>
+          <button class="ftt" onclick="setFilter('online',this)">🌐 Online</button>
           <button class="ftt" onclick="setFilter('interview',this)">🎙️ Interviewed</button>
         </div>
         <div class="tw">
-          <div class="th"><div class="tht">🧠 Core Merchant Intelligence</div><span style="font-size:11px;color:var(--mu);" id="tableCount"></span></div>
-          <div class="ts"><div id="intelligenceTable"><div class="ldr"><span class="spin">⟳</span> Loading…</div></div></div>
+          <div class="th"><div class="tht">🧠 Merchant Intelligence</div><span style="font-size:11px;color:var(--mu);" id="tableCount"></span></div>
+          <div class="ts"><div id="intelligenceTable"><div class="ldr"><span class="spin">⟳</span> Connecting…</div></div></div>
         </div>
       </div>
 
@@ -424,235 +480,204 @@ input:checked+.tsl::before{transform:translateX(15px);}
 
       <!-- WATCHLIST -->
       <div class="tab-panel" id="panel-watchlist">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Level 4–5 merchants — your highest revenue potential accounts.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:14px;">Level 4–5 merchants — highest revenue potential.</p>
         <div class="tw"><div class="th"><div class="tht">👁️ High-Value Watchlist</div></div><div class="ts"><div id="watchlistTable"></div></div></div>
       </div>
 
       <!-- REVENUE -->
       <div class="tab-panel" id="panel-revenue">
         <div class="metrics" style="grid-template-columns:repeat(3,1fr);">
-          <div class="metric gold"><div class="ml">Featured Revenue</div><div class="mv" id="p-fr">—</div><div class="ms">₦10k/slot × 28 days</div></div>
+          <div class="metric gold"><div class="ml">Featured Revenue</div><div class="mv" id="p-fr">—</div><div class="ms">₦10k × 28 days</div></div>
           <div class="metric green"><div class="ml">Verified Revenue</div><div class="mv" id="p-vr">—</div><div class="ms">₦15k one-time</div></div>
           <div class="metric blue"><div class="ml">Upside Potential</div><div class="mv" id="p-pot">—</div><div class="ms">Score≥6, not upgraded</div></div>
         </div>
         <div class="tw"><div class="th"><div class="tht">💰 Revenue Pipeline Detail</div></div><div class="ts"><div id="revenueTable"></div></div></div>
       </div>
 
-      <!-- ══════════════════════════════════
-           AD BOARD MANAGER
-      ══════════════════════════════════ -->
+      <!-- AD MANAGER -->
       <div class="tab-panel" id="panel-admanager">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Manage the rotating ad slides on the homepage. Changes save to Firestore and reflect on the site immediately on next page load.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Changes save to Firestore and update the homepage immediately on next load. <strong style="color:var(--gold);">After saving, reload the homepage to see changes.</strong></p>
         <div class="pcon-grid">
           <div class="pcon-card">
-            <h3>📋 Current Ads</h3>
-            <div class="ad-list" id="adList"><div class="ldr"><span class="spin">⟳</span> Loading…</div></div>
-            <button class="bsm bg" style="width:100%;" onclick="openAdForm()">+ Add New Ad Slide</button>
+            <h3>📋 Current Ad Slides (<span id="adCount">0</span>)</h3>
+            <div class="ad-list" id="adList"><div class="ldr"><span class="spin">⟳</span></div></div>
+            <button class="bsm bg" style="width:100%;padding:10px;" onclick="openAdForm(-1)">+ Add New Ad Slide</button>
           </div>
-          <div class="pcon-card" id="adFormWrap">
+          <div class="pcon-card">
             <h3 id="adFormTitle">➕ New Ad Slide</h3>
-            <div class="form-row">
+            <div class="frow">
               <div class="field">
-                <label>Tag Label (e.g. FREE LISTING)</label>
+                <label>Tag Label</label>
                 <input type="text" id="af-tag" placeholder="e.g. FEATURED SLOTS">
               </div>
               <div class="field">
                 <label>Tag Color</label>
                 <div class="color-row" id="tagColors">
-                  <div class="cs sel" style="background:var(--gold);" data-col="var(--gold)" onclick="pickTagCol(this)"></div>
-                  <div class="cs" style="background:var(--blue);" data-col="#4A9EFF" onclick="pickTagCol(this)"></div>
-                  <div class="cs" style="background:var(--green);" data-col="var(--green)" onclick="pickTagCol(this)"></div>
-                  <div class="cs" style="background:var(--purple);" data-col="#9B59B6" onclick="pickTagCol(this)"></div>
-                  <div class="cs" style="background:var(--red);" data-col="var(--red)" onclick="pickTagCol(this)"></div>
+                  <div class="cs sel" style="background:var(--gold);" data-col="var(--gold)" onclick="pickCol('tagColors',this,'selTagCol')"></div>
+                  <div class="cs" style="background:#4A9EFF;" data-col="#4A9EFF" onclick="pickCol('tagColors',this,'selTagCol')"></div>
+                  <div class="cs" style="background:var(--green);" data-col="var(--green)" onclick="pickCol('tagColors',this,'selTagCol')"></div>
+                  <div class="cs" style="background:#9B59B6;" data-col="#9B59B6" onclick="pickCol('tagColors',this,'selTagCol')"></div>
+                  <div class="cs" style="background:var(--red);" data-col="var(--red)" onclick="pickCol('tagColors',this,'selTagCol')"></div>
                 </div>
-                <input type="text" id="af-tagcol" placeholder="or enter any CSS color" style="margin-top:6px;">
+                <input type="text" id="af-tagcol-custom" placeholder="or custom CSS color" style="margin-top:6px;padding:6px 8px;background:var(--sf2);border:1px solid var(--br);border-radius:6px;color:var(--tx);font-family:var(--fb);font-size:11px;outline:none;width:100%;">
               </div>
             </div>
-            <div class="form-row full">
-              <div class="field">
-                <label>Headline</label>
-                <input type="text" id="af-title" placeholder="e.g. Get Featured — Be Seen First">
-              </div>
+            <div class="frow full">
+              <div class="field"><label>Headline</label><input type="text" id="af-title" placeholder="e.g. Get Featured — Be Seen First"></div>
             </div>
-            <div class="form-row full">
-              <div class="field">
-                <label>Description</label>
-                <textarea id="af-desc" placeholder="Short supporting copy…"></textarea>
-              </div>
+            <div class="frow full">
+              <div class="field"><label>Description</label><textarea id="af-desc" placeholder="Short supporting copy…"></textarea></div>
             </div>
-            <div class="form-row">
-              <div class="field">
-                <label>CTA Button Text</label>
-                <input type="text" id="af-cta" placeholder="e.g. Get Featured →">
-              </div>
-              <div class="field">
-                <label>CTA Link (URL or page)</label>
-                <input type="text" id="af-href" placeholder="e.g. add.html or https://…">
-              </div>
+            <div class="frow">
+              <div class="field"><label>CTA Button Text</label><input type="text" id="af-cta" placeholder="e.g. Get Featured →"></div>
+              <div class="field"><label>CTA Link URL</label><input type="text" id="af-href" placeholder="e.g. add_v2.html or https://…"></div>
             </div>
-            <div class="form-row">
+            <div class="frow">
               <div class="field">
-                <label>CTA Background Color</label>
-                <div class="color-row" id="ctaColors">
-                  <div class="cs sel" style="background:var(--gold);" data-col="var(--gold)" onclick="pickCtaCol(this)"></div>
-                  <div class="cs" style="background:var(--blue);" data-col="#4A9EFF" onclick="pickCtaCol(this)"></div>
-                  <div class="cs" style="background:var(--green);" data-col="var(--green)" onclick="pickCtaCol(this)"></div>
-                  <div class="cs" style="background:var(--purple);" data-col="#9B59B6" onclick="pickCtaCol(this)"></div>
-                  <div class="cs" style="background:#000;" data-col="#000" onclick="pickCtaCol(this)"></div>
+                <label>CTA Background</label>
+                <div class="color-row" id="ctaBgColors">
+                  <div class="cs sel" style="background:var(--gold);" data-col="var(--gold)" onclick="pickCol('ctaBgColors',this,'selCtaBg')"></div>
+                  <div class="cs" style="background:#4A9EFF;" data-col="#4A9EFF" onclick="pickCol('ctaBgColors',this,'selCtaBg')"></div>
+                  <div class="cs" style="background:var(--green);" data-col="var(--green)" onclick="pickCol('ctaBgColors',this,'selCtaBg')"></div>
+                  <div class="cs" style="background:#9B59B6;" data-col="#9B59B6" onclick="pickCol('ctaBgColors',this,'selCtaBg')"></div>
+                  <div class="cs" style="background:#000;border:1px solid var(--br);" data-col="#000" onclick="pickCol('ctaBgColors',this,'selCtaBg')"></div>
                 </div>
               </div>
               <div class="field">
                 <label>CTA Text Color</label>
                 <div class="color-row" id="ctaTxtColors">
-                  <div class="cs sel" style="background:#000;border:1px solid var(--br);" data-col="#000" onclick="pickCtaTxtCol(this)"></div>
-                  <div class="cs" style="background:#fff;border:1px solid var(--br);" data-col="#fff" onclick="pickCtaTxtCol(this)"></div>
+                  <div class="cs sel" style="background:#000;border:1px solid var(--br);" data-col="#000" onclick="pickCol('ctaTxtColors',this,'selCtaTxt')"></div>
+                  <div class="cs" style="background:#fff;border:1px solid var(--br);" data-col="#fff" onclick="pickCol('ctaTxtColors',this,'selCtaTxt')"></div>
                 </div>
               </div>
             </div>
-            <div class="form-row full">
+            <div class="frow full">
               <div class="field">
-                <label>Media URL (Image, GIF, or Video)</label>
-                <input type="text" id="af-mediasrc" placeholder="https://… (Unsplash, Cloudinary, IPFS, etc.)">
-                <div class="field-hint">Paste a direct image/GIF/video URL. For IPFS use: https://gateway.pinata.cloud/ipfs/CID</div>
+                <label>Media URL (Image / GIF / Video)</label>
+                <input type="text" id="af-mediasrc-input" placeholder="https://images.unsplash.com/… or IPFS URL">
+                <div class="field-hint">Paste a direct URL. Images auto-preview below.</div>
               </div>
             </div>
-            <div class="form-row">
+            <div class="frow">
               <div class="field">
                 <label>Media Type</label>
-                <select id="af-mediatype">
+                <select id="af-mediatype-sel">
                   <option value="image">🖼️ Image / GIF</option>
                   <option value="video">🎬 Video (MP4)</option>
                 </select>
               </div>
-              <div class="field" style="justify-content:flex-end;">
-                <div id="af-preview" style="width:100%;height:70px;background:var(--sf2);border-radius:7px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;">📢</div>
+              <div class="field">
+                <label>Preview</label>
+                <div id="af-preview-box" style="width:100%;height:64px;background:var(--sf2);border-radius:7px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;">📢</div>
               </div>
             </div>
-            <div id="af-mediasrc" style="display:none;"></div>
-            <div style="display:flex;gap:8px;margin-top:4px;">
-              <button class="bsm bg" style="flex:1;" onclick="saveAd()">💾 Save Ad</button>
-              <button class="bsm bo" onclick="cancelAdForm()">Cancel</button>
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <button class="bsm bg" style="flex:1;padding:10px;" onclick="saveAd()">💾 Save Ad</button>
+              <button class="bsm bo" onclick="resetAdForm()">✕ Cancel</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ══════════════════════════════════
-           HERO BACKGROUND MANAGER
-      ══════════════════════════════════ -->
+      <!-- HERO MANAGER -->
       <div class="tab-panel" id="panel-heromgr">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Manage the rotating background images shown behind the hero headline on the homepage. Add up to 8 images. Control blur intensity and overlay darkness.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Settings save to Firestore. <strong style="color:var(--gold);">The homepage must read from Firestore for changes to take effect — see the ⚠️ note below.</strong></p>
+        <div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;line-height:1.7;">
+          ⚠️ <strong>Frontend Update Required:</strong> Add the following code to your <code>index_v4.html</code> homepage — inside the <code>load()</code> function, before <code>buildAds()</code>:
+          <pre style="margin-top:8px;background:var(--sf2);padding:10px;border-radius:6px;font-size:10px;overflow-x:auto;line-height:1.6;">// Load platform settings from Firestore
+const settingsDoc = await getDoc(doc(db,'settings','platform'));
+if(settingsDoc.exists()){
+  const s = settingsDoc.data();
+  if(s.ads?.length) ADS = s.ads;
+  if(s.hero?.images?.length) HERO_IMGS = s.hero.images;
+  if(s.hero?.blur !== undefined) HERO_BLUR = s.hero.blur;
+  if(s.hero?.overlay !== undefined) HERO_OVERLAY = s.hero.overlay;
+}</pre>
+        </div>
         <div class="pcon-grid">
           <div class="pcon-card">
             <h3>🖼️ Hero Background Images</h3>
             <div class="hero-imgs" id="heroImgGrid"><div class="ldr"><span class="spin">⟳</span></div></div>
-            <div class="form-row full" style="margin-top:10px;">
-              <div class="field">
-                <label>Add New Image URL</label>
-                <input type="text" id="heroNewUrl" placeholder="https://… (Unsplash, Cloudinary, IPFS…)">
-                <div class="field-hint">Paste any direct image URL. Recommended size: 1400×900px minimum.</div>
-              </div>
+            <div class="field" style="margin-top:10px;">
+              <label>Add New Image URL</label>
+              <input type="text" id="heroNewUrl" placeholder="https://… (Unsplash, Cloudinary, IPFS…)" style="padding:8px 10px;background:var(--sf2);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;width:100%;">
+              <div class="field-hint">Recommended: 1400×900px minimum. Any direct image URL.</div>
             </div>
-            <button class="bsm bg" style="width:100%;margin-top:6px;" onclick="addHeroImg()">+ Add Image</button>
+            <button class="bsm bg" style="width:100%;margin-top:8px;padding:10px;" onclick="addHeroImg()">+ Add Image</button>
           </div>
           <div class="pcon-card">
-            <h3>⚙️ Hero Appearance Settings</h3>
+            <h3>⚙️ Hero Appearance</h3>
             <div class="field" style="margin-bottom:14px;">
-              <label>Blur Intensity (px) — currently: <b id="blurVal">6</b>px</label>
-              <input type="range" class="blur-range" id="blurRange" min="0" max="20" value="6" oninput="updateBlurPreview(this.value)">
-              <div class="field-hint">0 = no blur (sharp image). 12+ = very blurred bokeh effect.</div>
+              <label>Blur Intensity: <b id="blurVal">6</b>px</label>
+              <input type="range" class="blur-range" id="blurRange" min="0" max="20" value="6" oninput="updateHeroPreview()">
+              <div class="field-hint">0 = sharp. 12+ = heavy bokeh blur.</div>
             </div>
             <div class="field" style="margin-bottom:14px;">
-              <label>Overlay Darkness — currently: <b id="overlayVal">72</b>%</label>
-              <input type="range" class="blur-range" id="overlayRange" min="10" max="95" value="72" oninput="updateOverlayPreview(this.value)">
-              <div class="field-hint">Higher = darker overlay on top of the image. Affects both dark and light modes.</div>
+              <label>Overlay Darkness: <b id="overlayVal">72</b>%</label>
+              <input type="range" class="blur-range" id="overlayRange" min="10" max="95" value="72" oninput="updateHeroPreview()">
+              <div class="field-hint">Higher = darker overlay over the image.</div>
             </div>
             <div class="field" style="margin-bottom:14px;">
-              <label>Scale Zoom (to hide blur edges)</label>
-              <input type="range" class="blur-range" id="scaleRange" min="100" max="120" value="107" oninput="document.getElementById('scaleVal').textContent=(this.value/100).toFixed(2)">
-              <div class="field-hint">Scale: <b id="scaleVal">1.07</b> — slightly zooms image to prevent blurred edges showing at border.</div>
+              <label>Scale Zoom: <b id="scaleVal">1.07</b></label>
+              <input type="range" class="blur-range" id="scaleRange" min="100" max="120" value="107" oninput="updateHeroPreview()">
+              <div class="field-hint">Slightly zooms to hide blurred edges.</div>
             </div>
-            <!-- Live preview -->
-            <div style="margin-top:10px;border-radius:8px;overflow:hidden;position:relative;height:140px;border:1px solid var(--br);">
-              <div id="heroPreviewImg" style="position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(6px);transform:scale(1.07);"></div>
+            <div style="border-radius:8px;overflow:hidden;position:relative;height:130px;border:1px solid var(--br);margin-bottom:14px;">
+              <div id="heroPreviewImg" style="position:absolute;inset:-5%;background-size:cover;background-position:center;filter:blur(6px);transform:scale(1.07);"></div>
               <div id="heroPreviewOv" style="position:absolute;inset:0;background:rgba(13,13,13,.72);"></div>
-              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;">
-                <span style="font-family:var(--fh);font-size:18px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);">Hero Preview</span>
-              </div>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;"><span style="font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);">Live Preview</span></div>
             </div>
-            <button class="bsm bg" style="width:100%;margin-top:12px;" onclick="saveHeroSettings()">💾 Save Hero Settings</button>
+            <button class="bsm bg" style="width:100%;padding:10px;" onclick="saveHeroSettings()">💾 Save Hero Settings to Firestore</button>
           </div>
         </div>
       </div>
 
-      <!-- ══════════════════════════════════
-           LOCATIONS & CATEGORIES MANAGER
-      ══════════════════════════════════ -->
+      <!-- LOCATIONS & CATEGORIES -->
       <div class="tab-panel" id="panel-locmgr">
-        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Add custom locations (continent → country → region → city) and manage categories that appear on the homepage filter and listing form.</p>
+        <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Custom locations and categories are saved to Firestore. Both the homepage and listing form read them automatically.</p>
         <div class="pcon-grid">
-          <!-- LOCATION MANAGER -->
           <div class="pcon-card">
             <h3>📍 Add New Location</h3>
-            <div class="form-row">
-              <div class="field">
-                <label>Continent</label>
-                <input type="text" id="lm-cont" placeholder="e.g. Africa" list="continentList">
-                <datalist id="continentList"></datalist>
-              </div>
-              <div class="field">
-                <label>Country</label>
-                <input type="text" id="lm-coun" placeholder="e.g. Nigeria">
-              </div>
+            <div class="frow">
+              <div class="field"><label>Continent</label><input type="text" id="lm-cont" placeholder="e.g. Africa" list="clist"><datalist id="clist"></datalist></div>
+              <div class="field"><label>Country</label><input type="text" id="lm-coun" placeholder="e.g. Nigeria"></div>
             </div>
-            <div class="form-row">
-              <div class="field">
-                <label>Region / State</label>
-                <input type="text" id="lm-reg" placeholder="e.g. Lagos State">
-              </div>
-              <div class="field">
-                <label>City / Area (optional)</label>
-                <input type="text" id="lm-city" placeholder="e.g. Lekki">
-              </div>
+            <div class="frow">
+              <div class="field"><label>Region / State</label><input type="text" id="lm-reg" placeholder="e.g. Lagos State"></div>
+              <div class="field"><label>City (optional)</label><input type="text" id="lm-city" placeholder="e.g. Lekki"></div>
             </div>
-            <button class="bsm bg" style="width:100%;" onclick="addLocation()">+ Add Location</button>
+            <button class="bsm bg" style="width:100%;padding:9px;" onclick="addLocation()">+ Add &amp; Save Location</button>
             <div style="margin-top:14px;border-top:1px solid var(--br);padding-top:12px;">
-              <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px;">Custom Locations Added</div>
-              <div id="customLocList" style="display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto;"></div>
+              <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px;">Custom Locations (<span id="customLocCount">0</span>)</div>
+              <div id="customLocList" style="display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;"></div>
             </div>
           </div>
-          <!-- CATEGORY MANAGER -->
           <div class="pcon-card">
             <h3>📂 Category Manager</h3>
-            <p style="font-size:12px;color:var(--mu);margin-bottom:12px;">These categories appear on the homepage filter chips and the listing form. Default categories cannot be deleted.</p>
+            <p style="font-size:12px;color:var(--mu);margin-bottom:12px;">Default categories cannot be deleted. Custom categories can be removed.</p>
             <div class="cat-tags" id="catTagsContainer"></div>
-            <div class="form-row full">
-              <div class="field">
-                <label>Add New Category</label>
-                <div style="display:flex;gap:8px;">
-                  <input type="text" id="newCatInput" placeholder="e.g. Automotive" style="flex:1;">
-                  <button class="bsm bg" onclick="addCategory()">+ Add</button>
-                </div>
-              </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <input type="text" id="newCatInput" placeholder="e.g. Automotive, Tech, Media…" style="flex:1;padding:8px 10px;background:var(--sf2);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;">
+              <button class="bsm bg" onclick="addCategory()">+ Add</button>
             </div>
-            <div style="margin-top:14px;border-top:1px solid var(--br);padding-top:12px;">
-              <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px;">Category Emoji Map</div>
-              <p style="font-size:11px;color:var(--mu);margin-bottom:8px;">Set an emoji for each category that appears in filters.</p>
-              <div id="catEmojiMap" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto;"></div>
+            <div style="border-top:1px solid var(--br);padding-top:12px;margin-top:4px;">
+              <div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px;">Emoji per Category</div>
+              <div id="catEmojiMap" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto;margin-bottom:12px;"></div>
             </div>
-            <button class="bsm bg" style="width:100%;margin-top:12px;" onclick="saveCategories()">💾 Save Categories</button>
+            <button class="bsm bg" style="width:100%;padding:9px;" onclick="saveCategories()">💾 Save All Categories &amp; Emojis</button>
           </div>
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
+    </div><!-- /pb -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, setDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, doc, getDoc, updateDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = getFirestore(initializeApp({
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
@@ -663,29 +688,54 @@ const db = getFirestore(initializeApp({
   appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
 }));
 
-/* ── AUTH ── */
+/* ════════════════════════════════
+   AUTH
+════════════════════════════════ */
 const PASS='tornadop1';
-window.checkPw=()=>{const v=document.getElementById('adminPwInput').value;if(v===PASS)admitUser();else{document.getElementById('authErr').style.display='block';document.getElementById('adminPwInput').value='';document.getElementById('adminPwInput').focus();}};
+window.checkPw=()=>{
+  const v=document.getElementById('adminPwInput').value;
+  if(v===PASS)admitUser();
+  else{document.getElementById('authErr').style.display='block';document.getElementById('adminPwInput').value='';document.getElementById('adminPwInput').focus();}
+};
 window.togglePw=()=>{const i=document.getElementById('adminPwInput');i.type=i.type==='password'?'text':'password';};
-function admitUser(){sessionStorage.setItem('gbh_admin','1');document.getElementById('authScreen').style.display='none';document.getElementById('appShell').classList.add('flex');if(!dataLoaded){dataLoaded=true;loadAll();}}
-window.signOut=()=>{sessionStorage.removeItem('gbh_admin');document.getElementById('appShell').classList.remove('flex');document.getElementById('authScreen').style.display='flex';};
+function admitUser(){
+  sessionStorage.setItem('gbh_admin','1');
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('appShell').classList.add('flex');
+  startRealtimeListener();
+}
+window.signOut=()=>{
+  sessionStorage.removeItem('gbh_admin');
+  if(unsub)unsub();
+  document.getElementById('appShell').classList.remove('flex');
+  document.getElementById('authScreen').style.display='flex';
+  document.getElementById('adminPwInput').value='';
+};
 if(sessionStorage.getItem('gbh_admin')==='1')admitUser();
-setTimeout(()=>document.getElementById('adminPwInput')?.focus(),100);
+else setTimeout(()=>document.getElementById('adminPwInput')?.focus(),100);
 
-/* ── THEME ── */
+/* ════════════════════════════════
+   THEME
+════════════════════════════════ */
 const th=localStorage.getItem('gbh_theme')||'dark';
 document.documentElement.setAttribute('data-theme',th);
 document.getElementById('themeBtn').textContent=th==='dark'?'🌙':'☀️';
 window.toggleTheme=()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('gbh_theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';};
 
-/* ── SIDEBAR ── */
-window.toggleSidebar=()=>{document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show');};
-window.closeSidebar=()=>{document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show');};
+/* ════════════════════════════════
+   SIDEBAR
+════════════════════════════════ */
+window.toggleSidebar=()=>{document.getElementById('sidebar').classList.toggle('open');document.getElementById('sob').classList.toggle('show');};
+window.closeSidebar=()=>{document.getElementById('sidebar').classList.remove('open');document.getElementById('sob').classList.remove('show');};
 
-/* ── TOAST ── */
-function toast(msg,type='ok'){const el=document.getElementById('toast');el.className=`toast show ${type}`;el.textContent=msg;setTimeout(()=>el.classList.remove('show'),3200);}
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+function toast(msg,type='ok'){const el=document.getElementById('toast');el.className=`toast show ${type}`;el.textContent=msg;setTimeout(()=>el.classList.remove('show'),3400);}
 
-/* ── TABS ── */
+/* ════════════════════════════════
+   TABS
+════════════════════════════════ */
 window.showTab=(tab,el)=>{
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(`panel-${tab}`).classList.add('active');
@@ -695,24 +745,55 @@ window.showTab=(tab,el)=>{
   document.getElementById('tabTitle').textContent=titles[tab]||tab;
   document.getElementById('adminSearch').style.display=tab==='intelligence'?'':'none';
   closeSidebar();
-  if(tab==='admanager')renderAdList();
-  if(tab==='heromgr')renderHeroMgr();
-  if(tab==='locmgr')renderLocMgr();
+  if(tab==='admanager')initAdManager();
+  if(tab==='heromgr')initHeroMgr();
+  if(tab==='locmgr')initLocMgr();
 };
 
-/* ── STATE ── */
-let allMerchants=[],activeFilter='all',searchQuery='',dataLoaded=false;
+/* ════════════════════════════════
+   REAL-TIME DATA — onSnapshot
+   This makes data appear instantly
+   and updates automatically.
+════════════════════════════════ */
+let allMerchants=[],unsub=null;
+let activeFilter='all',searchQuery='';
 let marketRows=JSON.parse(localStorage.getItem('gbh_market_rows')||'[]');
 
-/* ── FIRESTORE OPS ── */
+function startRealtimeListener(){
+  if(unsub)unsub();
+  document.getElementById('intelligenceTable').innerHTML='<div class="ldr"><span class="spin">⟳</span> Connecting to Firestore…</div>';
+  unsub=onSnapshot(
+    collection(db,'merchants'),
+    snap=>{
+      allMerchants=snap.docs.map(d=>({id:d.id,data:d.data()}));
+      allMerchants.sort((a,b)=>{
+        const at=a.data.createdAt?.toDate?.()||new Date(0);
+        const bt=b.data.createdAt?.toDate?.()||new Date(0);
+        return bt-at;
+      });
+      document.getElementById('liveDot').style.display='';
+      renderAll();
+    },
+    err=>{
+      document.getElementById('liveDot').style.display='none';
+      document.getElementById('intelligenceTable').innerHTML=`<div class="ldr" style="color:var(--red);">⚠️ ${err.message}<br><small>Check Firestore rules or browser console.</small></div>`;
+      toast('Firestore error: '+err.message,'err');
+    }
+  );
+}
+window.refreshNow=()=>{if(unsub)unsub();startRealtimeListener();toast('Reconnecting…','warn');};
+
+/* ════════════════════════════════
+   FIRESTORE WRITE OPS
+════════════════════════════════ */
 async function upd(id,data){try{await updateDoc(doc(db,'merchants',id),data);return true;}catch(e){toast(e.message,'err');return false;}}
 
-window.approveMerchant=async id=>{if(await upd(id,{status:'approved',directoryStatus:'Listed'})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.status='approved';toast('✓ Merchant approved!');renderAll();}};
-window.declineMerchant=async(id,name)=>{if(!confirm(`Decline "${name}"?`))return;if(await upd(id,{status:'declined',directoryStatus:'Declined'})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.status='declined';toast('Declined.');renderAll();}};
-window.approveUpgrade=async(id,type)=>{const u={upgradeApproved:true};if(type==='featured')u.featured=true;else u.verified=true;if(await upd(id,u)){const m=allMerchants.find(m=>m.id===id);if(m){if(type==='featured')m.data.featured=true;else m.data.verified=true;m.data.upgradeApproved=true;}toast(`✓ ${type==='featured'?'Featured':'Verified'} approved!`);renderAll();}};
-window.toggleFeatured=async(id,val)=>{if(await upd(id,{featured:val})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.featured=val;toast(`Featured ${val?'on':'off'}`);renderDashboard();}};
-window.toggleVerified=async(id,val)=>{if(await upd(id,{verified:val})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.verified=val;toast(`Verified ${val?'on':'off'}`);renderDashboard();}};
-window.updateField=async(id,f,v)=>{if(await upd(id,{[f]:v})){const m=allMerchants.find(m=>m.id===id);if(m)m.data[f]=v;}};
+window.approveMerchant=async id=>{if(await upd(id,{status:'approved',directoryStatus:'Listed'}))toast('✓ Approved & listed!');};
+window.declineMerchant=async(id,name)=>{if(!confirm(`Decline "${name}"?`))return;if(await upd(id,{status:'declined',directoryStatus:'Declined'}))toast('Merchant declined.');};
+window.approveUpgrade=async(id,type)=>{const u={upgradeApproved:true};if(type==='featured')u.featured=true;else u.verified=true;if(await upd(id,u))toast(`✓ ${type==='featured'?'Featured':'Verified'} approved!`);};
+window.toggleFeatured=async(id,val)=>{if(await upd(id,{featured:val}))toast(`Featured ${val?'on':'off'}`);};
+window.toggleVerified=async(id,val)=>{if(await upd(id,{verified:val}))toast(`Verified ${val?'on':'off'}`);};
+window.updateField=async(id,f,v)=>upd(id,{[f]:v});
 window.updateScore=async(id,v)=>updateField(id,'leadScore',Math.min(10,Math.max(0,parseInt(v)||0)));
 window.updateNotes=async(id,v)=>updateField(id,'notes',v);
 window.updateLastContact=async(id,v)=>updateField(id,'lastContact',v);
@@ -721,51 +802,215 @@ window.updatePipeline=async(id,v)=>updateField(id,'pipelineStage',v);
 window.updateDigitalStatus=async(id,v)=>updateField(id,'digitalStatus',v);
 window.updateEcoRole=async(id,v)=>updateField(id,'ecosystemRole',v);
 window.updateRevPotential=async(id,v)=>updateField(id,'revenuePotential',v);
-window.toggleInterview=async(id,v)=>{if(await upd(id,{interviewDone:v})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.interviewDone=v;toast(`Interview ${v?'marked':'unmarked'}`);}};
-window.toggleOnlineSales=async(id,v)=>{if(await upd(id,{interestedOnlineSales:v})){const m=allMerchants.find(m=>m.id===id);if(m)m.data.interestedOnlineSales=v;}};
+window.toggleInterview=async(id,v)=>{if(await upd(id,{interviewDone:v}))toast(`Interview ${v?'marked':'unmarked'}`);};
+window.toggleOnlineSales=async(id,v)=>upd(id,{interestedOnlineSales:v});
 window.deleteMerchant=async(id,name)=>{
-  if(!confirm(`Permanently delete "${name}"? This removes them from the platform completely.`))return;
-  try{
-    await deleteDoc(doc(db,'merchants',id));
-    allMerchants=allMerchants.filter(m=>m.id!==id);
-    toast(`✓ "${name}" deleted from platform`);
-    renderAll();
-  }catch(e){toast(e.message,'err');}
+  if(!confirm(`Permanently delete "${name}"? This cannot be undone.`))return;
+  try{await deleteDoc(doc(db,'merchants',id));toast(`✓ "${name}" deleted`);closeEdit();}
+  catch(e){toast(e.message,'err');}
 };
 
-/* ── HELPERS ── */
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
 const ipfs=c=>`https://gateway.pinata.cloud/ipfs/${c}`;
 function shortId(id){return 'G'+id.slice(0,4).toUpperCase();}
 const stages=['New Lead','Profile Created','Interview Done','Community Joined','Paid Client','Marketplace Seller','Upgraded Client'];
 const ecoRoles=['Directory Listing','Community Member','Marketplace Seller','Software Client','Logistics Partner','Platform Partner'];
 const revOptions=['₦50k basic setup','₦150k website','₦500k ecommerce','₦2M+ custom software','₦3M+ enterprise'];
+const digitalOpts=['No digital presence','WhatsApp sales','Instagram page','Facebook page','Online store','Multi-platform'];
 function merchantLevel(d){const sc=d.staffCount||0;if(sc>=7)return{n:'Level 4',c:'l4'};if(sc>=4)return{n:'Level 3',c:'l3'};if(sc>=2)return{n:'Level 2',c:'l2'};if(d.leadScore>=8)return{n:'Level 5',c:'l5'};return{n:'Level 1',c:'l1'};}
 function pipeClass(s){return{New:'pn','Profile Created':'pc','Interview Done':'pi','Community Joined':'pc','Paid Client':'pp','Upgraded Client':'pp','Marketplace Seller':'pp'}[s]||'pn';}
 
-/* ── DASHBOARD ── */
+/* ════════════════════════════════
+   EDIT MERCHANT DRAWER
+════════════════════════════════ */
+let editingId=null;
+
+window.openEdit=(id)=>{
+  const m=allMerchants.find(m=>m.id===id);
+  if(!m)return;
+  editingId=id;
+  const d=m.data;
+  document.getElementById('edTitle').textContent=d.businessName||'Edit Business';
+  document.getElementById('edBody').innerHTML=`
+    <div class="ed-sec">📋 Business Info</div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Business Name</label><input id="ed-businessName" value="${esc(d.businessName||'')}"></div>
+      <div class="ed-field"><label>Owner Name</label><input id="ed-ownerName" value="${esc(d.ownerName||'')}"></div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Category</label><input id="ed-category" value="${esc(d.category||'')}"></div>
+      <div class="ed-field"><label>Years in Business</label><input type="number" id="ed-yearsInBusiness" value="${d.yearsInBusiness||0}" min="0"></div>
+    </div>
+    <div class="ed-row full">
+      <div class="ed-field"><label>Description</label><textarea id="ed-description">${esc(d.description||'')}</textarea></div>
+    </div>
+    <div class="ed-row full">
+      <div class="ed-field"><label>Business Story (Uniqueness)</label><textarea id="ed-uniqueness">${esc(d.uniqueness||'')}</textarea></div>
+    </div>
+
+    <div class="ed-sec">📍 Location</div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Continent</label><input id="ed-continent" value="${esc(d.continent||'')}"></div>
+      <div class="ed-field"><label>Country</label><input id="ed-country" value="${esc(d.country||'')}"></div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Region / State</label><input id="ed-region" value="${esc(d.region||'')}"></div>
+      <div class="ed-field"><label>City</label><input id="ed-city" value="${esc(d.city||'')}"></div>
+    </div>
+    <div class="ed-row full">
+      <div class="ed-field"><label>Area / Full Address String</label><input id="ed-location" value="${esc(d.location||'')}"></div>
+    </div>
+
+    <div class="ed-sec">📞 Contact</div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Phone / WhatsApp</label><input id="ed-phone" value="${esc(d.phone||'')}"></div>
+      <div class="ed-field"><label>Website / Store URL</label><input id="ed-website" value="${esc(d.website||'')}"></div>
+    </div>
+
+    <div class="ed-sec">📊 Business Details</div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Staff Count</label><input type="number" id="ed-staffCount" value="${d.staffCount||0}" min="0"></div>
+      <div class="ed-field"><label>Daily Customers</label><input type="number" id="ed-dailyCustomers" value="${d.dailyCustomers||0}" min="0"></div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Price Range</label><input id="ed-priceRange" value="${esc(d.priceRange||'')}"></div>
+      <div class="ed-field"><label>Delivers?</label>
+        <select id="ed-delivers">
+          <option ${d.delivers==='Yes'?'selected':''}>Yes</option>
+          <option ${d.delivers==='No'?'selected':''}>No</option>
+          <option ${d.delivers==='Sometimes'?'selected':''}>Sometimes</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ed-sec">🧠 Admin Intelligence</div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Status</label>
+        <select id="ed-status">
+          <option value="pending" ${d.status==='pending'?'selected':''}>⏳ Pending</option>
+          <option value="approved" ${d.status==='approved'?'selected':''}>✓ Approved</option>
+          <option value="declined" ${d.status==='declined'?'selected':''}>✕ Declined</option>
+        </select>
+      </div>
+      <div class="ed-field"><label>Pipeline Stage</label>
+        <select id="ed-pipelineStage">${stages.map(s=>`<option value="${s}" ${d.pipelineStage===s?'selected':''}>${s}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Lead Score (0–10)</label><input type="number" id="ed-leadScore" value="${d.leadScore||0}" min="0" max="10"></div>
+      <div class="ed-field"><label>Revenue Potential</label>
+        <select id="ed-revenuePotential"><option value="">—</option>${revOptions.map(o=>`<option value="${o}" ${d.revenuePotential===o?'selected':''}>${o}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Digital Status</label>
+        <select id="ed-digitalStatus">${digitalOpts.map(o=>`<option value="${o}" ${d.digitalStatus===o?'selected':''}>${o}</option>`).join('')}</select>
+      </div>
+      <div class="ed-field"><label>Ecosystem Role</label>
+        <select id="ed-ecosystemRole">${ecoRoles.map(o=>`<option value="${o}" ${d.ecosystemRole===o?'selected':''}>${o}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="ed-row">
+      <div class="ed-field"><label>Last Contact</label><input type="date" id="ed-lastContact" value="${d.lastContact||''}"></div>
+      <div class="ed-field"><label>Next Action</label><input id="ed-nextAction" value="${esc(d.nextAction||'')}"></div>
+    </div>
+    <div class="ed-row full">
+      <div class="ed-field"><label>Notes</label><textarea id="ed-notes">${esc(d.notes||'')}</textarea></div>
+    </div>
+    <div class="ed-row" style="align-items:center;">
+      <div class="ed-field">
+        <label>Featured</label>
+        <label class="tgl"><input type="checkbox" id="ed-featured" ${d.featured?'checked':''}><span class="tsl"></span></label>
+      </div>
+      <div class="ed-field">
+        <label>Verified</label>
+        <label class="tgl tg-gr"><input type="checkbox" id="ed-verified" ${d.verified?'checked':''}><span class="tsl"></span></label>
+      </div>
+    </div>
+  `;
+  document.getElementById('edOverlay').classList.add('show');
+  document.getElementById('editDrawer').classList.add('open');
+};
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+window.closeEdit=()=>{
+  document.getElementById('editDrawer').classList.remove('open');
+  document.getElementById('edOverlay').classList.remove('show');
+  editingId=null;
+};
+
+window.saveEdit=async()=>{
+  if(!editingId)return;
+  const g=id=>document.getElementById(id);
+  const updates={
+    businessName:g('ed-businessName').value.trim(),
+    ownerName:g('ed-ownerName').value.trim(),
+    category:g('ed-category').value.trim(),
+    yearsInBusiness:parseInt(g('ed-yearsInBusiness').value)||0,
+    description:g('ed-description').value.trim(),
+    uniqueness:g('ed-uniqueness').value.trim(),
+    continent:g('ed-continent').value.trim(),
+    country:g('ed-country').value.trim(),
+    region:g('ed-region').value.trim(),
+    city:g('ed-city').value.trim(),
+    location:g('ed-location').value.trim(),
+    phone:g('ed-phone').value.trim(),
+    website:g('ed-website').value.trim(),
+    staffCount:parseInt(g('ed-staffCount').value)||0,
+    dailyCustomers:parseInt(g('ed-dailyCustomers').value)||0,
+    priceRange:g('ed-priceRange').value.trim(),
+    delivers:g('ed-delivers').value,
+    status:g('ed-status').value,
+    pipelineStage:g('ed-pipelineStage').value,
+    leadScore:Math.min(10,Math.max(0,parseInt(g('ed-leadScore').value)||0)),
+    revenuePotential:g('ed-revenuePotential').value,
+    digitalStatus:g('ed-digitalStatus').value,
+    ecosystemRole:g('ed-ecosystemRole').value,
+    lastContact:g('ed-lastContact').value,
+    nextAction:g('ed-nextAction').value.trim(),
+    notes:g('ed-notes').value.trim(),
+    featured:g('ed-featured').checked,
+    verified:g('ed-verified').checked,
+    directoryStatus:g('ed-status').value==='approved'?'Listed':g('ed-status').value==='declined'?'Declined':'Pending',
+  };
+  if(await upd(editingId,updates)){toast('✓ Business updated!');closeEdit();}
+};
+
+window.deleteFromEdit=()=>{
+  if(!editingId)return;
+  const m=allMerchants.find(m=>m.id===editingId);
+  if(m)deleteMerchant(editingId,m.data.businessName||'this business');
+};
+
+/* ════════════════════════════════
+   RENDER DASHBOARD
+════════════════════════════════ */
 function renderDashboard(){
   const all=allMerchants;
-  const pending=all.filter(m=>m.data.status==='pending');
+  const pend=all.filter(m=>m.data.status==='pending');
   const feat=all.filter(m=>m.data.featured);
   const ver=all.filter(m=>m.data.verified);
-  const frev=feat.length*10000,vrev=ver.length*15000;
   document.getElementById('m-total').textContent=all.length;
-  document.getElementById('m-ps').textContent=`${pending.length} pending`;
+  document.getElementById('m-ps').textContent=`${pend.length} pending`;
   document.getElementById('m-ver').textContent=ver.length;
   document.getElementById('m-feat').textContent=feat.length;
-  document.getElementById('m-rev').textContent=`₦${((frev+vrev)/1000).toFixed(0)}k`;
-  const pb=document.getElementById('pendingBadge');pb.textContent=pending.length;pb.style.display=pending.length?'':'none';
-  const ub=document.getElementById('upgradesBadge');const ureqs=all.filter(m=>m.data.upgradeRequestedAt&&!m.data.upgradeApproved);ub.textContent=ureqs.length;ub.style.display=ureqs.length?'':'none';
-  const funnelStages=[{l:'New Lead',c:'#6E6A66'},{l:'Profile Created',c:'#4A9EFF'},{l:'Interview Done',c:'#9B59B6'},{l:'Community Joined',c:'#F5A623'},{l:'Paid Client',c:'#00A651'},{l:'Marketplace Seller',c:'#27AE60'}];
-  document.getElementById('funnelList').innerHTML=funnelStages.map(s=>{const n=all.filter(m=>m.data.pipelineStage===s.l).length;const pct=Math.round((n/Math.max(1,all.length))*100);return `<div class="fr"><span class="flab">${s.l}</span><div class="fbw"><div class="fb" style="width:${pct}%;background:${s.c};"></div></div><span class="fc" style="color:${s.c};">${n}</span></div>`;}).join('');
+  document.getElementById('m-rev').textContent=`₦${((feat.length*10000+ver.length*15000)/1000).toFixed(0)}k`;
+  const pb=document.getElementById('pendingBadge');pb.textContent=pend.length;pb.style.display=pend.length?'':'none';
+  const ur=all.filter(m=>m.data.upgradeRequestedAt&&!m.data.upgradeApproved);
+  const ub=document.getElementById('upgradesBadge');ub.textContent=ur.length;ub.style.display=ur.length?'':'none';
+  const fs=[{l:'New Lead',c:'#6E6A66'},{l:'Profile Created',c:'#4A9EFF'},{l:'Interview Done',c:'#9B59B6'},{l:'Community Joined',c:'#F5A623'},{l:'Paid Client',c:'#00A651'},{l:'Marketplace Seller',c:'#27AE60'}];
+  document.getElementById('funnelList').innerHTML=fs.map(s=>{const n=all.filter(m=>m.data.pipelineStage===s.l).length;const pct=Math.round((n/Math.max(1,all.length))*100);return `<div class="fr"><span class="flab">${s.l}</span><div class="fbw"><div class="fb" style="width:${pct}%;background:${s.c};"></div></div><span class="fc" style="color:${s.c};">${n}</span></div>`;}).join('');
   const cats={};all.forEach(m=>{const c=m.data.category||'Other';cats[c]=(cats[c]||0)+1;});
   const sc=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,8);const mc=sc[0]?.[1]||1;
   document.getElementById('catList').innerHTML=sc.map(([c,n])=>`<div class="cr"><span class="cn">${c}</span><div class="cbw"><div class="cb" style="width:${(n/mc)*100}%;"></div></div><span class="cc">${n}</span></div>`).join('');
   const hv=[...all].filter(m=>(m.data.leadScore||0)>0).sort((a,b)=>(b.data.leadScore||0)-(a.data.leadScore||0)).slice(0,6);
   document.getElementById('hvList').innerHTML=hv.length?hv.map((m,i)=>`<div class="hr"><span class="hrk">#${i+1}</span><div class="hi"><div class="hn">${m.data.businessName}</div><div class="hm">${m.data.category||''} · ${m.data.location||''}</div></div><span class="hs">${m.data.leadScore}/10</span></div>`).join(''):'<p style="font-size:11px;color:var(--mu);">Set lead scores in Intelligence tab.</p>';
   const opps=[...all].filter(m=>(m.data.leadScore||0)>=6&&!m.data.featured&&!m.data.verified).sort((a,b)=>(b.data.leadScore||0)-(a.data.leadScore||0)).slice(0,5);
-  document.getElementById('revList').innerHTML=opps.length?opps.map(m=>`<div class="rr"><div><div class="rn">${m.data.businessName}</div><div style="font-size:10px;color:var(--mu);">${m.data.pipelineStage||'New'} · Score ${m.data.leadScore}/10</div></div><span class="ra">₦25k</span></div>`).join(''):'<p style="font-size:11px;color:var(--mu);">No opportunities yet.</p>';
-  const locs={};all.forEach(m=>{if(m.data.location){const l=m.data.location.split(',').pop().trim();locs[l]=(locs[l]||0)+1;}});
+  document.getElementById('revList').innerHTML=opps.length?opps.map(m=>`<div class="rr"><div><div class="rn">${m.data.businessName}</div><div style="font-size:10px;color:var(--mu);">${m.data.pipelineStage||'New'} · ${m.data.leadScore}/10</div></div><span class="ra">₦25k</span></div>`).join(''):'<p style="font-size:11px;color:var(--mu);">No opportunities yet.</p>';
+  const locs={};all.forEach(m=>{if(m.data.location){const l=(m.data.city||m.data.location.split(',').pop()).trim();locs[l]=(locs[l]||0)+1;}});
   document.getElementById('locationList').innerHTML=Object.entries(locs).sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<div style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--sf2);border-radius:6px;font-size:11px;"><span style="color:var(--mu);">📍${l}</span><span style="font-weight:700;color:var(--gold);">${n}</span></div>`).join('');
   const pot=all.filter(m=>(m.data.leadScore||0)>=6&&!m.data.featured&&!m.data.verified).length*25000;
   document.getElementById('p-fr').textContent=`₦${(feat.length*10000/1000).toFixed(0)}k`;
@@ -775,26 +1020,23 @@ function renderDashboard(){
 
 function renderEcosystem(){
   const all=allMerchants;
-  const ecoData=[
-    {l:'Businesses Contacted',v:Math.round(all.length*1.5),c:'blue'},{l:'Businesses Listed',v:all.length,c:'gold'},
-    {l:'Interviews Recorded',v:all.filter(m=>m.data.interviewDone).length,c:'purple'},{l:'Community Members',v:all.filter(m=>m.data.pipelineStage==='Community Joined').length,c:'green'},
-    {l:'Paying Clients',v:all.filter(m=>m.data.featured||m.data.verified).length,c:'gold'},{l:'Marketplace Sellers',v:all.filter(m=>m.data.ecosystemRole==='Marketplace Seller').length,c:'green'},
-  ];
-  document.getElementById('ecoMetrics').innerHTML=ecoData.map(e=>`<div class="metric ${e.c}"><div class="ml">${e.l}</div><div class="mv">${e.v}</div></div>`).join('');
-  document.getElementById('ecoTable').innerHTML=`<table><thead><tr><th>Metric</th><th>Count</th><th>Progress</th><th>Notes</th></tr></thead><tbody>${ecoData.map(e=>`<tr><td style="font-weight:600;">${e.l}</td><td style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${e.v}</td><td><div style="width:120px;height:5px;background:var(--sf2);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--gold);width:${Math.min(100,e.v)}%;border-radius:3px;"></div></div></td><td style="color:var(--mu);font-size:11px;">—</td></tr>`).join('')}</tbody></table>`;
+  const ed=[{l:'Businesses Contacted',v:Math.round(all.length*1.5),c:'blue'},{l:'Businesses Listed',v:all.length,c:'gold'},{l:'Interviews Recorded',v:all.filter(m=>m.data.interviewDone).length,c:'purple'},{l:'Community Members',v:all.filter(m=>m.data.pipelineStage==='Community Joined').length,c:'green'},{l:'Paying Clients',v:all.filter(m=>m.data.featured||m.data.verified).length,c:'gold'},{l:'Marketplace Sellers',v:all.filter(m=>m.data.ecosystemRole==='Marketplace Seller').length,c:'green'}];
+  document.getElementById('ecoMetrics').innerHTML=ed.map(e=>`<div class="metric ${e.c}"><div class="ml">${e.l}</div><div class="mv">${e.v}</div></div>`).join('');
+  document.getElementById('ecoTable').innerHTML=`<table><thead><tr><th>Metric</th><th>Count</th><th>Progress</th></tr></thead><tbody>${ed.map(e=>`<tr><td style="font-weight:600;">${e.l}</td><td style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${e.v}</td><td><div style="width:120px;height:5px;background:var(--sf2);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--gold);width:${Math.min(100,e.v)}%;border-radius:3px;"></div></div></td></tr>`).join('')}</tbody></table>`;
 }
 
 function renderPending(){
-  const pending=allMerchants.filter(m=>m.data.status==='pending');
-  if(!pending.length){document.getElementById('pendingCards').innerHTML='<div class="ldr" style="color:var(--green);">✓ No pending listings — all clear!</div>';return;}
-  document.getElementById('pendingCards').innerHTML=pending.map(m=>{
+  const pend=allMerchants.filter(m=>m.data.status==='pending');
+  if(!pend.length){document.getElementById('pendingCards').innerHTML='<div class="ldr" style="color:var(--green);">✓ No pending listings — all clear!</div>';return;}
+  document.getElementById('pendingCards').innerHTML=pend.map(m=>{
     const d=m.data,img=d.images?.[0]?ipfs(d.images[0]):'';
     return `<div class="pc2"><div class="pch"><div class="pav">${img?`<img src="${img}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}</div><div><div class="pnm">${d.businessName}</div><div class="pmt">${d.ownerName||'—'} · ${d.phone||'—'}</div></div></div>
-      <span class="pb2 pn" style="margin-bottom:8px;display:inline-block;">${d.category||'Business'}</span>
+      <span class="pb2 pn" style="margin-bottom:7px;display:inline-block;">${d.category||'Business'}</span>
       <div class="pdt">📍 ${d.location||'—'}<br>📱 ${d.phone||'—'}<br>📝 ${(d.description||'').slice(0,80)||'No description'}…</div>
       <div class="pac">
         <button class="bap" onclick="approveMerchant('${m.id}')">✓ Approve</button>
         <button class="bdc" onclick="declineMerchant('${m.id}','${(d.businessName||'').replace(/'/g,"\\'")}')">✕ Decline</button>
+        <button class="bvs" onclick="openEdit('${m.id}')">✏️ Edit</button>
         <a href="merchant.html?id=${m.id}" class="bvs" target="_blank">Preview</a>
       </div></div>`;
   }).join('');
@@ -804,58 +1046,60 @@ function renderUpgrades(){
   const reqs=allMerchants.filter(m=>m.data.upgradeRequestedAt&&!m.data.upgradeApproved);
   if(!reqs.length){document.getElementById('upgradeCards').innerHTML='<div class="ldr" style="color:var(--green);">✓ No pending upgrade requests.</div>';return;}
   document.getElementById('upgradeCards').innerHTML=reqs.map(m=>{
-    const d=m.data;const isFeat=d.paymentType==='featured';
+    const d=m.data,isFeat=d.paymentType==='featured';
     const dt=d.upgradeRequestedAt?.toDate?.();
     const ds=dt?dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
     return `<div class="uc ${isFeat?'fr':'vr'}"><span class="uct">${isFeat?'★ Featured Request':'✦ Verified Request'}</span>
       <div style="margin-bottom:9px;"><div style="font-weight:700;font-size:13px;margin-bottom:2px;">${d.businessName}</div><div style="font-size:11px;color:var(--mu);">${d.phone||'—'} · ${d.location||'—'}</div></div>
       <div style="font-size:11px;color:var(--mu);margin-bottom:9px;">💳 Ref: ${d.paymentRef||'—'}<br>🕐 ${ds}<br>💰 ${isFeat?'₦10,000 — 28 days':'₦15,000 — One-time'}</div>
-      <div style="display:flex;gap:7px;">
+      <div class="pac">
         <button class="bap" style="flex:1;" onclick="approveUpgrade('${m.id}','${isFeat?'featured':'verified'}')">✓ Approve ${isFeat?'Featured':'Verified'}</button>
+        <button class="bvs" onclick="openEdit('${m.id}')">✏️</button>
         <a href="merchant.html?id=${m.id}" class="bvs" target="_blank">Profile</a>
       </div></div>`;
   }).join('');
 }
 
-/* ── INTELLIGENCE TABLE ── */
+/* ════════════════════════════════
+   INTELLIGENCE TABLE
+════════════════════════════════ */
 window.setFilter=(f,el)=>{activeFilter=f;document.querySelectorAll('.ftt').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderIntelligence();};
 window.filterTable=()=>{searchQuery=document.getElementById('adminSearch').value.toLowerCase();renderIntelligence();};
 function renderIntelligence(){
   let list=[...allMerchants];
   if(activeFilter==='featured')list=list.filter(m=>m.data.featured);
   else if(activeFilter==='verified')list=list.filter(m=>m.data.verified);
-  else if(activeFilter==='approved')list=list.filter(m=>m.data.status==='approved'||!m.data.status);
+  else if(activeFilter==='approved')list=list.filter(m=>m.data.status==='approved');
+  else if(activeFilter==='pending')list=list.filter(m=>m.data.status==='pending');
   else if(activeFilter==='online')list=list.filter(m=>m.data.interestedOnlineSales||m.data.website);
   else if(activeFilter==='interview')list=list.filter(m=>m.data.interviewDone);
   if(searchQuery)list=list.filter(m=>[m.data.businessName,m.data.ownerName,m.data.location,m.data.category,m.data.phone].filter(Boolean).some(v=>v.toLowerCase().includes(searchQuery)));
   document.getElementById('tableCount').textContent=`${list.length} merchants`;
-  if(!list.length){document.getElementById('intelligenceTable').innerHTML='<div class="ldr">No merchants found.</div>';return;}
-  document.getElementById('intelligenceTable').innerHTML=`<table><thead><tr><th>ID</th><th>Business</th><th>Owner</th><th>Phone</th><th>Location</th><th>Category</th><th>Staff</th><th>Level</th><th>Digital</th><th>Eco Role</th><th>Score</th><th>Rev</th><th>Pipeline</th><th>Interview</th><th>Online?</th><th>Last Contact</th><th>Next Action</th><th>Notes</th><th>Verified</th><th>Featured</th><th>Actions</th></tr></thead><tbody>${list.map(m=>{
+  if(!list.length){document.getElementById('intelligenceTable').innerHTML='<div class="ldr">No merchants match this filter.</div>';return;}
+  document.getElementById('intelligenceTable').innerHTML=`
+  <table><thead><tr>
+    <th>ID</th><th>Business</th><th>Status</th><th>Phone</th><th>Location</th><th>Category</th>
+    <th>Staff</th><th>Level</th><th>Score</th><th>Pipeline</th><th>Verified</th><th>Featured</th><th>Actions</th>
+  </tr></thead><tbody>${list.map(m=>{
     const d=m.data,sc=d.leadScore||0,lv=merchantLevel(d);
-    return `<tr><td><span class="tid">${shortId(m.id)}</span></td>
-      <td style="min-width:130px;"><div class="tdn">${d.businessName}</div><div class="tds">${d.status||'legacy'}</div></td>
-      <td style="min-width:80px;white-space:nowrap;">${d.ownerName||'—'}</td>
+    return `<tr>
+      <td><span class="tid">${shortId(m.id)}</span></td>
+      <td style="min-width:130px;"><div class="tdn">${d.businessName}</div><div class="tds">${d.ownerName||'—'}</div></td>
+      <td><span class="pb2 ${d.status==='approved'?'pp':d.status==='pending'?'pc':'pn'}">${d.status||'—'}</span></td>
       <td style="white-space:nowrap;">${d.phone||'—'}</td>
-      <td style="min-width:100px;">${d.location||'—'}</td>
+      <td style="min-width:100px;font-size:10px;">${d.location||'—'}</td>
       <td style="color:var(--gold);font-weight:600;">${d.category||'—'}</td>
       <td style="text-align:center;">${d.staffCount||'—'}</td>
       <td><span class="lb ${lv.c}">${lv.n}</span></td>
-      <td style="min-width:120px;"><select class="asel" onchange="updateDigitalStatus('${m.id}',this.value)">${['No digital presence','WhatsApp sales','Instagram page','Facebook page','Online store','Multi-platform'].map(o=>`<option value="${o}" ${d.digitalStatus===o?'selected':''}>${o}</option>`).join('')}</select></td>
-      <td style="min-width:120px;"><select class="asel" onchange="updateEcoRole('${m.id}',this.value)">${ecoRoles.map(o=>`<option value="${o}" ${d.ecosystemRole===o?'selected':''}>${o}</option>`).join('')}</select></td>
-      <td><div class="sw"><input type="number" class="si" value="${sc}" min="0" max="10" onchange="updateScore('${m.id}',this.value)"><div class="sb2"><div class="sf" style="width:${sc*10}%"></div></div></div></td>
-      <td style="min-width:110px;"><select class="asel" onchange="updateRevPotential('${m.id}',this.value)"><option value="">—</option>${revOptions.map(o=>`<option value="${o}" ${d.revenuePotential===o?'selected':''}>${o}</option>`).join('')}</select></td>
-      <td style="min-width:130px;"><select class="asel" onchange="updatePipeline('${m.id}',this.value)">${stages.map(s=>`<option value="${s}" ${d.pipelineStage===s?'selected':''}>${s}</option>`).join('')}</select></td>
-      <td style="text-align:center;"><label class="tgl tg-gr"><input type="checkbox" ${d.interviewDone?'checked':''} onchange="toggleInterview('${m.id}',this.checked)"><span class="tsl"></span></label></td>
-      <td style="text-align:center;"><label class="tgl"><input type="checkbox" ${d.interestedOnlineSales?'checked':''} onchange="toggleOnlineSales('${m.id}',this.checked)"><span class="tsl"></span></label></td>
-      <td style="min-width:90px;"><input type="date" class="ain" style="font-size:10px;" value="${d.lastContact||''}" onchange="updateLastContact('${m.id}',this.value)"></td>
-      <td style="min-width:140px;"><input type="text" class="ain" placeholder="Next step…" value="${d.nextAction||''}" onchange="updateNextAction('${m.id}',this.value)"></td>
-      <td style="min-width:160px;"><textarea class="ata" placeholder="Notes…" onchange="updateNotes('${m.id}',this.value)">${d.notes||''}</textarea></td>
+      <td><div class="sw"><input type="number" class="sc-i" value="${sc}" min="0" max="10" onchange="updateScore('${m.id}',this.value)"><div class="sc-b"><div class="sc-f" style="width:${sc*10}%"></div></div></div></td>
+      <td style="min-width:120px;"><select class="asel" onchange="updatePipeline('${m.id}',this.value)">${stages.map(s=>`<option value="${s}" ${d.pipelineStage===s?'selected':''}>${s}</option>`).join('')}</select></td>
       <td><label class="tgl tg-gr"><input type="checkbox" ${d.verified?'checked':''} onchange="toggleVerified('${m.id}',this.checked)"><span class="tsl"></span></label></td>
       <td><label class="tgl"><input type="checkbox" ${d.featured?'checked':''} onchange="toggleFeatured('${m.id}',this.checked)"><span class="tsl"></span></label></td>
       <td><div class="ra2">
+        <button class="br2 or" onclick="openEdit('${m.id}')">✏️ Edit</button>
         <a href="merchant.html?id=${m.id}" class="br2 bn" target="_blank">View</a>
         ${d.status==='pending'?`<button class="br2 gn" onclick="approveMerchant('${m.id}')">✓</button>`:''}
-        <button class="br2 dn" onclick="deleteMerchant('${m.id}','${(d.businessName||'').replace(/'/g,"\\'")}')">🗑 Del</button>
+        <button class="br2 dn" onclick="deleteMerchant('${m.id}','${(d.businessName||'').replace(/'/g,"\\'")}')">🗑</button>
       </div></td>
     </tr>`;
   }).join('')}</tbody></table>`;
@@ -863,26 +1107,26 @@ function renderIntelligence(){
 
 function renderPipeline(){
   const all=allMerchants;
-  const stageDefs=[{s:'New Lead',d:'Introduced yourself'},{s:'Profile Created',d:'Listed on platform'},{s:'Interview Done',d:'Featured in content'},{s:'Community Joined',d:'Joined network'},{s:'Paid Client',d:'Purchased services'},{s:'Marketplace Seller',d:'Selling on platform'},{s:'Upgraded Client',d:'Premium services'}];
-  document.getElementById('pipelineTable').innerHTML=`<table><thead><tr><th>Stage</th><th>Description</th><th>Businesses</th><th>% of Total</th><th>Progress</th></tr></thead><tbody>${stageDefs.map(st=>{const n=all.filter(m=>m.data.pipelineStage===st.s).length;const pct=((n/Math.max(1,all.length))*100).toFixed(1);return `<tr><td><span class="pb2 ${pipeClass(st.s)}">${st.s}</span></td><td style="color:var(--mu);">${st.d}</td><td style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${n}</td><td>${pct}%</td><td><div style="width:120px;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--gold);width:${pct}%;border-radius:3px;"></div></div></td></tr>`;}).join('')}</tbody></table>`;
-  document.getElementById('pipelineFunnel').innerHTML=stageDefs.map(st=>{const n=all.filter(m=>m.data.pipelineStage===st.s).length;const pct=Math.round((n/Math.max(1,all.length))*100);return `<div class="fr"><span class="flab">${st.s}</span><div class="fbw"><div class="fb" style="width:${pct}%;background:var(--gold);"></div></div><span class="fc">${n}</span></div>`;}).join('');
-  const tot=all.length,created=all.filter(m=>m.data.pipelineStage&&m.data.pipelineStage!=='New Lead').length,paid=all.filter(m=>m.data.featured||m.data.verified).length;
-  document.getElementById('conversionStats').innerHTML=`Listed → Paid: <b style="color:var(--gold)">${tot>0?((paid/tot)*100).toFixed(1):0}%</b><br>New → Profile: <b style="color:var(--gold)">${tot>0?((created/tot)*100).toFixed(1):0}%</b><br>Profile → Paid: <b style="color:var(--gold)">${created>0?((paid/created)*100).toFixed(1):0}%</b><br>Total: <b>${tot}</b>`;
+  const sd=[{s:'New Lead',d:'Introduced yourself'},{s:'Profile Created',d:'Listed on platform'},{s:'Interview Done',d:'Featured in content'},{s:'Community Joined',d:'Joined network'},{s:'Paid Client',d:'Purchased services'},{s:'Marketplace Seller',d:'Selling on platform'},{s:'Upgraded Client',d:'Premium services'}];
+  document.getElementById('pipelineTable').innerHTML=`<table><thead><tr><th>Stage</th><th>Description</th><th>Businesses</th><th>% of Total</th><th>Progress</th></tr></thead><tbody>${sd.map(st=>{const n=all.filter(m=>m.data.pipelineStage===st.s).length;const pct=((n/Math.max(1,all.length))*100).toFixed(1);return `<tr><td><span class="pb2 ${pipeClass(st.s)}">${st.s}</span></td><td style="color:var(--mu);">${st.d}</td><td style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${n}</td><td>${pct}%</td><td><div style="width:100px;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--gold);width:${pct}%;border-radius:3px;"></div></div></td></tr>`;}).join('')}</tbody></table>`;
+  document.getElementById('pipelineFunnel').innerHTML=sd.map(st=>{const n=all.filter(m=>m.data.pipelineStage===st.s).length;const pct=Math.round((n/Math.max(1,all.length))*100);return `<div class="fr"><span class="flab">${st.s}</span><div class="fbw"><div class="fb" style="width:${pct}%;background:var(--gold);"></div></div><span class="fc">${n}</span></div>`;}).join('');
+  const tot=all.length,cr=all.filter(m=>m.data.pipelineStage&&m.data.pipelineStage!=='New Lead').length,pd=all.filter(m=>m.data.featured||m.data.verified).length;
+  document.getElementById('conversionStats').innerHTML=`Listed → Paid: <b style="color:var(--gold)">${tot>0?((pd/tot)*100).toFixed(1):0}%</b><br>New → Profile: <b style="color:var(--gold)">${tot>0?((cr/tot)*100).toFixed(1):0}%</b><br>Profile → Paid: <b style="color:var(--gold)">${cr>0?((pd/cr)*100).toFixed(1):0}%</b><br>Total: <b>${tot}</b>`;
 }
 
 function renderMarket(){
   const locData={};
-  allMerchants.forEach(m=>{if(!m.data.location)return;const l=m.data.location.split(',').pop().trim();if(!locData[l])locData[l]={market:l,estimated:0,contacted:0,profiled:0,community:0,clients:0};locData[l].profiled++;if(m.data.featured||m.data.verified)locData[l].clients++;if(m.data.pipelineStage==='Community Joined')locData[l].community++;locData[l].contacted=Math.round(locData[l].profiled*1.5);locData[l].estimated=Math.round(locData[l].profiled*2.5);});
+  allMerchants.forEach(m=>{if(!m.data.location)return;const l=(m.data.city||m.data.location.split(',').pop()).trim();if(!locData[l])locData[l]={market:l,estimated:0,contacted:0,profiled:0,community:0,clients:0};locData[l].profiled++;if(m.data.featured||m.data.verified)locData[l].clients++;if(m.data.pipelineStage==='Community Joined')locData[l].community++;locData[l].contacted=Math.round(locData[l].profiled*1.5);locData[l].estimated=Math.round(locData[l].profiled*2.5);});
   marketRows.forEach(r=>{if(!locData[r.market])locData[r.market]=r;else Object.assign(locData[r.market],{estimated:r.estimated||locData[r.market].estimated});});
   const rows=Object.values(locData).sort((a,b)=>b.profiled-a.profiled);
-  document.getElementById('marketTable').innerHTML=`<table class="mkt-table"><thead><tr><th>Market</th><th>Est.</th><th>Contacted</th><th>Profiled</th><th>Community</th><th>Clients</th><th>Coverage</th></tr></thead><tbody>${rows.map(r=>`<tr><td style="font-weight:700;">📍 ${r.market}</td><td><input type="number" class="mi" value="${r.estimated||0}" onchange="updateMarketEst('${r.market}',this.value)"></td><td>${r.contacted||0}</td><td style="color:var(--gold);font-weight:700;">${r.profiled||0}</td><td>${r.community||0}</td><td style="color:var(--green);font-weight:700;">${r.clients||0}</td><td><div style="display:flex;align-items:center;gap:6px;font-size:11px;">${r.estimated>0?Math.min(100,Math.round((r.profiled/r.estimated)*100)):0}%<div style="width:60px;height:4px;background:var(--sf2);border-radius:2px;overflow:hidden;"><div style="height:100%;background:var(--blue);width:${r.estimated>0?Math.min(100,Math.round((r.profiled/r.estimated)*100)):0}%;"></div></div></div></td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('marketTable').innerHTML=`<table class="mkt-table"><thead><tr><th>Market</th><th>Est.</th><th>Contacted</th><th>Profiled</th><th>Community</th><th>Clients</th><th>Coverage</th></tr></thead><tbody>${rows.map(r=>`<tr><td style="font-weight:700;">📍 ${r.market}</td><td><input type="number" class="mi" value="${r.estimated||0}" onchange="updateMarketEst('${r.market}',this.value)"></td><td>${r.contacted||0}</td><td style="color:var(--gold);font-weight:700;">${r.profiled||0}</td><td>${r.community||0}</td><td style="color:var(--green);font-weight:700;">${r.clients||0}</td><td>${r.estimated>0?Math.min(100,Math.round((r.profiled/r.estimated)*100)):0}%</td></tr>`).join('')}</tbody></table>`;
 }
 window.addMarketRow=()=>{const n=prompt('Market name:');if(!n)return;const e=parseInt(prompt('Estimated businesses:'))||0;marketRows.push({market:n,estimated:e,contacted:0,profiled:0,community:0,clients:0});localStorage.setItem('gbh_market_rows',JSON.stringify(marketRows));renderMarket();};
 window.updateMarketEst=(m,v)=>{const r=marketRows.find(r=>r.market===m);if(r)r.estimated=parseInt(v)||0;else marketRows.push({market:m,estimated:parseInt(v)||0});localStorage.setItem('gbh_market_rows',JSON.stringify(marketRows));};
 
 function renderWatchlist(){
   const list=allMerchants.filter(m=>{const lv=merchantLevel(m.data);return lv.n==='Level 4'||lv.n==='Level 5'||(m.data.leadScore||0)>=7;}).sort((a,b)=>(b.data.leadScore||0)-(a.data.leadScore||0));
-  document.getElementById('watchlistTable').innerHTML=`<table><thead><tr><th>Business</th><th>Owner</th><th>Category</th><th>Level</th><th>Score</th><th>Role</th><th>Rev Potential</th><th>Pipeline</th><th>Actions</th></tr></thead><tbody>${list.map(m=>{const d=m.data,lv=merchantLevel(d);return `<tr><td><div class="tdn">${d.businessName}</div><div class="tds">📍 ${d.location||'—'}</div></td><td>${d.ownerName||'—'}</td><td style="color:var(--gold);font-weight:600;">${d.category||'—'}</td><td><span class="lb ${lv.c}">${lv.n}</span></td><td><span style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${d.leadScore||0}</span>/10</td><td>${d.ecosystemRole||'—'}</td><td style="color:var(--green);font-weight:700;">${d.revenuePotential||'—'}</td><td><span class="pb2 ${pipeClass(d.pipelineStage)}">${d.pipelineStage||'New'}</span></td><td><div class="ra2"><a href="merchant.html?id=${m.id}" class="br2 bn" target="_blank">View</a></div></td></tr>`;}).join('')}</tbody></table>`;
+  document.getElementById('watchlistTable').innerHTML=`<table><thead><tr><th>Business</th><th>Category</th><th>Level</th><th>Score</th><th>Revenue Potential</th><th>Pipeline</th><th>Actions</th></tr></thead><tbody>${list.map(m=>{const d=m.data,lv=merchantLevel(d);return `<tr><td><div class="tdn">${d.businessName}</div><div class="tds">📍 ${d.location||'—'}</div></td><td style="color:var(--gold);font-weight:600;">${d.category||'—'}</td><td><span class="lb ${lv.c}">${lv.n}</span></td><td><span style="font-family:var(--fh);font-size:16px;font-weight:800;color:var(--gold);">${d.leadScore||0}</span>/10</td><td style="color:var(--green);font-weight:700;">${d.revenuePotential||'—'}</td><td><span class="pb2 ${pipeClass(d.pipelineStage)}">${d.pipelineStage||'New'}</span></td><td><div class="ra2"><button class="br2 or" onclick="openEdit('${m.id}')">✏️ Edit</button><a href="merchant.html?id=${m.id}" class="br2 bn" target="_blank">View</a></div></td></tr>`;}).join('')}</tbody></table>`;
 }
 
 function renderRevenue(){
@@ -891,139 +1135,150 @@ function renderRevenue(){
 }
 
 function renderAll(){renderDashboard();renderEcosystem();renderPending();renderUpgrades();renderIntelligence();renderPipeline();renderMarket();renderWatchlist();renderRevenue();}
-window.refreshData=()=>{dataLoaded=false;loadAll();toast('Refreshing…','warn');};
 
-async function loadAll(){
-  try{
-    document.getElementById('intelligenceTable').innerHTML='<div class="ldr"><span class="spin">⟳</span> Loading merchants…</div>';
-    const snap=await getDocs(collection(db,'merchants'));
-    allMerchants=snap.docs.map(d=>({id:d.id,data:d.data()}));
-    allMerchants.sort((a,b)=>{const at=a.data.createdAt?.toDate?.()||new Date(0),bt=b.data.createdAt?.toDate?.()||new Date(0);return bt-at;});
-    renderAll();
-    toast(`✓ ${allMerchants.length} merchants loaded`);
-  }catch(err){
-    const e=`<div class="ldr" style="color:var(--red);">⚠️ ${err.message}</div>`;
-    document.getElementById('intelligenceTable').innerHTML=e;
-    document.getElementById('pendingCards').innerHTML=e;
-    toast(err.message,'err');
-  }
-}
-
-/* ══════════════════════════════════════
-   AD BOARD MANAGER
-══════════════════════════════════════ */
+/* ════════════════════════════════
+   AD BOARD MANAGER (FIXED)
+════════════════════════════════ */
 let adSlides=[];
 let editAdIdx=-1;
-let selTagCol='var(--gold)',selCtaBg='var(--gold)',selCtaCol='#000';
+let selTagCol='var(--gold)',selCtaBg='var(--gold)',selCtaTxt='#000';
+let adLoaded=false;
 
 const DEFAULT_ADS=[
-  {tag:'FREE LISTING',tagCol:'var(--gold)',title:'Claim Your Digital Home Today',desc:'List your business in minutes and reach customers everywhere.',cta:'List for Free →',href:'add.html',ctaBg:'var(--gold)',ctaCol:'#000',media:{type:'image',src:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80&auto=format'}},
-  {tag:'FEATURED SLOTS',tagCol:'#4A9EFF',title:'Get Featured — Be Seen First',desc:'Featured businesses get 10× more profile views. Only ₦10,000 for 28 days.',cta:'Get Featured →',href:'add.html',ctaBg:'#4A9EFF',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format'}},
-  {tag:'VERIFIED BADGE',tagCol:'var(--green)',title:'Build Trust — Get Verified',desc:'The holographic ✦ VERIFIED badge signals quality to every customer.',cta:'Get Verified →',href:'add.html',ctaBg:'var(--green)',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format'}},
-  {tag:'GO GLOBAL',tagCol:'#9B59B6',title:'Your Business Has No Borders',desc:'Global Biz Hub connects you to customers across Africa and beyond.',cta:'Learn More →',href:'add.html',ctaBg:'#9B59B6',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1526958097901-5e6d742d3371?w=700&q=80&auto=format'}},
+  {tag:'FREE LISTING',tagCol:'var(--gold)',title:'Claim Your Digital Home Today',desc:'List your business in minutes and reach customers everywhere.',cta:'List for Free →',href:'add_v2.html',ctaBg:'var(--gold)',ctaCol:'#000',media:{type:'image',src:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80&auto=format'}},
+  {tag:'FEATURED SLOTS',tagCol:'#4A9EFF',title:'Get Featured — Be Seen First',desc:'10× more profile views. Only ₦10,000 for 28 days.',cta:'Get Featured →',href:'add_v2.html',ctaBg:'#4A9EFF',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format'}},
+  {tag:'VERIFIED BADGE',tagCol:'var(--green)',title:'Build Trust — Get Verified',desc:'Holographic ✦ VERIFIED badge signals quality to every customer.',cta:'Get Verified →',href:'add_v2.html',ctaBg:'var(--green)',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format'}},
+  {tag:'GO GLOBAL',tagCol:'#9B59B6',title:'Your Business Has No Borders',desc:'Global Biz Hub connects you to customers across Africa and beyond.',cta:'Learn More →',href:'add_v2.html',ctaBg:'#9B59B6',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1526958097901-5e6d742d3371?w=700&q=80&auto=format'}},
 ];
 
-async function loadAdSlides(){
+async function initAdManager(){
+  if(adLoaded&&adSlides.length){renderAdList();return;}
   try{
     const d=await getDoc(doc(db,'settings','platform'));
-    adSlides=d.exists()&&d.data().ads?d.data().ads:[...DEFAULT_ADS];
+    adSlides=d.exists()&&d.data().ads?.length?d.data().ads:[...DEFAULT_ADS];
   }catch{adSlides=[...DEFAULT_ADS];}
+  adLoaded=true;
+  renderAdList();
 }
 
-async function renderAdList(){
-  if(!adSlides.length)await loadAdSlides();
-  document.getElementById('adList').innerHTML=adSlides.map((a,i)=>`
+function renderAdList(){
+  document.getElementById('adCount').textContent=adSlides.length;
+  document.getElementById('adList').innerHTML=adSlides.length?adSlides.map((a,i)=>`
     <div class="ad-item">
-      <div class="ad-thumb">${a.media?.src?(a.media.type==='video'?`<video src="${a.media.src}" muted autoplay loop style="width:100%;height:100%;object-fit:cover;"></video>`:`<img src="${a.media.src}" onerror="this.parentElement.innerHTML='📢'">`):``}</div>
+      <div class="ad-thumb">${a.media?.src?(a.media.type==='video'?`<video src="${a.media.src}" muted autoplay loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>`:`<img src="${a.media.src}" onerror="this.parentElement.innerHTML='📢'">`): '📢'}</div>
       <div class="ad-info">
         <div class="ad-tag-pill" style="color:${a.tagCol};">${a.tag}</div>
         <div class="ad-title-sm">${a.title}</div>
         <div class="ad-desc-sm">${a.desc}</div>
-        <div style="font-size:10px;color:var(--mu);margin-top:3px;">→ ${a.href}</div>
+        <div class="ad-link-sm">→ ${a.href}</div>
       </div>
-      <div class="ad-actions">
-        <button class="bsm bo" style="font-size:10px;padding:4px 8px;" onclick="editAd(${i})">✏️ Edit</button>
-        <button class="bsm" style="font-size:10px;padding:4px 8px;background:transparent;border:1px solid var(--red);color:var(--red);border-radius:6px;" onclick="deleteAd(${i})">🗑</button>
-        ${i>0?`<button class="bsm bo" style="font-size:10px;padding:4px 8px;" onclick="moveAd(${i},-1)">↑</button>`:''}
-        ${i<adSlides.length-1?`<button class="bsm bo" style="font-size:10px;padding:4px 8px;" onclick="moveAd(${i},1)">↓</button>`:''}
+      <div class="ad-acts">
+        <button class="ad-act-btn" onclick="openAdForm(${i})">✏️ Edit</button>
+        ${i>0?`<button class="ad-act-btn" onclick="moveAd(${i},-1)">↑</button>`:''}
+        ${i<adSlides.length-1?`<button class="ad-act-btn" onclick="moveAd(${i},1)">↓</button>`:''}
+        <button class="ad-act-btn del" onclick="deleteAd(${i})">🗑 Del</button>
       </div>
-    </div>`).join('');
+    </div>`).join(''):'<p style="font-size:12px;color:var(--mu);padding:10px;">No ads yet. Add one →</p>';
 }
 
-window.openAdForm=()=>{editAdIdx=-1;clearAdForm();document.getElementById('adFormTitle').textContent='➕ New Ad Slide';};
-window.cancelAdForm=()=>{editAdIdx=-1;clearAdForm();};
-function clearAdForm(){['af-tag','af-title','af-desc','af-cta','af-href','af-mediasrc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('af-mediatype').value='image';document.getElementById('af-preview').innerHTML='📢';document.getElementById('af-tagcol').value='';}
-window.editAd=(i)=>{
-  const a=adSlides[i];editAdIdx=i;
-  document.getElementById('adFormTitle').textContent=`✏️ Edit Ad ${i+1}`;
-  document.getElementById('af-tag').value=a.tag;
-  document.getElementById('af-tagcol').value=a.tagCol;
-  document.getElementById('af-title').value=a.title;
-  document.getElementById('af-desc').value=a.desc;
-  document.getElementById('af-cta').value=a.cta;
-  document.getElementById('af-href').value=a.href;
-  document.getElementById('af-mediasrc').value=a.media?.src||'';
-  document.getElementById('af-mediatype').value=a.media?.type||'image';
-  selTagCol=a.tagCol;selCtaBg=a.ctaBg;selCtaCol=a.ctaCol;
-  updateAdPreview();
+window.openAdForm=(idx)=>{
+  editAdIdx=idx;
+  const isNew=idx<0;
+  document.getElementById('adFormTitle').textContent=isNew?'➕ New Ad Slide':`✏️ Edit Ad ${idx+1}`;
+  if(!isNew){
+    const a=adSlides[idx];
+    document.getElementById('af-tag').value=a.tag||'';
+    document.getElementById('af-tagcol-custom').value=a.tagCol||'';
+    document.getElementById('af-title').value=a.title||'';
+    document.getElementById('af-desc').value=a.desc||'';
+    document.getElementById('af-cta').value=a.cta||'';
+    document.getElementById('af-href').value=a.href||'';
+    document.getElementById('af-mediasrc-input').value=a.media?.src||'';
+    document.getElementById('af-mediatype-sel').value=a.media?.type||'image';
+    selTagCol=a.tagCol||'var(--gold)';
+    selCtaBg=a.ctaBg||'var(--gold)';
+    selCtaTxt=a.ctaCol||'#000';
+    refreshAdPreview();
+  } else {
+    resetAdForm(false);
+  }
 };
-window.deleteAd=async(i)=>{if(!confirm(`Delete ad "${adSlides[i].title}"?`))return;adSlides.splice(i,1);await saveAdsToDB();renderAdList();toast('Ad deleted');};
-window.moveAd=async(i,dir)=>{const j=i+dir;if(j<0||j>=adSlides.length)return;[adSlides[i],adSlides[j]]=[adSlides[j],adSlides[i]];await saveAdsToDB();renderAdList();};
+
+window.resetAdForm=(fullReset=true)=>{
+  editAdIdx=-1;
+  if(fullReset){
+    ['af-tag','af-tagcol-custom','af-title','af-desc','af-cta','af-href','af-mediasrc-input'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('af-mediatype-sel').value='image';
+    document.getElementById('af-preview-box').innerHTML='📢';
+    document.getElementById('adFormTitle').textContent='➕ New Ad Slide';
+  }
+};
+
 window.saveAd=async()=>{
   const tag=document.getElementById('af-tag').value.trim();
   const title=document.getElementById('af-title').value.trim();
-  if(!tag||!title){toast('Tag and title required','warn');return;}
-  const tagColInput=document.getElementById('af-tagcol').value.trim();
+  if(!tag||!title){toast('Tag and headline are required','warn');return;}
+  const tagColCustom=document.getElementById('af-tagcol-custom').value.trim();
   const ad={
-    tag,tagCol:tagColInput||selTagCol,title,
+    tag,
+    tagCol:tagColCustom||selTagCol,
+    title,
     desc:document.getElementById('af-desc').value.trim(),
     cta:document.getElementById('af-cta').value.trim()||'Learn More →',
-    href:document.getElementById('af-href').value.trim()||'add.html',
-    ctaBg:selCtaBg,ctaCol:selCtaCol,
-    media:{type:document.getElementById('af-mediatype').value,src:document.getElementById('af-mediasrc').value.trim()},
+    href:document.getElementById('af-href').value.trim()||'add_v2.html',
+    ctaBg:selCtaBg,
+    ctaCol:selCtaTxt,
+    media:{
+      type:document.getElementById('af-mediatype-sel').value,
+      src:document.getElementById('af-mediasrc-input').value.trim()
+    }
   };
-  if(editAdIdx>=0)adSlides[editAdIdx]=ad;else adSlides.push(ad);
-  await saveAdsToDB();
-  clearAdForm();editAdIdx=-1;
-  renderAdList();toast('✓ Ad saved!');
+  if(editAdIdx>=0)adSlides[editAdIdx]=ad;
+  else adSlides.push(ad);
+  const saved=await saveAdsToDB();
+  if(saved){renderAdList();toast('✓ Ad saved and live on homepage after reload!');}
 };
+
+window.deleteAd=async(i)=>{if(!confirm(`Delete ad "${adSlides[i].title}"?`))return;adSlides.splice(i,1);if(await saveAdsToDB()){renderAdList();toast('Ad deleted');}};
+window.moveAd=async(i,dir)=>{const j=i+dir;if(j<0||j>=adSlides.length)return;[adSlides[i],adSlides[j]]=[adSlides[j],adSlides[i]];if(await saveAdsToDB())renderAdList();};
+
 async function saveAdsToDB(){
   try{await setDoc(doc(db,'settings','platform'),{ads:adSlides},{merge:true});return true;}catch(e){toast(e.message,'err');return false;}
 }
 
-// Color pickers
-window.pickTagCol=el=>{document.querySelectorAll('#tagColors .cs').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selTagCol=el.dataset.col;};
-window.pickCtaCol=el=>{document.querySelectorAll('#ctaColors .cs').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selCtaBg=el.dataset.col;};
-window.pickCtaTxtCol=el=>{document.querySelectorAll('#ctaTxtColors .cs').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selCtaCol=el.dataset.col;};
+// Color pickers — using a single generic function
+window.pickCol=(groupId,el,varName)=>{
+  document.querySelectorAll(`#${groupId} .cs`).forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  if(varName==='selTagCol')selTagCol=el.dataset.col;
+  else if(varName==='selCtaBg')selCtaBg=el.dataset.col;
+  else if(varName==='selCtaTxt')selCtaTxt=el.dataset.col;
+};
 
-// Live media preview
-document.getElementById('af-mediasrc').addEventListener('input',updateAdPreview);
-document.getElementById('af-mediatype').addEventListener('change',updateAdPreview);
-function updateAdPreview(){
-  const src=document.getElementById('af-mediasrc').value.trim();
-  const type=document.getElementById('af-mediatype').value;
-  const p=document.getElementById('af-preview');
+// Live preview for ad media
+document.getElementById('af-mediasrc-input').addEventListener('input',refreshAdPreview);
+document.getElementById('af-mediatype-sel').addEventListener('change',refreshAdPreview);
+function refreshAdPreview(){
+  const src=document.getElementById('af-mediasrc-input').value.trim();
+  const type=document.getElementById('af-mediatype-sel').value;
+  const p=document.getElementById('af-preview-box');
   if(!src){p.innerHTML='📢';return;}
-  if(type==='video')p.innerHTML=`<video src="${src}" muted autoplay loop style="width:100%;height:100%;object-fit:cover;border-radius:7px;"></video>`;
-  else p.innerHTML=`<img src="${src}" onerror="this.parentElement.innerHTML='❌ Invalid URL'" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">`;
+  p.innerHTML=type==='video'
+    ?`<video src="${src}" muted autoplay loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>`
+    :`<img src="${src}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='❌ Invalid URL'">`;
 }
 
-/* ══════════════════════════════════════
-   HERO BACKGROUND MANAGER
-══════════════════════════════════════ */
-let heroSettings={
-  images:['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=75&auto=format&fit=crop','https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=75&auto=format&fit=crop','https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1400&q=75&auto=format&fit=crop','https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1400&q=75&auto=format&fit=crop'],
-  blur:6,overlay:72,scale:107
-};
+/* ════════════════════════════════
+   HERO MANAGER (FIXED)
+════════════════════════════════ */
+let heroSettings={images:['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=75&auto=format&fit=crop','https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=75&auto=format&fit=crop','https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1400&q=75&auto=format&fit=crop'],blur:6,overlay:72,scale:107};
 let heroLoaded=false;
 
-async function loadHeroSettings(){
-  try{const d=await getDoc(doc(db,'settings','platform'));if(d.exists()&&d.data().hero)Object.assign(heroSettings,d.data().hero);}catch{}
-  heroLoaded=true;
-}
-
-async function renderHeroMgr(){
-  if(!heroLoaded)await loadHeroSettings();
+async function initHeroMgr(){
+  if(!heroLoaded){
+    try{const d=await getDoc(doc(db,'settings','platform'));if(d.exists()&&d.data().hero)Object.assign(heroSettings,d.data().hero);}catch{}
+    heroLoaded=true;
+  }
   document.getElementById('blurRange').value=heroSettings.blur;
   document.getElementById('blurVal').textContent=heroSettings.blur;
   document.getElementById('overlayRange').value=heroSettings.overlay;
@@ -1031,118 +1286,131 @@ async function renderHeroMgr(){
   document.getElementById('scaleRange').value=heroSettings.scale;
   document.getElementById('scaleVal').textContent=(heroSettings.scale/100).toFixed(2);
   renderHeroGrid();
-  // Set preview to first image
-  if(heroSettings.images[0])setHeroPreview(heroSettings.images[0]);
+  if(heroSettings.images[0])setHeroPreviewImg(heroSettings.images[0]);
 }
 
 function renderHeroGrid(){
   document.getElementById('heroImgGrid').innerHTML=heroSettings.images.map((url,i)=>`
-    <div class="hi-thumb${i===0?' sel':''}" onclick="selectHeroPreview(${i},this)">
-      <img src="${url}" onerror="this.parentElement.style.background='var(--br)'">
+    <div class="hi-thumb${i===0?' sel':''}" onclick="selectHeroPrev(${i},this)">
+      <img src="${url}" onerror="this.style.opacity='.2'">
       <button class="hi-del" onclick="event.stopPropagation();deleteHeroImg(${i})">✕</button>
     </div>`).join('');
 }
-
-function setHeroPreview(url){
-  document.getElementById('heroPreviewImg').style.backgroundImage=`url('${url}')`;
-  applyHeroPreviewSettings();
-}
-function applyHeroPreviewSettings(){
+function setHeroPreviewImg(url){document.getElementById('heroPreviewImg').style.backgroundImage=`url('${url}')`;updateHeroPreview();}
+function updateHeroPreview(){
   const bl=document.getElementById('blurRange').value;
   const ov=document.getElementById('overlayRange').value/100;
   const sc=document.getElementById('scaleRange').value/100;
+  document.getElementById('blurVal').textContent=bl;
+  document.getElementById('overlayVal').textContent=document.getElementById('overlayRange').value;
+  document.getElementById('scaleVal').textContent=sc.toFixed(2);
+  heroSettings.blur=parseInt(bl);
+  heroSettings.overlay=parseInt(document.getElementById('overlayRange').value);
+  heroSettings.scale=parseInt(document.getElementById('scaleRange').value);
   document.getElementById('heroPreviewImg').style.filter=`blur(${bl}px)`;
   document.getElementById('heroPreviewImg').style.transform=`scale(${sc})`;
   document.getElementById('heroPreviewOv').style.background=`rgba(13,13,13,${ov})`;
 }
-window.updateBlurPreview=v=>{document.getElementById('blurVal').textContent=v;heroSettings.blur=parseInt(v);applyHeroPreviewSettings();};
-window.updateOverlayPreview=v=>{document.getElementById('overlayVal').textContent=v;heroSettings.overlay=parseInt(v);applyHeroPreviewSettings();};
-document.getElementById('scaleRange').addEventListener('input',function(){document.getElementById('scaleVal').textContent=(this.value/100).toFixed(2);heroSettings.scale=parseInt(this.value);applyHeroPreviewSettings();});
-window.selectHeroPreview=(i,el)=>{document.querySelectorAll('.hi-thumb').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');setHeroPreview(heroSettings.images[i]);};
-window.deleteHeroImg=(i)=>{if(heroSettings.images.length<=1){toast('Must keep at least 1 image','warn');return;}if(!confirm('Remove this hero image?'))return;heroSettings.images.splice(i,1);renderHeroGrid();if(heroSettings.images[0])setHeroPreview(heroSettings.images[0]);};
-window.addHeroImg=()=>{
-  const url=document.getElementById('heroNewUrl').value.trim();
-  if(!url){toast('Enter an image URL','warn');return;}
-  if(heroSettings.images.length>=8){toast('Max 8 hero images','warn');return;}
-  heroSettings.images.push(url);
-  document.getElementById('heroNewUrl').value='';
-  renderHeroGrid();toast('Image added — save to apply');
-};
+window.updateHeroPreview=updateHeroPreview;
+window.selectHeroPrev=(i,el)=>{document.querySelectorAll('.hi-thumb').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');setHeroPreviewImg(heroSettings.images[i]);};
+window.deleteHeroImg=(i)=>{if(heroSettings.images.length<=1){toast('Must keep at least 1 image','warn');return;}if(!confirm('Remove this image?'))return;heroSettings.images.splice(i,1);renderHeroGrid();if(heroSettings.images[0])setHeroPreviewImg(heroSettings.images[0]);};
+window.addHeroImg=()=>{const url=document.getElementById('heroNewUrl').value.trim();if(!url){toast('Enter a URL','warn');return;}if(heroSettings.images.length>=8){toast('Max 8 images','warn');return;}heroSettings.images.push(url);document.getElementById('heroNewUrl').value='';renderHeroGrid();toast('Image added — save to apply');};
 window.saveHeroSettings=async()=>{
-  try{await setDoc(doc(db,'settings','platform'),{hero:heroSettings},{merge:true});toast('✓ Hero settings saved!');}catch(e){toast(e.message,'err');}
+  try{
+    await setDoc(doc(db,'settings','platform'),{hero:heroSettings},{merge:true});
+    toast('✓ Hero settings saved to Firestore! Reload homepage to see changes.');
+  }catch(e){toast(e.message,'err');}
 };
 
-/* ══════════════════════════════════════
-   LOCATIONS & CATEGORIES MANAGER
-══════════════════════════════════════ */
+/* ════════════════════════════════
+   LOCATIONS & CATEGORIES (FIXED)
+   All saves auto-trigger instantly
+════════════════════════════════ */
 const DEFAULT_CATS=['Fashion','Food','Electronics','Beauty','Logistics','Services','Health','Finance','Agriculture','Real Estate','Education','Entertainment'];
-const DEFAULT_CAT_EMOJIS={Fashion:'👗',Food:'🍲',Electronics:'📱',Beauty:'💄',Logistics:'🚚',Services:'🔧',Health:'🏥',Finance:'💰',Agriculture:'🌾','Real Estate':'🏘',Education:'📚',Entertainment:'🎭'};
-let customCats=[],catEmojis={...DEFAULT_CAT_EMOJIS};
-let customLocs=[];
-let locMgrLoaded=false;
+const DEFAULT_EMOJIS={Fashion:'👗',Food:'🍲',Electronics:'📱',Beauty:'💄',Logistics:'🚚',Services:'🔧',Health:'🏥',Finance:'💰',Agriculture:'🌾','Real Estate':'🏘',Education:'📚',Entertainment:'🎭'};
+let customCats=[],catEmojis={...DEFAULT_EMOJIS},customLocs=[];
+let locLoaded=false;
 
-async function loadLocMgr(){
-  try{const d=await getDoc(doc(db,'settings','platform'));if(d.exists()){if(d.data().customCategories)customCats=d.data().customCategories;if(d.data().categoryEmojis)catEmojis={...DEFAULT_CAT_EMOJIS,...d.data().categoryEmojis};if(d.data().customLocations)customLocs=d.data().customLocations;}}catch{}
-  locMgrLoaded=true;
-}
-
-async function renderLocMgr(){
-  if(!locMgrLoaded)await loadLocMgr();
-  // Continent datalist
-  const dl=document.getElementById('continentList');
-  dl.innerHTML=['Africa','Europe','North America','South America','Asia','Oceania','Middle East'].map(c=>`<option value="${c}">`).join('');
-  // Custom locations list
-  renderCustomLocs();
-  // Category tags
+async function initLocMgr(){
+  if(!locLoaded){
+    try{
+      const d=await getDoc(doc(db,'settings','platform'));
+      if(d.exists()){
+        if(d.data().customCategories)customCats=[...d.data().customCategories];
+        if(d.data().categoryEmojis)catEmojis={...DEFAULT_EMOJIS,...d.data().categoryEmojis};
+        if(d.data().customLocations)customLocs=[...d.data().customLocations];
+      }
+    }catch(e){toast('Could not load settings: '+e.message,'warn');}
+    locLoaded=true;
+  }
+  document.getElementById('clist').innerHTML=['Africa','Europe','North America','South America','Asia','Oceania','Middle East'].map(c=>`<option value="${c}">`).join('');
   renderCatTags();
+  renderCatEmojiMap();
+  renderCustomLocs();
 }
 
 function renderCatTags(){
-  const allCats=[...DEFAULT_CATS,...customCats];
-  document.getElementById('catTagsContainer').innerHTML=allCats.map(c=>`<div class="cat-tag"><span>${catEmojis[c]||'📌'} ${c}</span>${customCats.includes(c)?`<button onclick="removeCat('${c}')">✕</button>`:''}</div>`).join('');
-  document.getElementById('catEmojiMap').innerHTML=allCats.map(c=>`<div style="display:flex;align-items:center;gap:8px;font-size:12px;"><span style="min-width:100px;">${c}</span><input type="text" value="${catEmojis[c]||''}" maxlength="4" style="width:50px;padding:4px 6px;background:var(--sf2);border:1px solid var(--br);border-radius:5px;color:var(--tx);font-size:14px;outline:none;text-align:center;" oninput="catEmojis['${c}']=this.value;"></div>`).join('');
+  const all=[...DEFAULT_CATS,...customCats];
+  document.getElementById('catTagsContainer').innerHTML=all.map(c=>`<div class="cat-tag"><span>${catEmojis[c]||'📌'} ${c}</span>${customCats.includes(c)?`<button onclick="removeCat('${c}')">✕</button>`:''}</div>`).join('');
+}
+function renderCatEmojiMap(){
+  const all=[...DEFAULT_CATS,...customCats];
+  document.getElementById('catEmojiMap').innerHTML=all.map(c=>`
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+      <span style="min-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${c}</span>
+      <input type="text" value="${catEmojis[c]||''}" maxlength="4"
+        style="width:46px;padding:4px;background:var(--sf2);border:1px solid var(--br);border-radius:5px;color:var(--tx);font-size:16px;outline:none;text-align:center;"
+        oninput="catEmojis['${c}']=this.value;">
+    </div>`).join('');
 }
 
 function renderCustomLocs(){
-  document.getElementById('customLocList').innerHTML=customLocs.length?customLocs.map((l,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:var(--sf2);border-radius:6px;font-size:11px;"><span>📍 ${[l.continent,l.country,l.region,l.city].filter(Boolean).join(' › ')}</span><button style="background:none;border:none;color:var(--red);cursor:pointer;font-size:13px;" onclick="removeCustomLoc(${i})">✕</button></div>`).join(''):'<p style="font-size:11px;color:var(--mu);">No custom locations added yet.</p>';
+  const el=document.getElementById('customLocList');
+  document.getElementById('customLocCount').textContent=customLocs.length;
+  el.innerHTML=customLocs.length?customLocs.map((l,i)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:var(--sf2);border-radius:6px;font-size:11px;">
+      <span>📍 ${[l.continent,l.country,l.region,l.city].filter(Boolean).join(' › ')}</span>
+      <button style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0 2px;" onclick="removeCustomLoc(${i})">✕</button>
+    </div>`).join(''):'<p style="font-size:11px;color:var(--mu);">No custom locations yet.</p>';
 }
 
-window.addCategory=()=>{
+window.addCategory=async()=>{
   const v=document.getElementById('newCatInput').value.trim();
-  if(!v){toast('Enter a category name','warn');return;}
-  if([...DEFAULT_CATS,...customCats].map(c=>c.toLowerCase()).includes(v.toLowerCase())){toast('Category already exists','warn');return;}
+  if(!v)return toast('Enter a category name','warn');
+  if([...DEFAULT_CATS,...customCats].some(c=>c.toLowerCase()===v.toLowerCase()))return toast('Category already exists','warn');
   customCats.push(v);
   document.getElementById('newCatInput').value='';
-  renderCatTags();toast(`"${v}" added`);
+  renderCatTags();renderCatEmojiMap();
+  await savePlatformSettings();
+  toast(`✓ "${v}" added and saved`);
 };
-window.removeCat=(cat)=>{customCats=customCats.filter(c=>c!==cat);renderCatTags();};
-window.saveCategories=async()=>{
-  try{await setDoc(doc(db,'settings','platform'),{customCategories:customCats,categoryEmojis:catEmojis},{merge:true});toast('✓ Categories saved!');}catch(e){toast(e.message,'err');}
-};
-window.addLocation=()=>{
+window.removeCat=async(cat)=>{customCats=customCats.filter(c=>c!==cat);renderCatTags();renderCatEmojiMap();await savePlatformSettings();toast(`"${cat}" removed`);};
+window.saveCategories=async()=>{await savePlatformSettings();toast('✓ Categories & emojis saved!');};
+
+window.addLocation=async()=>{
   const cont=document.getElementById('lm-cont').value.trim();
   const coun=document.getElementById('lm-coun').value.trim();
   const reg=document.getElementById('lm-reg').value.trim();
   const city=document.getElementById('lm-city').value.trim();
-  if(!cont||!coun){toast('Continent and Country are required','warn');return;}
+  if(!cont||!coun)return toast('Continent and Country are required','warn');
   customLocs.push({continent:cont,country:coun,region:reg,city});
   ['lm-cont','lm-coun','lm-reg','lm-city'].forEach(id=>document.getElementById(id).value='');
-  renderCustomLocs();toast(`Location added`);
+  renderCustomLocs();
+  await savePlatformSettings();
+  toast('✓ Location added and saved!');
 };
-window.removeCustomLoc=async(i)=>{customLocs.splice(i,1);renderCustomLocs();};
-window.saveLocations=async()=>{
-  try{await setDoc(doc(db,'settings','platform'),{customLocations:customLocs},{merge:true});toast('✓ Locations saved!');}catch(e){toast(e.message,'err');}
-};
-// Auto-save locations on add for UX
-const origAddLoc=window.addLocation;
-window.addLocation=async()=>{origAddLoc();try{await setDoc(doc(db,'settings','platform'),{customLocations:customLocs},{merge:true});}catch{}};
+window.removeCustomLoc=async(i)=>{customLocs.splice(i,1);renderCustomLocs();await savePlatformSettings();toast('Location removed');};
 
-// af-mediasrc input fix (was duplicated ID in HTML, fix here)
-const mSrcInput=document.createElement('input');
-mSrcInput.type='text';mSrcInput.id='af-mediasrc';mSrcInput.placeholder='https://… media URL';mSrcInput.style.cssText='padding:8px 10px;background:var(--sf2);border:1px solid var(--br);border-radius:7px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;width:100%;';
-const oldEl=document.getElementById('af-mediasrc');
-if(oldEl&&oldEl.tagName==='DIV'){oldEl.parentNode.replaceChild(mSrcInput,oldEl);}
-mSrcInput.addEventListener('input',updateAdPreview);
+async function savePlatformSettings(){
+  try{
+    await setDoc(doc(db,'settings','platform'),{
+      customCategories:customCats,
+      categoryEmojis:catEmojis,
+      customLocations:customLocs,
+    },{merge:true});
+    return true;
+  }catch(e){toast(e.message,'err');return false;}
+}
 </script>
 </body>
 </html>
