@@ -272,7 +272,7 @@ footer{border-top:1px solid var(--br);padding:28px 20px 20px;background:var(--sf
   <div class="nav-right">
     <button class="nib" onclick="toggleSaves()" title="Saved">🔖</button>
     <button class="nib" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
-    <a href="add.html" class="btn-list">+ List</a>
+    <a href="add.html" class="btn-list">+ Add Business</a>
   </div>
 </nav>
 
@@ -501,7 +501,7 @@ function buildAds(){
         <div class="ad-tag" style="color:${a.tagCol||'var(--gold)'};">${a.tag}</div>
         <div class="ad-title">${a.title}</div>
         <div class="ad-desc">${a.desc}</div>
-        <a href="${a.href||'add_v2.html'}" class="ad-cta" style="background:${bg};color:${col};">${a.cta||'Learn More →'}</a>
+        <a href="${a.href||'add  .html'}" class="ad-cta" style="background:${bg};color:${col};">${a.cta||'Learn More →'}</a>
       </div>
     </div>`;
   }).join('');
@@ -619,7 +619,7 @@ window.toggleSaves=()=>{document.getElementById('savesEl').classList.toggle('on'
 function renderSaves(){
   const s=allM.filter(m=>saves.includes(m.id));
   document.getElementById('savesList').innerHTML=s.length
-    ?s.map(m=>`<a href="merchant.html?id=${m.id}" class="si"><div class="si-t">${m.data.images?.[0]?`<img src="${ipfs(m.data.images[0])}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}</div><div><div class="si-n">${m.data.businessName}</div><div class="si-s">${m.data.category||''} · ${m.data.location||''}</div></div></a>`).join('')
+    ?s.map(m=>`<a href="${merchantUrl(m.id,m.data)}" class="si"><div class="si-t">${m.data.images?.[0]?`<img src="${ipfs(m.data.images[0])}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}</div><div><div class="si-n">${m.data.businessName}</div><div class="si-s">${m.data.category||''} · ${m.data.location||''}</div></div></a>`).join('')
     :'<p style="font-size:12px;color:var(--mu);">No saved businesses yet.</p>';
   document.getElementById('savCount').textContent=saves.length;
 }
@@ -643,6 +643,12 @@ window.toggleSave=(id,e)=>{
    HELPERS
 ════════════════════════════════════════ */
 const ipfs=c=>`https://gateway.pinata.cloud/ipfs/${c}`;
+// Build clean slug+id URL — uses slug for branding, id for reliable lookup
+// Falls back to id-only for legacy records that predate slug system
+function merchantUrl(id,d){
+  if(d.slug)return`merchant.html?slug=${d.slug}&id=${id}`;
+  return`merchant.html?id=${id}`;
+}
 const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
 function visible(d){
   if(d.status==='declined')return false;
@@ -663,7 +669,8 @@ function featCard(id,d){
   const img=d.images?.[0]?ipfs(d.images[0]):'';
   const ph=waNum(d.phone);
   const desc=(d.description||'').slice(0,100)+(d.description?.length>100?'…':'');
-  return `<a href="merchant.html?id=${id}" class="fc">
+  const url=merchantUrl(id,d);
+  return `<a href="${url}" class="fc">
     <div class="fc-ribbon">★ FEATURED</div>
     <div class="fc-img">
       ${img?`<img src="${img}" alt="${d.businessName}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
@@ -681,7 +688,7 @@ function featCard(id,d){
     </div>
     <div class="fc-foot">
       ${ph?`<a href="https://wa.me/${ph}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
-      <a href="merchant.html?id=${id}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
+      <a href="${url}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
     </div>
   </a>`;
 }
@@ -690,7 +697,8 @@ function bizCard(id,d){
   const img=d.images?.[0]?ipfs(d.images[0]):'';
   const ph=waNum(d.phone);
   const desc=(d.description||'').slice(0,80)+(d.description?.length>80?'…':'');
-  return `<a href="merchant.html?id=${id}" class="mc">
+  const url=merchantUrl(id,d);
+  return `<a href="${url}" class="mc">
     <div class="mc-img">
       ${img?`<img src="${img}" alt="${d.businessName}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
       <div class="mc-cat">${d.category||'Business'}</div>
@@ -707,7 +715,7 @@ function bizCard(id,d){
     </div>
     <div class="mc-foot">
       ${ph?`<a href="https://wa.me/${ph}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
-      <a href="merchant.html?id=${id}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
+      <a href="${url}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
     </div>
   </a>`;
 }
