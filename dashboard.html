@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Business Dashboard — Global Biz Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{--bg:#0D0D0D;--sf:#161616;--sf2:#1E1E1E;--br:#2A2A2A;--tx:#F0EDE8;--mu:#7A7570;}
+[data-theme="light"]{--bg:#F5F4F0;--sf:#FFFFFF;--sf2:#F0EEE9;--br:#E0DDD8;--tx:#1A1A1A;--mu:#7A7570;}
+:root{
+  --gold:#F5A623;--green:#00A651;--red:#E05A2B;--blue:#4A9EFF;--purple:#9B59B6;
+  --r:12px;--fh:'Syne',sans-serif;--fb:'Manrope',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .25s,color .25s;}
+a{text-decoration:none;color:inherit;}
+
+/* ── KEYFRAMES ── */
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.92);}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+@keyframes countUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes holo{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:var(--bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--br);
+  padding:0 20px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  transition:background .25s;
+}
+.nav-brand{line-height:1.15;text-decoration:none;}
+.nav-logo{font-family:var(--fh);font-size:17px;font-weight:800;}
+.nav-logo .g{color:var(--gold);}
+.nav-by{font-size:8.5px;color:var(--mu);letter-spacing:.4px;}
+.nav-right{display:flex;gap:8px;align-items:center;}
+.btn-nav{padding:7px 14px;border:1px solid var(--br);background:transparent;color:var(--tx);font-family:var(--fb);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;}
+.btn-nav:hover{border-color:var(--gold);color:var(--gold);}
+.ni{width:34px;height:34px;border:1px solid var(--br);background:var(--sf);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;}
+.ni:hover{border-color:var(--gold);}
+
+/* ── CLAIM SCREEN ── */
+.claim-screen{
+  min-height:calc(100vh - 58px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px 20px;
+}
+.claim-box{
+  background:var(--sf);border:1px solid var(--br);border-radius:18px;
+  padding:44px 36px;max-width:480px;width:100%;
+  text-align:center;animation:fadeUp .4s ease;
+}
+.claim-icon{font-size:48px;margin-bottom:16px;display:block;}
+.claim-box h1{font-family:var(--fh);font-size:26px;font-weight:800;margin-bottom:8px;}
+.claim-box p{font-size:14px;color:var(--mu);line-height:1.7;margin-bottom:28px;}
+.claim-tabs{display:flex;gap:8px;margin-bottom:22px;background:var(--sf2);border-radius:10px;padding:4px;}
+.ctab{flex:1;padding:9px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fb);font-size:13px;font-weight:600;color:var(--mu);background:transparent;transition:all .2s;}
+.ctab.on{background:var(--sf);color:var(--tx);box-shadow:0 1px 6px rgba(0,0,0,.15);}
+.field{display:flex;flex-direction:column;gap:5px;text-align:left;margin-bottom:12px;}
+.field label{font-size:12px;font-weight:600;color:var(--mu);}
+.field input{
+  padding:12px 14px;background:var(--sf2);border:1px solid var(--br);border-radius:9px;
+  color:var(--tx);font-family:var(--fb);font-size:14px;outline:none;
+  transition:border-color .2s;
+}
+.field input:focus{border-color:var(--gold);}
+.field .fhint{font-size:11px;color:var(--mu);margin-top:3px;}
+.btn-claim{
+  width:100%;padding:14px;background:var(--gold);color:#000;
+  font-family:var(--fh);font-size:15px;font-weight:800;
+  border:none;border-radius:10px;cursor:pointer;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;
+}
+.btn-claim:hover{background:#e09c1a;transform:translateY(-1px);}
+.btn-claim:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.claim-err{
+  margin-top:12px;padding:10px 14px;
+  background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.25);
+  border-radius:8px;font-size:12px;color:var(--red);display:none;
+}
+.claim-err.show{display:block;}
+.spin{display:inline-block;animation:spin .8s linear infinite;}
+.divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--mu);font-size:12px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--br);}
+
+/* ── DASHBOARD LAYOUT ── */
+.dashboard{display:none;animation:fadeUp .4s ease;}
+.dash-header{
+  padding:20px 20px 0;max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+}
+.biz-info{display:flex;align-items:center;gap:14px;}
+.biz-avatar{
+  width:52px;height:52px;border-radius:12px;background:var(--sf2);
+  border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:22px;overflow:hidden;flex-shrink:0;
+}
+.biz-avatar img{width:100%;height:100%;object-fit:cover;}
+.biz-name{font-family:var(--fh);font-size:20px;font-weight:800;line-height:1.2;}
+.biz-cat{font-size:12px;color:var(--mu);margin-top:2px;}
+.dash-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.btn-dash{
+  padding:9px 16px;border:1px solid var(--br);background:var(--sf);
+  color:var(--tx);font-family:var(--fb);font-size:12px;font-weight:700;
+  border-radius:8px;cursor:pointer;transition:all .2s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn-dash:hover{border-color:var(--gold);color:var(--gold);}
+.btn-dash.primary{background:var(--gold);color:#000;border-color:var(--gold);}
+.btn-dash.primary:hover{background:#e09c1a;color:#000;}
+.btn-dash.red{border-color:rgba(224,90,43,.3);color:var(--mu);}
+.btn-dash.red:hover{border-color:var(--red);color:var(--red);}
+
+/* ── METRICS GRID ── */
+.metrics-wrap{max-width:1100px;margin:20px auto 0;padding:0 20px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.metric-card{
+  background:var(--sf);border:1px solid var(--br);border-radius:var(--r);
+  padding:16px;position:relative;overflow:hidden;
+  transition:background .25s,transform .2s;cursor:default;
+}
+.metric-card:hover{transform:translateY(-2px);}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0;}
+.metric-card.gold::before{background:var(--gold);}
+.metric-card.green::before{background:var(--green);}
+.metric-card.blue::before{background:var(--blue);}
+.metric-card.purple::before{background:var(--purple);}
+.metric-card.red2::before{background:var(--red);}
+.metric-card.teal::before{background:#00B5CC;}
+.metric-label{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.metric-val{font-family:var(--fh);font-size:32px;font-weight:800;line-height:1;margin-bottom:3px;animation:countUp .4s ease;}
+.metric-card.gold .metric-val{color:var(--gold);}
+.metric-card.green .metric-val{color:var(--green);}
+.metric-card.blue .metric-val{color:var(--blue);}
+.metric-card.purple .metric-val{color:var(--purple);}
+.metric-card.red2 .metric-val{color:var(--red);}
+.metric-card.teal .metric-val{color:#00B5CC;}
+.metric-sub{font-size:11px;color:var(--mu);}
+.metric-icon{
+  position:absolute;top:14px;right:14px;
+  font-size:20px;opacity:.15;
+}
+
+/* ── CTR HIGHLIGHT ── */
+.ctr-highlight{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;
+  background:rgba(0,166,81,.12);color:var(--green);margin-top:4px;
+}
+
+/* ── SECTION GRID ── */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;max-width:1100px;margin:0 auto;padding:0 20px 40px;}
+.dash-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);overflow:hidden;transition:background .25s;}
+.dash-card.full{grid-column:1/-1;}
+.card-head{
+  padding:14px 18px;border-bottom:1px solid var(--br);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.card-title{font-family:var(--fh);font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px;}
+.card-body{padding:16px 18px;}
+
+/* ── ACTIVITY BAR CHART ── */
+.bar-chart{display:flex;align-items:flex-end;gap:5px;height:80px;padding:0 2px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar{
+  width:100%;border-radius:4px 4px 0 0;min-height:4px;
+  transition:height .5s cubic-bezier(.4,0,.2,1);position:relative;
+}
+.bar:hover::after{
+  content:attr(data-val);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);
+  background:var(--tx);color:var(--bg);padding:3px 6px;border-radius:5px;font-size:10px;font-weight:700;
+  white-space:nowrap;pointer-events:none;
+}
+.bar.views{background:linear-gradient(to top,rgba(245,166,35,.6),var(--gold));}
+.bar.wa{background:linear-gradient(to top,rgba(37,211,102,.5),#25D366);}
+.bar.calls{background:linear-gradient(to top,rgba(74,158,255,.5),var(--blue));}
+.bar-label{font-size:9px;color:var(--mu);text-align:center;}
+
+/* ── CHANNEL BREAKDOWN ── */
+.channel-list{display:flex;flex-direction:column;gap:10px;}
+.channel-row{display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:center;}
+.channel-icon{font-size:14px;text-align:center;}
+.channel-bar-wrap{display:flex;flex-direction:column;gap:3px;}
+.channel-name{font-size:12px;font-weight:600;}
+.channel-track{height:5px;background:var(--sf2);border-radius:3px;overflow:hidden;}
+.channel-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.channel-count{font-family:var(--fh);font-size:14px;font-weight:800;text-align:right;min-width:28px;}
+
+/* ── PERFORMANCE SCORE ── */
+.score-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 0 12px;}
+.score-ring{position:relative;width:120px;height:120px;}
+.score-ring svg{transform:rotate(-90deg);}
+.score-ring circle.track{stroke:var(--sf2);stroke-width:10;fill:none;}
+.score-ring circle.fill{stroke-width:10;fill:none;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);}
+.score-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-num{font-family:var(--fh);font-size:26px;font-weight:800;line-height:1;}
+.score-lbl{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;}
+.score-tips{display:flex;flex-direction:column;gap:7px;margin-top:4px;}
+.score-tip{
+  display:flex;align-items:flex-start;gap:8px;padding:9px 10px;
+  background:var(--sf2);border-radius:8px;font-size:11px;line-height:1.5;
+}
+.score-tip .ic{flex-shrink:0;font-size:14px;margin-top:1px;}
+.score-tip .tt{color:var(--mu);}
+.score-tip .tt b{color:var(--tx);font-weight:700;}
+
+/* ── UPGRADE BANNERS ── */
+.upgrade-banner{
+  background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(0,166,81,.04));
+  border:1px solid rgba(245,166,35,.22);border-radius:var(--r);
+  padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:16px;
+}
+.upgrade-banner p{font-size:13px;color:var(--mu);line-height:1.5;}
+.upgrade-banner strong{color:var(--gold);}
+.btn-upgrade{
+  padding:9px 16px;background:var(--gold);color:#000;border:none;border-radius:8px;
+  cursor:pointer;font-family:var(--fb);font-size:12px;font-weight:700;
+  white-space:nowrap;transition:all .2s;text-decoration:none;
+}
+.btn-upgrade:hover{background:#e09c1a;}
+
+/* ── LISTING QUALITY CHECKLIST ── */
+.check-list{display:flex;flex-direction:column;gap:7px;}
+.check-item{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  background:var(--sf2);border-radius:8px;font-size:12px;
+}
+.check-item .ci{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;font-weight:800;}
+.check-item .ci.ok{background:rgba(0,166,81,.15);color:var(--green);}
+.check-item .ci.no{background:rgba(245,166,35,.12);color:var(--gold);}
+.check-item .ct{flex:1;color:var(--tx);}
+.check-item .cv{font-size:10px;color:var(--mu);}
+
+/* ── BADGES ── */
+.badge-verified{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.4px;background:linear-gradient(135deg,#00c853,#69f0ae,#00bcd4,#00c853);background-size:300% 300%;animation:holo 2.5s ease infinite;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);}
+.badge-featured{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.4px;background:linear-gradient(135deg,#F5A623,#FFD700,#FF8C00,#FFD700,#F5A623);background-size:300% 300%;animation:holo 2s ease infinite;color:#000;}
+.badge-pending{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.25);}
+
+/* ── SKELETON LOADER ── */
+.skel{background:linear-gradient(90deg,var(--sf2) 25%,var(--br) 50%,var(--sf2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--sf);border:1px solid var(--green);color:var(--green);
+  border-radius:10px;padding:11px 20px;font-size:13px;font-weight:600;
+  z-index:9999;display:none;white-space:nowrap;max-width:90vw;text-align:center;
+}
+.toast.show{display:block;animation:fadeUp .3s ease;}
+.toast.warn{border-color:var(--gold);color:var(--gold);}
+.toast.err{border-color:var(--red);color:var(--red);}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:40px 20px;color:var(--mu);}
+.empty-state .ico{font-size:36px;margin-bottom:10px;opacity:.35;}
+.empty-state h3{font-family:var(--fh);font-size:14px;font-weight:700;color:var(--tx);margin-bottom:5px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:780px){
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+  .dash-grid{grid-template-columns:1fr;}
+  .claim-box{padding:30px 20px;}
+}
+@media(max-width:480px){
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+  .metric-val{font-size:24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo"><span class="g">Global</span> Biz Hub</div>
+    <div class="nav-by">by TEKNNUKU</div>
+  </a>
+  <div class="nav-right">
+    <button class="ni" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+    <a href="index.html" class="btn-nav">← Directory</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     CLAIM / LOGIN SCREEN
+══════════════════════════════ -->
+<div class="claim-screen" id="claimScreen">
+  <div class="claim-box">
+    <span class="claim-icon">📊</span>
+    <h1>My Business Dashboard</h1>
+    <p>Track your profile views, WhatsApp clicks, calls, and more. Claim your business to get started — it's free.</p>
+
+    <div class="claim-tabs">
+      <button class="ctab on" onclick="switchTab('id',this)">Use Business ID</button>
+      <button class="ctab" onclick="switchTab('phone',this)">Use Phone Number</button>
+    </div>
+
+    <!-- Tab: Business ID -->
+    <div id="tab-id">
+      <div class="field">
+        <label>Your Business ID (from your profile URL)</label>
+        <input type="text" id="inputId" placeholder="e.g. abc123XYZ — from the URL of your listing">
+        <span class="fhint">Find it in your browser address bar when viewing your listing: merchant.html?id=<strong>THIS_PART</strong></span>
+      </div>
+    </div>
+
+    <!-- Tab: Phone -->
+    <div id="tab-phone" style="display:none;">
+      <div class="field">
+        <label>Phone number used when you listed your business</label>
+        <input type="tel" id="inputPhone" placeholder="e.g. 08012345678 or +2348012345678">
+        <span class="fhint">Must match exactly what you entered when listing your business.</span>
+      </div>
+    </div>
+
+    <button class="btn-claim" id="claimBtn" onclick="claimDashboard()">
+      🔓 Access My Dashboard
+    </button>
+    <div class="claim-err" id="claimErr"></div>
+
+    <div class="divider">or</div>
+    <p style="font-size:12px;color:var(--mu);">Don't have a listing yet? <a href="add_v2.html" style="color:var(--gold);font-weight:700;">Add your business for free →</a></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     DASHBOARD
+══════════════════════════════ -->
+<div class="dashboard" id="dashboardScreen">
+
+  <!-- Header -->
+  <div class="dash-header">
+    <div class="biz-info">
+      <div class="biz-avatar" id="dashAvatar">🏪</div>
+      <div>
+        <div class="biz-name" id="dashName">—</div>
+        <div class="biz-cat" id="dashCat">—</div>
+        <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;" id="dashBadges"></div>
+      </div>
+    </div>
+    <div class="dash-actions">
+      <a href="#" id="viewProfileBtn" class="btn-dash" target="_blank">👁 View Profile</a>
+      <button class="btn-dash primary" onclick="refreshStats()">🔄 Refresh Stats</button>
+      <button class="btn-dash red" onclick="signOut()">↩ Switch Business</button>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics-wrap">
+
+    <!-- Alert banners -->
+    <div id="statusAlert" style="margin-bottom:14px;display:none;">
+      <div style="padding:12px 16px;border-radius:10px;font-size:13px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);color:var(--gold);">
+        ⏳ Your listing is <strong>pending review</strong> — it will go live within 48 hours. Stats will begin collecting once you're live.
+      </div>
+    </div>
+
+    <!-- 6-metric grid -->
+    <div class="metrics-grid">
+      <div class="metric-card gold">
+        <div class="metric-icon">👁</div>
+        <div class="metric-label">Profile Views</div>
+        <div class="metric-val" id="m-views">—</div>
+        <div class="metric-sub">All-time total visits</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-icon">💬</div>
+        <div class="metric-label">WhatsApp Clicks</div>
+        <div class="metric-val" id="m-wa">—</div>
+        <div class="metric-sub" id="m-wa-ctr">— CTR</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="metric-icon">📞</div>
+        <div class="metric-label">Call Clicks</div>
+        <div class="metric-val" id="m-calls">—</div>
+        <div class="metric-sub">Direct call taps</div>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-icon">🛒</div>
+        <div class="metric-label">Store Clicks</div>
+        <div class="metric-val" id="m-store">—</div>
+        <div class="metric-sub">Online store visits</div>
+      </div>
+      <div class="metric-card red2">
+        <div class="metric-icon">❤️</div>
+        <div class="metric-label">Likes</div>
+        <div class="metric-val" id="m-likes">—</div>
+        <div class="metric-sub">People who liked you</div>
+      </div>
+      <div class="metric-card teal">
+        <div class="metric-icon">📍</div>
+        <div class="metric-label">Direction Clicks</div>
+        <div class="metric-val" id="m-directions">—</div>
+        <div class="metric-sub">Visitors who got directions</div>
+      </div>
+    </div>
+
+    <!-- Total engagement row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div style="background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;">Total Engagements</div>
+          <div style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--gold);" id="m-total-eng">—</div>
+          <div style="font-size:11px;color:var(--mu);">Clicks + WhatsApp + Calls</div>
+        </div>
+        <div style="font-size:36px;opacity:.12;">🎯</div>
+      </div>
+      <div style="background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;">Engagement Rate</div>
+          <div style="font-family:var(--fh);font-size:28px;font-weight:800;" id="m-eng-rate" style="color:var(--green);">—</div>
+          <div style="font-size:11px;color:var(--mu);">Actions per 100 views</div>
+        </div>
+        <div style="font-size:36px;opacity:.12;">📈</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Dashboard Grid -->
+  <div class="dash-grid">
+
+    <!-- Left: Activity Breakdown + Listing Quality -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Channel Breakdown -->
+      <div class="dash-card">
+        <div class="card-head">
+          <div class="card-title">📡 Engagement Breakdown</div>
+          <span style="font-size:11px;color:var(--mu);">How visitors engage</span>
+        </div>
+        <div class="card-body">
+          <div class="channel-list" id="channelList">
+            <div style="font-size:12px;color:var(--mu);text-align:center;padding:20px;">Loading…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listing Quality Checklist -->
+      <div class="dash-card">
+        <div class="card-head">
+          <div class="card-title">✅ Listing Completeness</div>
+          <span style="font-size:11px;color:var(--mu);" id="completenessScore"></span>
+        </div>
+        <div class="card-body">
+          <div class="check-list" id="checkList"></div>
+          <div style="margin-top:14px;padding:10px 12px;background:var(--sf2);border-radius:8px;font-size:12px;color:var(--mu);">
+            💡 More complete listings get <strong style="color:var(--gold);">more views</strong> and higher engagement.
+          </div>
+        </div>
+      </div>
+
+      <!-- Upgrade prompts (shown conditionally) -->
+      <div id="upgradeSection"></div>
+
+    </div>
+
+    <!-- Right: Score + Tips -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Performance Score -->
+      <div class="dash-card">
+        <div class="card-head">
+          <div class="card-title">⚡ Performance Score</div>
+        </div>
+        <div class="card-body">
+          <div class="score-ring-wrap">
+            <div class="score-ring">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle class="track" cx="60" cy="60" r="50"/>
+                <circle class="fill" id="scoreCircle" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+              </svg>
+              <div class="score-center">
+                <div class="score-num" id="scoreNum">—</div>
+                <div class="score-lbl">/ 100</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--mu);margin-top:8px;text-align:center;" id="scoreLabel">Calculating…</div>
+          </div>
+          <div class="score-tips" id="scoreTips"></div>
+        </div>
+      </div>
+
+      <!-- Quick stats panel -->
+      <div class="dash-card">
+        <div class="card-head">
+          <div class="card-title">📌 Your Listing</div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:8px;" id="listingDetails"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════
+     TRACKING SNIPPET INFO
+     (shown after successful claim)
+══════════════════════════════ -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, getDocs, collection,
+  query, where, updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
+  authDomain:"merchant-intelligence.firebaseapp.com",
+  projectId:"merchant-intelligence",
+  storageBucket:"merchant-intelligence.firebasestorage.app",
+  messagingSenderId:"1032906945513",
+  appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
+}));
+
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
+const ipfs = cid => `https://gateway.pinata.cloud/ipfs/${cid}`;
+function toast(msg, type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className=`toast show${type!=='ok'?' '+type:''}`;
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+/* ════════════════════════════════
+   THEME
+════════════════════════════════ */
+const th=localStorage.getItem('gbh_theme')||'dark';
+document.documentElement.setAttribute('data-theme',th);
+document.getElementById('themeBtn').textContent=th==='dark'?'🌙':'☀️';
+window.toggleTheme=()=>{
+  const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n);
+  localStorage.setItem('gbh_theme',n);
+  document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'☀️';
+};
+
+/* ════════════════════════════════
+   CLAIM TAB SWITCHING
+════════════════════════════════ */
+let claimMode = 'id';
+window.switchTab = (mode, el) => {
+  claimMode = mode;
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-id').style.display = mode === 'id' ? '' : 'none';
+  document.getElementById('tab-phone').style.display = mode === 'phone' ? '' : 'none';
+};
+
+/* ════════════════════════════════
+   AUTO-LOGIN FROM SESSION
+════════════════════════════════ */
+let currentMerchantId = null;
+let currentData = null;
+
+const saved = sessionStorage.getItem('gbh_dashboard_id');
+if (saved) {
+  loadDashboard(saved);
+}
+
+/* ════════════════════════════════
+   CLAIM DASHBOARD
+════════════════════════════════ */
+window.claimDashboard = async () => {
+  const btn = document.getElementById('claimBtn');
+  const err = document.getElementById('claimErr');
+  err.classList.remove('show');
+
+  let merchantId = null;
+  let merchantData = null;
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin">⟳</span> Searching…';
+
+  try {
+    if (claimMode === 'id') {
+      const rawId = document.getElementById('inputId').value.trim();
+      if (!rawId) throw new Error('Please enter your Business ID.');
+
+      const snap = await getDoc(doc(db, 'merchants', rawId));
+      if (!snap.exists()) throw new Error('No business found with that ID. Double-check your listing URL.');
+      merchantId = rawId;
+      merchantData = snap.data();
+
+    } else {
+      // Phone lookup
+      const phone = document.getElementById('inputPhone').value.trim().replace(/\s+/g, '');
+      if (!phone) throw new Error('Please enter your phone number.');
+
+      // Try multiple normalizations
+      const variants = [phone, phone.replace(/^\+/, ''), phone.replace(/^0/, '234'), '0' + phone.replace(/^234/, '')];
+      let found = false;
+      for (const v of variants) {
+        const q = query(collection(db, 'merchants'), where('phone', '==', v));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          merchantId = snap.docs[0].id;
+          merchantData = snap.docs[0].data();
+          found = true;
+          break;
+        }
+      }
+      if (!found) throw new Error('No business found with that phone number. Try your Business ID instead.');
+    }
+
+    sessionStorage.setItem('gbh_dashboard_id', merchantId);
+    loadDashboard(merchantId, merchantData);
+
+  } catch (e) {
+    err.textContent = e.message;
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = '🔓 Access My Dashboard';
+  }
+};
+
+/* ════════════════════════════════
+   LOAD DASHBOARD
+════════════════════════════════ */
+async function loadDashboard(id, data) {
+  currentMerchantId = id;
+
+  if (!data) {
+    try {
+      const snap = await getDoc(doc(db, 'merchants', id));
+      if (!snap.exists()) {
+        toast('Business not found.', 'err');
+        sessionStorage.removeItem('gbh_dashboard_id');
+        return;
+      }
+      data = snap.data();
+    } catch (e) {
+      toast('Error loading: ' + e.message, 'err');
+      return;
+    }
+  }
+
+  currentData = data;
+
+  document.getElementById('claimScreen').style.display = 'none';
+  document.getElementById('dashboardScreen').style.display = 'block';
+
+  renderHeader(id, data);
+  renderMetrics(data);
+  renderChannelBreakdown(data);
+  renderCompletenessChecklist(data);
+  renderPerformanceScore(data);
+  renderListingDetails(id, data);
+  renderUpgradeSection(data);
+
+  if (data.status === 'pending') {
+    document.getElementById('statusAlert').style.display = 'block';
+  }
+}
+
+/* ════════════════════════════════
+   HEADER
+════════════════════════════════ */
+function renderHeader(id, d) {
+  const img = d.images?.[0] ? ipfs(d.images[0]) : '';
+  document.getElementById('dashAvatar').innerHTML = img
+    ? `<img src="${img}" onerror="this.parentElement.innerHTML='🏪'">`
+    : '🏪';
+  document.getElementById('dashName').textContent = d.businessName || 'Your Business';
+  document.getElementById('dashCat').textContent = `${d.category || 'Business'} · ${d.location || 'Location not set'}`;
+
+  let badges = '';
+  if (d.verified) badges += '<span class="badge-verified">✦ VERIFIED</span>';
+  if (d.featured) badges += '<span class="badge-featured">★ FEATURED</span>';
+  if (d.status === 'pending') badges += '<span class="badge-pending">⏳ Pending</span>';
+  document.getElementById('dashBadges').innerHTML = badges;
+
+  const viewBtn = document.getElementById('viewProfileBtn');
+  viewBtn.href = d.slug ? `merchant.html?slug=${d.slug}&id=${id}` : `merchant.html?id=${id}`;
+}
+
+/* ════════════════════════════════
+   METRICS
+════════════════════════════════ */
+function renderMetrics(d) {
+  const views = d.stat_views || 0;
+  const wa = d.stat_whatsapp || 0;
+  const calls = d.stat_calls || 0;
+  const store = d.stat_store || 0;
+  const likes = d.likes || 0;
+  const directions = d.stat_directions || 0;
+
+  animateNum('m-views', views);
+  animateNum('m-wa', wa);
+  animateNum('m-calls', calls);
+  animateNum('m-store', store);
+  animateNum('m-likes', likes);
+  animateNum('m-directions', directions);
+
+  const waCtEl = document.getElementById('m-wa-ctr');
+  const waCTR = views > 0 ? ((wa / views) * 100).toFixed(1) : 0;
+  waCtEl.textContent = `${waCTR}% CTR from views`;
+
+  const totalEng = wa + calls + store + directions;
+  const engRate = views > 0 ? ((totalEng / views) * 100).toFixed(1) : 0;
+  animateNum('m-total-eng', totalEng);
+  const engEl = document.getElementById('m-eng-rate');
+  engEl.textContent = `${engRate}%`;
+  engEl.style.color = engRate >= 10 ? 'var(--green)' : engRate >= 5 ? 'var(--gold)' : 'var(--red)';
+}
+
+function animateNum(elId, target) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  let start = 0;
+  const dur = 600;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / dur, 1);
+    const cur = Math.floor(progress * target);
+    el.textContent = cur.toLocaleString();
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target.toLocaleString();
+  };
+  requestAnimationFrame(step);
+}
+
+/* ════════════════════════════════
+   CHANNEL BREAKDOWN
+════════════════════════════════ */
+function renderChannelBreakdown(d) {
+  const wa = d.stat_whatsapp || 0;
+  const calls = d.stat_calls || 0;
+  const store = d.stat_store || 0;
+  const dir = d.stat_directions || 0;
+
+  const channels = [
+    { name: 'WhatsApp', icon: '💬', count: wa, color: '#25D366' },
+    { name: 'Phone Calls', icon: '📞', count: calls, color: 'var(--blue)' },
+    { name: 'Online Store', icon: '🛒', count: store, color: 'var(--purple)' },
+    { name: 'Directions', icon: '📍', count: dir, color: 'var(--gold)' },
+  ];
+
+  const maxVal = Math.max(...channels.map(c => c.count), 1);
+  const el = document.getElementById('channelList');
+
+  el.innerHTML = channels.map(c => {
+    const pct = Math.round((c.count / maxVal) * 100);
+    return `
+      <div class="channel-row">
+        <div class="channel-icon">${c.icon}</div>
+        <div class="channel-bar-wrap">
+          <div class="channel-name">${c.name}</div>
+          <div class="channel-track">
+            <div class="channel-fill" style="width:${pct}%;background:${c.color};"></div>
+          </div>
+        </div>
+        <div class="channel-count" style="color:${c.color};">${c.count}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════
+   LISTING COMPLETENESS
+════════════════════════════════ */
+function renderCompletenessChecklist(d) {
+  const checks = [
+    { label: 'Business name', ok: !!d.businessName, tip: 'Required' },
+    { label: 'Profile photo / logo', ok: !!(d.images?.[0]), tip: 'Upload in your listing' },
+    { label: 'Cover banner image', ok: !!(d.images?.[1]), tip: 'Makes your listing stand out' },
+    { label: 'Business description', ok: !!(d.description && d.description.length > 30), tip: 'Add at least 30 characters' },
+    { label: 'WhatsApp / phone number', ok: !!d.phone, tip: 'Lets customers contact you' },
+    { label: 'Location selected', ok: !!(d.continent && d.country), tip: 'Helps customers find you locally' },
+    { label: 'Category set', ok: !!d.category, tip: 'Helps with discovery' },
+    { label: 'Business story', ok: !!(d.uniqueness && d.uniqueness.length > 20), tip: 'In Their Own Words section' },
+    { label: 'Social media links', ok: !!(d.socialLinks?.some(s => s.url)), tip: 'Add at least one social link' },
+    { label: 'Map pin dropped', ok: !!(d.lat && d.lng), tip: 'Enables directions & navigation' },
+    { label: 'Website / online store', ok: !!d.website, tip: 'Adds a direct store link' },
+    { label: 'Verified badge', ok: !!d.verified, tip: 'Builds customer trust instantly' },
+  ];
+
+  const total = checks.length;
+  const done = checks.filter(c => c.ok).length;
+  const pct = Math.round((done / total) * 100);
+
+  document.getElementById('completenessScore').textContent = `${done}/${total} · ${pct}%`;
+
+  document.getElementById('checkList').innerHTML = checks.map(c => `
+    <div class="check-item">
+      <div class="ci ${c.ok ? 'ok' : 'no'}">${c.ok ? '✓' : '!'}</div>
+      <div class="ct">${c.label}</div>
+      ${!c.ok ? `<div class="cv">${c.tip}</div>` : ''}
+    </div>`).join('');
+}
+
+/* ════════════════════════════════
+   PERFORMANCE SCORE
+════════════════════════════════ */
+function renderPerformanceScore(d) {
+  let score = 0;
+  const tips = [];
+
+  // Listing quality (max 40pts)
+  if (d.businessName) score += 5;
+  if (d.images?.[0]) score += 8;
+  if (d.images?.[1]) score += 5;
+  if (d.description?.length > 50) score += 7;
+  if (d.uniqueness?.length > 20) score += 5;
+  if (d.socialLinks?.some(s => s.url)) score += 5;
+  if (d.lat && d.lng) score += 5;
+
+  // Verification / trust (max 20pts)
+  if (d.verified) score += 15; else tips.push({ ic: '🔒', text: '<b>Get Verified</b> (+15 pts) — earn trust with the holographic badge' });
+  if (d.featured) score += 5; else tips.push({ ic: '⭐', text: '<b>Get Featured</b> (+5 pts) — appear at the top of the directory' });
+
+  // Engagement score (max 40pts)
+  const views = d.stat_views || 0;
+  const wa = d.stat_whatsapp || 0;
+  const calls = d.stat_calls || 0;
+  const totalEng = wa + calls + (d.stat_store || 0);
+  if (views >= 10) score += 5;
+  if (views >= 50) score += 5;
+  if (views >= 200) score += 5;
+  if (totalEng >= 5) score += 5;
+  if (totalEng >= 20) score += 5;
+  if (totalEng >= 100) score += 5;
+  const ctr = views > 0 ? totalEng / views : 0;
+  if (ctr >= 0.05) score += 10;
+
+  score = Math.min(100, score);
+
+  // Score ring
+  const circumference = 314;
+  const offset = circumference - (score / 100) * circumference;
+  const circle = document.getElementById('scoreCircle');
+  const color = score >= 70 ? '#00A651' : score >= 40 ? '#F5A623' : '#E05A2B';
+  circle.style.stroke = color;
+  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreNum').style.color = color;
+  const lbl = score >= 80 ? '🏆 Excellent' : score >= 60 ? '🌟 Good' : score >= 40 ? '📈 Growing' : '🌱 Getting Started';
+  document.getElementById('scoreLabel').textContent = lbl;
+
+  // Tips
+  if (tips.length === 0) tips.push({ ic: '🎉', text: 'Your listing is performing great! Keep engaging with customers.' });
+  document.getElementById('scoreTips').innerHTML = tips.slice(0, 3).map(t =>
+    `<div class="score-tip"><div class="ic">${t.ic}</div><div class="tt">${t.text}</div></div>`
+  ).join('');
+}
+
+/* ════════════════════════════════
+   LISTING DETAILS
+════════════════════════════════ */
+function renderListingDetails(id, d) {
+  const created = d.createdAt?.toDate ? d.createdAt.toDate() : new Date(d.createdAt || 0);
+  const createdStr = created.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const locParts = [d.city, d.country].filter(Boolean).join(', ') || d.location || '—';
+  const url = d.slug ? `merchant.html?slug=${d.slug}&id=${id}` : `merchant.html?id=${id}`;
+
+  const rows = [
+    { label: 'Status', val: d.status === 'approved' ? '<span style="color:var(--green);font-weight:700;">✓ Live</span>' : '<span style="color:var(--gold);font-weight:700;">⏳ Pending</span>' },
+    { label: 'Category', val: d.category || '—' },
+    { label: 'Location', val: locParts },
+    { label: 'Listed on', val: createdStr },
+    { label: 'Your URL', val: `<a href="${url}" target="_blank" style="color:var(--gold);font-size:11px;word-break:break-all;">View Profile →</a>` },
+    { label: 'Delivers', val: d.delivers || '—' },
+    { label: 'WhatsApp Biz', val: d.whatsappBusiness || '—' },
+  ];
+
+  document.getElementById('listingDetails').innerHTML = rows.map(r => `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--br);font-size:12px;">
+      <span style="color:var(--mu);min-width:90px;">${r.label}</span>
+      <span style="font-weight:600;text-align:right;">${r.val}</span>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════
+   UPGRADE SECTION
+════════════════════════════════ */
+function renderUpgradeSection(d) {
+  const el = document.getElementById('upgradeSection');
+  const parts = [];
+
+  if (!d.featured) {
+    parts.push(`
+      <div class="upgrade-banner">
+        <div>
+          <div style="font-family:var(--fh);font-size:13px;font-weight:800;margin-bottom:4px;">⭐ Get Featured</div>
+          <p>Appear at the <strong>top of the directory</strong> for 28 days. Businesses report up to 10× more profile views.</p>
+        </div>
+        <a href="${d.slug ? `merchant.html?slug=${d.slug}&id=${currentMerchantId}` : `merchant.html?id=${currentMerchantId}`}" class="btn-upgrade" target="_blank">₦10,000 — Get Featured</a>
+      </div>`);
+  }
+
+  if (!d.verified) {
+    parts.push(`
+      <div class="upgrade-banner" style="margin-top:0;">
+        <div>
+          <div style="font-family:var(--fh);font-size:13px;font-weight:800;margin-bottom:4px;">✦ Get Verified</div>
+          <p>The holographic <strong>VERIFIED badge</strong> builds instant trust with new customers. One-time fee.</p>
+        </div>
+        <a href="${d.slug ? `merchant.html?slug=${d.slug}&id=${currentMerchantId}` : `merchant.html?id=${currentMerchantId}`}" class="btn-upgrade" target="_blank">₦15,000 — Get Verified</a>
+      </div>`);
+  }
+
+  el.innerHTML = parts.join('');
+}
+
+/* ════════════════════════════════
+   REFRESH + SIGN OUT
+════════════════════════════════ */
+window.refreshStats = async () => {
+  if (!currentMerchantId) return;
+  toast('Refreshing stats…', 'warn');
+  try {
+    const snap = await getDoc(doc(db, 'merchants', currentMerchantId));
+    if (snap.exists()) {
+      currentData = snap.data();
+      renderMetrics(currentData);
+      renderChannelBreakdown(currentData);
+      renderPerformanceScore(currentData);
+      renderUpgradeSection(currentData);
+      toast('✓ Stats updated!');
+    }
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+  }
+};
+
+window.signOut = () => {
+  sessionStorage.removeItem('gbh_dashboard_id');
+  currentMerchantId = null;
+  currentData = null;
+  document.getElementById('dashboardScreen').style.display = 'none';
+  document.getElementById('claimScreen').style.display = 'flex';
+  document.getElementById('inputId').value = '';
+  document.getElementById('inputPhone').value = '';
+  document.getElementById('claimErr').classList.remove('show');
+  const btn = document.getElementById('claimBtn');
+  btn.disabled = false;
+  btn.innerHTML = '🔓 Access My Dashboard';
+};
+</script>
+</body>
+</html>
