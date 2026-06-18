@@ -207,6 +207,9 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
   </a>
   <div class="nav-right">
     <button class="btn-share" onclick="sharePage()">🔗 <span>Share</span></button>
+    <a href="dashboard.html" class="btn-back" style="background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.3);color:var(--gold);" title="Business Owner? Access your dashboard">
+    📊 My Dashboard
+  </a>
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
     <a href="index.html" class="btn-back">← Directory</a>
   </div>
@@ -499,8 +502,14 @@ window.toggleSave=()=>{
    DIRECTIONS MODAL
 ════════════════════════════════════════ */
 let _navLat=null,_navLng=null;
-window.openNavModal=()=>{
-  if(!_navLat||!_navLng){toast('No location pin for this business','var(--gold)');return;}
+window.openNavModal = () => {
+    if (!_navLat || !_navLng) { toast('No location pin for this business', 'var(--gold)'); return; }
+    // Track directions click (once per session)
+    const dirKey = `gbh_dir_${merchantId}`;
+    if (!sessionStorage.getItem(dirKey)) {
+      sessionStorage.setItem(dirKey, '1');
+      track('stat_directions');
+    }
   const lat=_navLat,lng=_navLng;
   const name=encodeURIComponent(merchantData?.businessName||'Business');
   document.getElementById('navAddress').textContent=merchantData?.location||'Navigate to this business';
@@ -594,6 +603,31 @@ function formatPrice(raw,currCode){
     .trim();
   if(!cleaned)return'';
   return `${sym}${cleaned}`;
+}
+
+/*
+  ── ANALYTICS TRACKER ──
+  Increments the relevant stat field on the merchant doc in Firestore.
+  Uses sessionStorage to avoid double-counting page views per session.
+*/
+async function track(field) {
+  if (!merchantId) return;
+  try {
+    await updateDoc(doc(db, 'merchants', merchantId), {
+      [field]: increment(1)
+    });
+  } catch (e) {
+    // Silent fail — never interrupt the user experience for analytics
+    console.warn('GBH track error:', e.message);
+  }
+}
+ 
+// Track page view — once per browser session per merchant
+function trackView() {
+  const key = `gbh_viewed_${merchantId}`;
+  if (sessionStorage.getItem(key)) return; // already counted this session
+  sessionStorage.setItem(key, '1');
+  track('stat_views');
 }
 
 /* ════════════════════════════════════════
@@ -697,12 +731,15 @@ async function load(){
   const waContact=contacts.find(c=>c.type==='whatsapp')||contacts[0];
   const waPhone=waContact?waNum(waContact.number):(d.phone?waNum(d.phone):'');
   const callPhone=(contacts.find(c=>c.type==='call')?.number)||d.phone||'';
-  let actions='';
-  if(waPhone)actions+=`<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank">💬 WhatsApp</a>`;
-  if(callPhone)actions+=`<a href="tel:${callPhone}" class="btn-action">📞 Call</a>`;
-  if(d.website)actions+=`<a href="${d.website.startsWith('http')?d.website:'https://'+d.website}" class="btn-store-online" target="_blank">🛒 Online Store</a>`;
-  if(d.lat&&d.lng)actions+=`<button class="btn-store-offline" onclick="openNavModal()">📍 Visit In Person</button>`;
-  document.getElementById('actionsEl').innerHTML=actions;
+  let actions = '';
+  if (waPhone) actions += `<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank" onclick="track('stat_whatsapp')">💬 WhatsApp</a>`;
+  if (callPhone) actions += `<a href="tel:${callPhone}" class="btn-action" onclick="track('stat_calls')">📞 Call</a>`;
+  if (d.website) {
+    const href = d.website.startsWith('http') ? d.website : 'https://' + d.website;
+    actions += `<a href="${href}" class="btn-store-online" target="_blank" onclick="track('stat_store')">🛒 Online Store</a>`;
+  }
+  if (d.lat && d.lng) actions += `<button class="btn-store-offline" onclick="track('stat_directions');openNavModal()">📍 Visit In Person</button>`;
+  document.getElementById('actionsEl').innerHTML = actions;
 
   // ── ABOUT + STORY ──
   if(d.description){document.getElementById('descEl').textContent=d.description;document.getElementById('aboutCard').style.display='';}
@@ -800,6 +837,8 @@ async function load(){
   // ── SHOW PAGE ──
   loaderEl.style.display='none';
   document.getElementById('pageContent').style.display='';
+  // Track this page view (once per session)
+  trackView();
   document.getElementById('listCta').style.display='';
 }
 
