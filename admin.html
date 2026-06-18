@@ -530,7 +530,7 @@ input:checked+.tsl::before{transform:translateX(15px);}
             </div>
             <div class="frow">
               <div class="field"><label>CTA Button Text</label><input type="text" id="af-cta" placeholder="e.g. Get Featured →"></div>
-              <div class="field"><label>CTA Link URL</label><input type="text" id="af-href" placeholder="e.g. add_v2.html or https://…"></div>
+              <div class="field"><label>CTA Link URL</label><input type="text" id="af-href" placeholder="e.g. add.html or https://…"></div>
             </div>
             <div class="frow">
               <div class="field">
@@ -583,7 +583,7 @@ input:checked+.tsl::before{transform:translateX(15px);}
       <div class="tab-panel" id="panel-heromgr">
         <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Settings save to Firestore. <strong style="color:var(--gold);">The homepage must read from Firestore for changes to take effect — see the ⚠️ note below.</strong></p>
         <div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;line-height:1.7;">
-          ⚠️ <strong>Frontend Update Required:</strong> Add the following code to your <code>index_v4.html</code> homepage — inside the <code>load()</code> function, before <code>buildAds()</code>:
+          ⚠️ <strong>Frontend Update Required:</strong> Add the following code to your <code>index.html</code> homepage — inside the <code>load()</code> function, before <code>buildAds()</code>:
           <pre style="margin-top:8px;background:var(--sf2);padding:10px;border-radius:6px;font-size:10px;overflow-x:auto;line-height:1.6;">// Load platform settings from Firestore
 const settingsDoc = await getDoc(doc(db,'settings','platform'));
 if(settingsDoc.exists()){
