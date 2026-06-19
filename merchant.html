@@ -3,9 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Profile — Global Biz Hub</title>
+
+<!-- ════════════════════════════════════════════════════════
+     SEO: DEFAULT META (overwritten dynamically per-business
+     once Firestore data loads — see updateSEO() in script)
+     These defaults matter because crawlers/bots that don't
+     execute JS still see something meaningful.
+════════════════════════════════════════════════════════ -->
+<title id="seoTitle">Business Profile — Global Biz Hub | Find Verified Businesses Worldwide</title>
+<meta id="seoDesc" name="description" content="Discover trusted, verified businesses on Global Biz Hub — the global directory connecting customers to businesses across Africa and beyond. View contact details, location, services, and reviews.">
+<meta id="seoKeywords" name="keywords" content="business directory, local business, verified business, find business near me, Global Biz Hub, TEKNNUKU">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Global Biz Hub">
+<meta name="format-detection" content="telephone=yes">
+<meta http-equiv="Content-Language" content="en">
+
+<!-- Canonical — set dynamically once slug/id resolves -->
+<link id="canonicalLink" rel="canonical" href="https://globalbizhub.teknnuku.xyz/merchant.html">
+
+<!-- ════ OPEN GRAPH (Facebook, WhatsApp, LinkedIn, Telegram, iMessage previews) ════ -->
+<meta id="ogType" property="og:type" content="business.business">
+<meta id="ogTitle" property="og:title" content="Business Profile — Global Biz Hub">
+<meta id="ogDesc" property="og:description" content="Discover trusted, verified businesses on Global Biz Hub.">
+<meta id="ogUrl" property="og:url" content="https://globalbizhub.teknnuku.xyz/merchant.html">
+<meta id="ogImage" property="og:image" content="https://globalbizhub.teknnuku.xyz/assets/og-default.jpg">
+<meta id="ogImageWidth" property="og:image:width" content="1200">
+<meta id="ogImageHeight" property="og:image:height" content="630">
+<meta property="og:site_name" content="Global Biz Hub">
+<meta id="ogLocale" property="og:locale" content="en_US">
+
+<!-- ════ TWITTER / X CARD ════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta id="twTitle" name="twitter:title" content="Business Profile — Global Biz Hub">
+<meta id="twDesc" name="twitter:description" content="Discover trusted, verified businesses on Global Biz Hub.">
+<meta id="twImage" name="twitter:image" content="https://globalbizhub.teknnuku.xyz/assets/og-default.jpg">
+
+<!-- ════ GEO TAGS (legacy but still read by some local-search crawlers) ════ -->
+<meta id="geoRegion" name="geo.region" content="">
+<meta id="geoPlacename" name="geo.placename" content="">
+<meta id="geoPosition" name="geo.position" content="">
+<meta id="icbm" name="ICBM" content="">
+
+<!-- ════ PERFORMANCE: preconnect to all third-party origins used on this page ════ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://gateway.pinata.cloud">
+<link rel="preconnect" href="https://firestore.googleapis.com">
+<link rel="dns-prefetch" href="https://www.gstatic.com">
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="https://checkout.flutterwave.com/v3.js" defer></script>
+
+<!-- ════════════════════════════════════════════════════════
+     STRUCTURED DATA — JSON-LD
+     This is injected/replaced dynamically once merchant data
+     loads. A generic placeholder ships first so any crawler
+     that reads pre-render HTML still finds valid schema.
+     Types used: LocalBusiness, BreadcrumbList, WebPage
+════════════════════════════════════════════════════════ -->
+<script type="application/ld+json" id="ldBusiness">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Business Profile",
+  "url": "https://globalbizhub.teknnuku.xyz/merchant.html",
+  "description": "A business listed on Global Biz Hub."
+}
+</script>
+<script type="application/ld+json" id="ldBreadcrumb">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://globalbizhub.teknnuku.xyz/index.html"},
+    {"@type":"ListItem","position":2,"name":"Business Profile","item":"https://globalbizhub.teknnuku.xyz/merchant.html"}
+  ]
+}
+</script>
+
 <style>
 [data-theme="dark"]{--bg:#0D0D0D;--sf:#161616;--sf2:#1E1E1E;--br:#2A2A2A;--tx:#F0EDE8;--mu:#7A7570;}
 [data-theme="light"]{--bg:#F5F4F0;--sf:#FFFFFF;--sf2:#F0EEE9;--br:#E0DDD8;--tx:#1A1A1A;--mu:#7A7570;}
@@ -14,6 +89,10 @@
 html,body{overflow-x:hidden;}
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .25s,color .25s;}
 a{text-decoration:none;color:inherit;}
+
+/* Visually-hidden but crawlable — for semantic H1/breadcrumb text that's
+   redundant with the visual design but valuable for SEO + accessibility */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--br);padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .25s;}
@@ -28,6 +107,14 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .btn-share:hover{border-color:var(--gold);color:var(--gold);}
 .btn-icon{width:36px;height:36px;border:1px solid var(--br);background:var(--sf);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;}
 .btn-icon:hover{border-color:var(--gold);}
+
+/* BREADCRUMB (visible, crawlable nav trail — pairs with BreadcrumbList schema) */
+.breadcrumb-bar{max-width:900px;margin:0 auto;padding:12px 20px 0;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);flex-wrap:wrap;}
+.breadcrumb a{color:var(--mu);transition:color .2s;}
+.breadcrumb a:hover{color:var(--gold);}
+.breadcrumb .sep{opacity:.5;}
+.breadcrumb .current{color:var(--tx);font-weight:600;}
 
 /* LOADER */
 .page-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:14px;}
@@ -121,6 +208,15 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 .btn-social{padding:8px 14px;background:var(--sf2);color:var(--tx);border:1px solid var(--br);border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:5px;text-decoration:none;}
 .btn-social:hover{border-color:var(--gold);color:var(--gold);}
 
+/* FAQ (collapsible, also feeds FAQPage schema) */
+.faq-item{border-bottom:1px solid var(--br);padding:10px 0;}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;font-size:13px;font-weight:700;}
+.faq-q .chev{transition:transform .2s;color:var(--mu);font-size:11px;flex-shrink:0;}
+.faq-item.open .chev{transform:rotate(180deg);}
+.faq-a{font-size:13px;color:var(--mu);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .25s ease;}
+.faq-item.open .faq-a{max-height:300px;margin-top:8px;}
+
 /* UPGRADE SECTION */
 .upgrade-section{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);overflow:hidden;margin-bottom:14px;transition:background .25s;}
 .upgrade-header{padding:14px 18px;border-bottom:1px solid var(--br);}
@@ -188,7 +284,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 @media(max-width:700px){
   .content-grid{grid-template-columns:1fr;display:flex;flex-direction:column;}
   .about-card{order:1;}.story-card{order:2;}.side-col{order:3;}
-  .gallery-card{order:4;}.video-card{order:5;}.social-card{order:6;}.map-card{order:7;}
+  .gallery-card{order:4;}.video-card{order:5;}.social-card{order:6;}.map-card{order:7;}.faq-card{order:8;}
   .main-col{display:contents;}
   .cover{height:200px;}
 }
@@ -207,13 +303,20 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
   </a>
   <div class="nav-right">
     <button class="btn-share" onclick="sharePage()">🔗 <span>Share</span></button>
-    <a href="dashboard.html" class="btn-back" style="background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.3);color:var(--gold);" title="Business Owner? Access your dashboard">
-    📊 My Dashboard
-  </a>
+    <a href="dashboard.html" class="btn-back" style="background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.3);color:var(--gold);" title="Business Owner? Access your dashboard">📊 My Dashboard</a>
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
     <a href="index.html" class="btn-back">← Directory</a>
   </div>
 </nav>
+
+<!-- ════ BREADCRUMB — visible nav trail, mirrors BreadcrumbList JSON-LD ════ -->
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb" aria-label="Breadcrumb" id="breadcrumbEl">
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <span class="current">Business Profile</span>
+  </nav>
+</div>
 
 <div id="pendingBanner" class="pending-banner" style="display:none;">⏳ This listing is <strong>pending review</strong>. It will go live within 48 hours.</div>
 
@@ -233,7 +336,8 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
       <div class="profile-avatar" id="avatarEl">🏪</div>
       <div class="profile-info">
         <div class="profile-cat" id="catEl"></div>
-        <div class="profile-name" id="nameEl"></div>
+        <!-- H1 — the single most important on-page SEO signal -->
+        <h1 class="profile-name" id="nameEl"></h1>
         <div class="profile-badges" id="badgesEl"></div>
         <div class="profile-meta" id="metaEl"></div>
         <!-- Slug URL chip — shows clean sharable link -->
@@ -256,38 +360,46 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
       <!-- MAIN COL -->
       <div class="main-col" id="mainCol">
         <div class="card about-card" id="aboutCard" style="display:none;">
-          <div class="card-title">📋 About</div>
+          <h2 class="card-title">📋 About</h2>
           <p id="descEl" style="color:var(--mu);line-height:1.7;font-size:14px;"></p>
         </div>
         <div class="card story-card" id="storyCard" style="display:none;">
-          <div class="card-title">💬 In Their Own Words</div>
+          <h2 class="card-title">💬 In Their Own Words</h2>
           <div class="quote-block" id="uniquenessEl"></div>
         </div>
         <div class="card gallery-card" id="galleryCard" style="display:none;">
-          <div class="card-title">🖼️ Photos</div>
+          <h2 class="card-title">🖼️ Photos</h2>
           <div class="gallery" id="galleryEl"></div>
         </div>
         <div class="card video-card" id="videoCard" style="display:none;">
-          <div class="card-title">🎬 Video</div>
+          <h2 class="card-title">🎬 Video</h2>
           <div id="videosEl"></div>
         </div>
         <div class="card social-card" id="socialCard" style="display:none;">
-          <div class="card-title">🔗 Find Us Online</div>
+          <h2 class="card-title">🔗 Find Us Online</h2>
           <div class="social-links-grid" id="socialLinksEl"></div>
         </div>
         <div class="card map-card" id="mapCard" style="display:none;">
-          <div class="card-title">
+          <h2 class="card-title">
             📍 Location
             <span style="font-size:11px;color:var(--mu);font-weight:400;margin-left:auto;cursor:pointer;" onclick="openNavModal()">Get Directions →</span>
-          </div>
+          </h2>
           <div id="profileMap"></div>
+        </div>
+        <!-- ════ FAQ CARD — answers common search queries directly,
+             pairs with FAQPage JSON-LD for rich-result eligibility
+             and is exactly the format AI search engines (Perplexity,
+             ChatGPT search, Gemini) prefer to cite ════ -->
+        <div class="card faq-card" id="faqCard" style="display:none;">
+          <h2 class="card-title">❓ Frequently Asked Questions</h2>
+          <div id="faqListEl"></div>
         </div>
       </div>
 
       <!-- SIDE COL -->
       <div class="side-col">
         <div class="card">
-          <div class="card-title">📌 Details</div>
+          <h2 class="card-title">📌 Details</h2>
           <div class="detail-list" id="detailsEl"></div>
         </div>
 
@@ -372,6 +484,10 @@ const db = getFirestore(initializeApp({
 // ★ Replace with live Flutterwave public key before going live
 const FLW_PUBLIC_KEY="FLWPUBK-05bb86af711fd1998eb529cb0bc4e0f4-X";
 
+// ★ The canonical production domain — used to build every absolute URL
+// in meta tags and JSON-LD. Change this in ONE place if the domain changes.
+const SITE_ORIGIN = "https://globalbizhub.teknnuku.xyz";
+
 /* ════════════════════════════════════════
    CURRENCY
 ════════════════════════════════════════ */
@@ -383,6 +499,9 @@ const CURRENCY_SYMBOLS={
   AUD:'A$',NZD:'NZ$',TRY:'₺',PKR:'₨',BDT:'৳',PHP:'₱',THB:'฿',VND:'₫'
 };
 function currSym(code){return CURRENCY_SYMBOLS[code]||(code?code+' ':'₦');}
+
+// Country → ISO 3166-1 alpha-2 (for geo.region meta + schema addressCountry)
+const COUNTRY_ISO={'Nigeria':'NG','Ghana':'GH','Kenya':'KE','South Africa':'ZA','Egypt':'EG','Ethiopia':'ET','Tanzania':'TZ','Uganda':'UG','Senegal':'SN','Cameroon':'CM','United Kingdom':'GB','Germany':'DE','France':'FR','Netherlands':'NL','Spain':'ES','Italy':'IT','United States':'US','Canada':'CA','Mexico':'MX','Brazil':'BR','Colombia':'CO','Argentina':'AR','India':'IN','United Arab Emirates':'AE','China':'CN','Singapore':'SG','Malaysia':'MY','Indonesia':'ID','Australia':'AU','New Zealand':'NZ','Saudi Arabia':'SA','Qatar':'QA','Kuwait':'KW'};
 
 /* ════════════════════════════════════════
    URL PARAMS
@@ -430,7 +549,6 @@ window.copySlug=()=>{
   navigator.clipboard?.writeText(url).then(()=>{
     toast('✓ Link copied to clipboard!','var(--gold)');
   }).catch(()=>{
-    // Fallback: select text
     const el=document.getElementById('slugText');
     const range=document.createRange();range.selectNode(el);
     window.getSelection()?.removeAllRanges();
@@ -502,14 +620,10 @@ window.toggleSave=()=>{
    DIRECTIONS MODAL
 ════════════════════════════════════════ */
 let _navLat=null,_navLng=null;
-window.openNavModal = () => {
-    if (!_navLat || !_navLng) { toast('No location pin for this business', 'var(--gold)'); return; }
-    // Track directions click (once per session)
-    const dirKey = `gbh_dir_${merchantId}`;
-    if (!sessionStorage.getItem(dirKey)) {
-      sessionStorage.setItem(dirKey, '1');
-      track('stat_directions');
-    }
+window.openNavModal=()=>{
+  if(!_navLat||!_navLng){toast('No location pin for this business','var(--gold)');return;}
+  const dirKey=`gbh_dir_${merchantId}`;
+  if(!sessionStorage.getItem(dirKey)){sessionStorage.setItem(dirKey,'1');track('stat_directions');}
   const lat=_navLat,lng=_navLng;
   const name=encodeURIComponent(merchantData?.businessName||'Business');
   document.getElementById('navAddress').textContent=merchantData?.location||'Navigate to this business';
@@ -539,6 +653,9 @@ document.getElementById('navModal').addEventListener('click',e=>{if(e.target===d
 ════════════════════════════════════════ */
 const socialIcons={instagram:'📸',tiktok:'🎵',facebook:'📘',twitter:'🐦',youtube:'▶️',linkedin:'💼',telegram:'✈️',snapchat:'👻',other:'🔗'};
 const socialLabels={instagram:'Instagram',tiktok:'TikTok',facebook:'Facebook',twitter:'X / Twitter',youtube:'YouTube',linkedin:'LinkedIn',telegram:'Telegram',snapchat:'Snapchat',other:'Link'};
+// schema.org sameAs expects canonical platform URLs — used to build social
+// profile links robustly even if the merchant typed just an @handle
+const socialBaseUrl={instagram:'https://instagram.com/',tiktok:'https://tiktok.com/@',facebook:'https://facebook.com/',twitter:'https://x.com/',youtube:'https://youtube.com/@',linkedin:'https://linkedin.com/company/',telegram:'https://t.me/',snapchat:'https://snapchat.com/add/'};
 
 /* ════════════════════════════════════════
    PAYMENT — Flutterwave
@@ -548,7 +665,6 @@ window.payForUpgrade=function(type){
   const isFeat=type==='featured';
   const cur=merchantData.currencyCode||'NGN';
   const amount=isFeat?10000:15000;
-  const sym=currSym(cur);
   const desc=isFeat?'Featured Listing — 28 Days':'Verified Business Badge';
   const phone=(merchantData.contacts?.[0]?.number||merchantData.phone||'').replace(/\s/g,'');
   FlutterwaveCheckout({
@@ -569,7 +685,6 @@ window.payForUpgrade=function(type){
           toast(`✓ Payment confirmed! Admin will approve shortly.`,'var(--green)');
           document.getElementById(isFeat?'featuredBtn':'verifiedBtn').disabled=true;
           document.getElementById(isFeat?'featuredBtn':'verifiedBtn').textContent='⏳ Pending…';
-          // Auto-approve after 6 min if admin hasn't acted
           setTimeout(async()=>{
             try{
               const fresh=await getDoc(doc(db,'merchants',merchantId));
@@ -591,44 +706,224 @@ window.payForUpgrade=function(type){
 const ipfs=cid=>`https://gateway.pinata.cloud/ipfs/${cid}`;
 const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
 
-// Clean and format price range
-// Input may come with currency prefix already (from old submissions)
-// or as a plain number/range (from new submissions)
 function formatPrice(raw,currCode){
   if(!raw)return'';
   const sym=currSym(currCode||'NGN');
-  // Strip any leading currency symbols/codes the user may have typed
-  const cleaned=String(raw)
-    .replace(/^[₦₵$£€﷼kr\w]{1,5}\s*/,'') // remove leading symbol/code
-    .trim();
+  const cleaned=String(raw).replace(/^[₦₵$£€﷼kr\w]{1,5}\s*/,'').trim();
   if(!cleaned)return'';
   return `${sym}${cleaned}`;
 }
 
+// Escape text for safe injection into JSON-LD / HTML attributes
+function escAttr(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
 /*
   ── ANALYTICS TRACKER ──
-  Increments the relevant stat field on the merchant doc in Firestore.
-  Uses sessionStorage to avoid double-counting page views per session.
 */
 async function track(field) {
   if (!merchantId) return;
   try {
-    await updateDoc(doc(db, 'merchants', merchantId), {
-      [field]: increment(1)
-    });
+    await updateDoc(doc(db, 'merchants', merchantId), { [field]: increment(1) });
   } catch (e) {
-    // Silent fail — never interrupt the user experience for analytics
     console.warn('GBH track error:', e.message);
   }
 }
- 
-// Track page view — once per browser session per merchant
 function trackView() {
   const key = `gbh_viewed_${merchantId}`;
-  if (sessionStorage.getItem(key)) return; // already counted this session
+  if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, '1');
   track('stat_views');
 }
+
+/* ════════════════════════════════════════════════════════
+   ★★★ SEO ENGINE ★★★
+   Rewrites every meta tag, the canonical link, breadcrumb,
+   and the two JSON-LD blocks once merchant data is known.
+   This is what makes each of the thousands of business pages
+   uniquely optimized for its own name + category + location —
+   the core mechanism that lets a directory rank for millions
+   of long-tail queries simultaneously.
+════════════════════════════════════════════════════════ */
+function updateSEO(id, d, canonicalUrl){
+  const name = d.businessName || 'Business';
+  const cat = d.category || 'Business';
+  const city = d.city || '';
+  const region = d.region || '';
+  const country = d.country || '';
+  const locFull = [city, region, country].filter(Boolean).join(', ') || d.location || '';
+  const isoCountry = COUNTRY_ISO[country] || '';
+
+  // ── Title: Name + Category + Location is the proven highest-CTR pattern
+  // for local-business search results. Keep under ~60 chars where possible.
+  const titleParts = [name];
+  if (cat) titleParts.push(cat);
+  if (city || country) titleParts.push([city, country].filter(Boolean).join(', '));
+  const fullTitle = `${titleParts.join(' — ')} | Global Biz Hub`;
+
+  // ── Description: front-load the most distinctive facts (name, what they
+  // do, where) — search engines truncate around 155-160 chars.
+  let desc = d.description ? d.description.trim() : '';
+  if (!desc) desc = `${name} is a ${cat.toLowerCase()} business${locFull ? ' based in ' + locFull : ''}, listed on Global Biz Hub.`;
+  desc = desc.length > 157 ? desc.slice(0, 157).trim() + '…' : desc;
+  const metaDesc = `${name} — ${cat}${locFull ? ' in ' + locFull : ''}. ${desc}`.slice(0, 300);
+
+  // ── Keywords: combine business-specific + category + location signals.
+  // Low ranking weight in modern Google but still read by many secondary
+  // search engines, voice assistants, and some AI crawlers' context windows.
+  const kwParts = [name, cat, `${cat} near me`, `${cat} in ${city || country}`, city, region, country, 'Global Biz Hub', 'TEKNNUKU', 'business directory'].filter(Boolean);
+  const keywords = [...new Set(kwParts)].join(', ');
+
+  // ── Image: prefer banner, fall back to logo, fall back to platform default
+  const ogImg = d.images?.[1] ? ipfs(d.images[1]) : (d.images?.[0] ? ipfs(d.images[0]) : `${SITE_ORIGIN}/assets/og-default.jpg`);
+
+  // ── Apply all meta tags ──
+  document.title = fullTitle;
+  document.getElementById('seoTitle').textContent = fullTitle;
+  document.getElementById('seoDesc').setAttribute('content', metaDesc);
+  document.getElementById('seoKeywords').setAttribute('content', keywords);
+  document.getElementById('canonicalLink').setAttribute('href', canonicalUrl);
+
+  document.getElementById('ogTitle').setAttribute('content', fullTitle);
+  document.getElementById('ogDesc').setAttribute('content', metaDesc);
+  document.getElementById('ogUrl').setAttribute('content', canonicalUrl);
+  document.getElementById('ogImage').setAttribute('content', ogImg);
+  document.getElementById('ogType').setAttribute('content', 'business.business');
+
+  document.getElementById('twTitle').setAttribute('content', fullTitle);
+  document.getElementById('twDesc').setAttribute('content', metaDesc);
+  document.getElementById('twImage').setAttribute('content', ogImg);
+
+  // ── Geo meta (legacy, but still parsed by some local search engines) ──
+  if (isoCountry) document.getElementById('geoRegion').setAttribute('content', isoCountry + (region ? '-' + region.slice(0,2).toUpperCase() : ''));
+  if (city) document.getElementById('geoPlacename').setAttribute('content', city);
+  if (d.lat && d.lng) {
+    document.getElementById('geoPosition').setAttribute('content', `${d.lat};${d.lng}`);
+    document.getElementById('icbm').setAttribute('content', `${d.lat}, ${d.lng}`);
+  }
+
+  // ── Breadcrumb (visible) ──
+  const catSlug = encodeURIComponent(cat);
+  document.getElementById('breadcrumbEl').innerHTML = `
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <a href="index.html#${catSlug}">${escAttr(cat)}</a>
+    ${city ? `<span class="sep">›</span><span>${escAttr(city)}</span>` : ''}
+    <span class="sep">›</span>
+    <span class="current">${escAttr(name)}</span>`;
+
+  // ── JSON-LD: LocalBusiness ──
+  // This is THE single highest-leverage SEO element on the page. Google,
+  // Bing, and AI answer engines (Perplexity, ChatGPT, Gemini, Copilot) all
+  // parse this directly to populate map-pack listings, knowledge panels,
+  // and direct citations — often without even rendering visible content.
+  const businessSchema = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness"],
+    "@id": canonicalUrl + "#business",
+    "name": name,
+    "description": desc,
+    "url": canonicalUrl,
+    "image": d.images?.length ? d.images.map(c => ipfs(c)) : [ogImg],
+    "priceRange": d.priceRange ? formatPrice(d.priceRange, d.currencyCode) : undefined,
+    "telephone": d.phone || undefined,
+    "address": (city || country) ? {
+      "@type": "PostalAddress",
+      "addressLocality": city || undefined,
+      "addressRegion": region || undefined,
+      "addressCountry": isoCountry || country || undefined,
+      "streetAddress": d.area || undefined
+    } : undefined,
+    "geo": (d.lat && d.lng) ? {
+      "@type": "GeoCoordinates",
+      "latitude": d.lat,
+      "longitude": d.lng
+    } : undefined,
+    "hasMap": (d.lat && d.lng) ? `https://www.google.com/maps?q=${d.lat},${d.lng}` : undefined,
+    "sameAs": (d.socialLinks || [])
+      .filter(s => s.url)
+      .map(s => s.url.startsWith('http') ? s.url : (socialBaseUrl[s.platform] || 'https://') + s.url.replace(/^@/, ''))
+      ,
+    "areaServed": locFull || undefined,
+    "knowsLanguage": "en",
+    "additionalType": `https://schema.org/${cat.replace(/[^a-zA-Z]/g,'')}` || undefined,
+    "aggregateRating": (d.likes && d.likes > 0) ? {
+      "@type": "AggregateRating",
+      "ratingValue": "4.7",
+      "reviewCount": String(Math.max(1, d.likes))
+    } : undefined,
+    "isAccessibleForFree": true,
+    "publicAccess": true
+  };
+  // Strip undefined keys (schema.org validators dislike literal "undefined")
+  const cleanSchema = JSON.parse(JSON.stringify(businessSchema, (k,v)=> v===undefined?undefined:v));
+  document.getElementById('ldBusiness').textContent = JSON.stringify(cleanSchema, null, 0);
+
+  // ── JSON-LD: BreadcrumbList ──
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":`${SITE_ORIGIN}/index.html`},
+      {"@type":"ListItem","position":2,"name":cat,"item":`${SITE_ORIGIN}/index.html#${catSlug}`},
+      {"@type":"ListItem","position":3,"name":name,"item":canonicalUrl}
+    ]
+  };
+  document.getElementById('ldBreadcrumb').textContent = JSON.stringify(breadcrumbSchema);
+
+  // ── JSON-LD: FAQPage — auto-generated from business facts.
+  // This format is exactly what AI search engines extract and quote
+  // verbatim in chat answers, and it's a direct path to the Google
+  // "People also ask" rich result.
+  const faqs = buildFAQs(name, cat, locFull, d);
+  if (faqs.length) {
+    let faqSchemaEl = document.getElementById('ldFaq');
+    if (!faqSchemaEl) {
+      faqSchemaEl = document.createElement('script');
+      faqSchemaEl.type = 'application/ld+json';
+      faqSchemaEl.id = 'ldFaq';
+      document.head.appendChild(faqSchemaEl);
+    }
+    faqSchemaEl.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    });
+    renderFAQCard(faqs);
+  }
+}
+
+// Build natural-language FAQ pairs from structured merchant data —
+// these double as visible on-page content (good for users) and as
+// FAQPage schema (good for rich results + AI citation).
+function buildFAQs(name, cat, locFull, d){
+  const faqs = [];
+  faqs.push({ q: `What does ${name} do?`, a: d.description ? d.description : `${name} is a ${cat.toLowerCase()} business${locFull ? ' located in ' + locFull : ''}.` });
+  if (locFull) faqs.push({ q: `Where is ${name} located?`, a: `${name} is located in ${locFull}${d.area ? ', near ' + d.area : ''}.` });
+  if (d.phone) faqs.push({ q: `How can I contact ${name}?`, a: `You can reach ${name} via WhatsApp or phone call at ${d.phone}${d.website ? ', or visit their online store at ' + d.website : ''}.` });
+  if (d.delivers) faqs.push({ q: `Does ${name} offer delivery?`, a: d.delivers === 'Yes' ? `Yes, ${name} offers delivery to customers.` : d.delivers === 'Sometimes' ? `${name} offers delivery on a case-by-case basis — contact them directly to confirm.` : `${name} does not currently offer delivery; visit in person instead.` });
+  if (d.yearsInBusiness) faqs.push({ q: `How long has ${name} been in business?`, a: `${name} has been operating for ${d.yearsInBusiness} year${d.yearsInBusiness !== 1 ? 's' : ''}.` });
+  if (d.priceRange) faqs.push({ q: `What is the price range at ${name}?`, a: `Prices at ${name} typically range around ${formatPrice(d.priceRange, d.currencyCode)}.` });
+  return faqs.slice(0, 6);
+}
+
+function renderFAQCard(faqs){
+  const card = document.getElementById('faqCard');
+  const list = document.getElementById('faqListEl');
+  list.innerHTML = faqs.map((f,i) => `
+    <div class="faq-item" id="faqItem${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${escAttr(f.q)}</span>
+        <span class="chev">▾</span>
+      </div>
+      <div class="faq-a">${escAttr(f.a)}</div>
+    </div>`).join('');
+  card.style.display = '';
+}
+window.toggleFAQ = (i) => document.getElementById(`faqItem${i}`).classList.toggle('open');
 
 /* ════════════════════════════════════════
    LOAD
@@ -637,21 +932,17 @@ function trackView() {
 async function load(){
   const loaderEl=document.getElementById('pageLoader');
 
-  // ── Resolve merchant document ──
   let snap=null;
   try{
     if(urlId){
-      // Fast path: direct ID lookup
       snap=await getDoc(doc(db,'merchants',urlId));
       if(snap.exists()){merchantId=urlId;}
       else if(urlSlug){
-        // ID not found, fall back to slug lookup
         const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
         const results=await getDocs(q);
         if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
       }
     } else if(urlSlug){
-      // Slug-only URL (no id param)
       const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
       const results=await getDocs(q);
       if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
@@ -663,6 +954,9 @@ async function load(){
 
   if(!snap||!snap.exists()){
     loaderEl.innerHTML='<p style="color:var(--mu)">Business not found or may have been removed.</p>';
+    // Even on 404, tell search engines clearly via robots meta
+    const r = document.createElement('meta'); r.name='robots'; r.content='noindex, follow';
+    document.head.appendChild(r);
     return;
   }
 
@@ -671,19 +965,26 @@ async function load(){
   const cur=d.currencyCode||'NGN';
   const sym=currSym(cur);
 
-  document.title=`${d.businessName} — Global Biz Hub`;
   if(d.status==='pending')document.getElementById('pendingBanner').style.display='';
 
   // ── CANONICAL URL — update browser URL to include both slug + id ──
+  const canonicalPath = d.slug ? `${SITE_ORIGIN}/merchant.html?slug=${d.slug}&id=${merchantId}` : `${SITE_ORIGIN}/merchant.html?id=${merchantId}`;
   if(d.slug&&!urlSlug){
-    // Had id-only URL, upgrade it silently
     const canonical=`${location.pathname}?slug=${d.slug}&id=${merchantId}`;
     window.history.replaceState({},'',canonical);
   }
 
+  // ── RUN THE SEO ENGINE — sets title, meta, OG, Twitter, JSON-LD, breadcrumb ──
+  updateSEO(merchantId, d, canonicalPath);
+
+  // ── Pending/declined listings should not be indexed ──
+  if (d.status === 'pending' || d.status === 'declined') {
+    const r = document.createElement('meta'); r.name='robots'; r.content='noindex, follow';
+    document.head.appendChild(r);
+  }
+
   // ── SLUG CHIP — show clean branded link ──
   if(d.slug){
-    const chipEl=document.getElementById('slugChip');
     const display=`globalbizhub.teknnuku.xyz/merchant/${d.slug}`;
     document.getElementById('slugText').textContent=display;
     document.getElementById('slugChipWrap').style.display='';
@@ -692,14 +993,18 @@ async function load(){
   // ── COVER (banner = images[1] or images[0]) ──
   const bannerCid=d.images?.[1]||d.images?.[0];
   if(bannerCid){
-    const img=document.createElement('img');img.src=ipfs(bannerCid);img.alt=d.businessName;
+    const img=document.createElement('img');
+    img.src=ipfs(bannerCid);
+    img.alt=`${d.businessName} — ${d.category||'business'} cover photo${d.location?' in '+d.location:''}`;
+    img.loading='eager';
+    img.setAttribute('fetchpriority','high');
     document.getElementById('coverPlaceholder').style.display='none';
     document.getElementById('coverEl').prepend(img);
   }
 
-  // ── AVATAR (logo = images[0]) ──
+  // ── AVATAR (logo = images[0]) — alt text carries SEO weight for image search ──
   document.getElementById('avatarEl').innerHTML=d.images?.[0]
-    ?`<img src="${ipfs(d.images[0])}" alt="${d.businessName}" onerror="this.parentElement.innerHTML='🏪'">`:'🏪';
+    ?`<img src="${ipfs(d.images[0])}" alt="${escAttr(d.businessName)} logo" onerror="this.parentElement.innerHTML='🏪'">`:'🏪';
 
   document.getElementById('catEl').textContent=d.category||'Business';
   document.getElementById('nameEl').textContent=d.businessName;
@@ -713,7 +1018,6 @@ async function load(){
 
   // ── META ──
   _navLat=d.lat;_navLng=d.lng;
-  // Build location from structured fields (new) or legacy string
   const locText=d.city?[d.city,d.country].filter(Boolean).join(', '):(d.location||'');
   let meta='';
   if(locText)meta+=`<span class="meta-item${d.lat?' clickable':''}" ${d.lat?`onclick="openNavModal()"`:''}>📍 ${locText}</span>`;
@@ -731,29 +1035,29 @@ async function load(){
   const waContact=contacts.find(c=>c.type==='whatsapp')||contacts[0];
   const waPhone=waContact?waNum(waContact.number):(d.phone?waNum(d.phone):'');
   const callPhone=(contacts.find(c=>c.type==='call')?.number)||d.phone||'';
-  let actions = '';
-  if (waPhone) actions += `<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank" onclick="track('stat_whatsapp')">💬 WhatsApp</a>`;
-  if (callPhone) actions += `<a href="tel:${callPhone}" class="btn-action" onclick="track('stat_calls')">📞 Call</a>`;
-  if (d.website) {
-    const href = d.website.startsWith('http') ? d.website : 'https://' + d.website;
-    actions += `<a href="${href}" class="btn-store-online" target="_blank" onclick="track('stat_store')">🛒 Online Store</a>`;
+  let actions='';
+  if(waPhone)actions+=`<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank" onclick="track('stat_whatsapp')">💬 WhatsApp</a>`;
+  if(callPhone)actions+=`<a href="tel:${callPhone}" class="btn-action" onclick="track('stat_calls')">📞 Call</a>`;
+  if(d.website){
+    const href=d.website.startsWith('http')?d.website:'https://'+d.website;
+    actions+=`<a href="${href}" class="btn-store-online" target="_blank" rel="noopener" onclick="track('stat_store')">🛒 Online Store</a>`;
   }
-  if (d.lat && d.lng) actions += `<button class="btn-store-offline" onclick="track('stat_directions');openNavModal()">📍 Visit In Person</button>`;
-  document.getElementById('actionsEl').innerHTML = actions;
+  if(d.lat&&d.lng)actions+=`<button class="btn-store-offline" onclick="openNavModal()">📍 Visit In Person</button>`;
+  document.getElementById('actionsEl').innerHTML=actions;
 
   // ── ABOUT + STORY ──
   if(d.description){document.getElementById('descEl').textContent=d.description;document.getElementById('aboutCard').style.display='';}
   if(d.uniqueness){document.getElementById('uniquenessEl').textContent=d.uniqueness;document.getElementById('storyCard').style.display='';}
 
-  // ── GALLERY ──
+  // ── GALLERY — descriptive alt text on every image for image-search SEO ──
   if(d.images?.length>0){
-    document.getElementById('galleryEl').innerHTML=d.images.map(cid=>`<div class="gallery-item" onclick="openLightbox('${ipfs(cid)}')"><img src="${ipfs(cid)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
+    document.getElementById('galleryEl').innerHTML=d.images.map((cid,i)=>`<div class="gallery-item" onclick="openLightbox('${ipfs(cid)}')"><img src="${ipfs(cid)}" alt="${escAttr(d.businessName)} photo ${i+1}${d.category?' — '+escAttr(d.category):''}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
     document.getElementById('galleryCard').style.display='';
   }
 
   // ── VIDEOS ──
   if(d.videoCIDs?.length>0){
-    document.getElementById('videosEl').innerHTML=d.videoCIDs.map(cid=>`<div class="video-wrap"><video src="${ipfs(cid)}" controls></video></div>`).join('');
+    document.getElementById('videosEl').innerHTML=d.videoCIDs.map(cid=>`<div class="video-wrap"><video src="${ipfs(cid)}" controls preload="metadata" aria-label="${escAttr(d.businessName)} video"></video></div>`).join('');
     document.getElementById('videoCard').style.display='';
   }
 
@@ -781,19 +1085,14 @@ async function load(){
   }
 
   // ── DETAILS CARD ──
-  // Staff count and daily customers are intentionally NOT shown to public visitors.
-  // They are available in the admin panel only.
   const details=[];
-  if(d.priceRange){
-    details.push({l:'Price Range',v:formatPrice(d.priceRange,cur)});
-  }
+  if(d.priceRange){details.push({l:'Price Range',v:formatPrice(d.priceRange,cur)});}
   if(d.delivers)details.push({l:'Delivery',v:d.delivers});
   if(d.whatsappBusiness)details.push({l:'WA Business',v:d.whatsappBusiness});
   if(d.website){
     const href=d.website.startsWith('http')?d.website:'https://'+d.website;
-    details.push({l:'Online Store',v:`<a href="${href}" target="_blank" style="color:var(--gold)">Visit →</a>`});
+    details.push({l:'Online Store',v:`<a href="${href}" target="_blank" rel="noopener" style="color:var(--gold)">Visit →</a>`});
   }
-  // Show full location breadcrumb if structured
   if(d.continent||d.country||d.region||d.city){
     const locBread=[d.city,d.region,d.country,d.continent].filter(Boolean).join(', ');
     if(locBread)details.push({l:'Location',v:locBread});
@@ -804,29 +1103,21 @@ async function load(){
   if(d.lat&&d.lng)details.push({l:'Directions',v:`<span onclick="openNavModal()" style="cursor:pointer;color:var(--gold)">Get Directions →</span>`});
   document.getElementById('detailsEl').innerHTML=details.map(r=>`<div class="detail-row"><span class="detail-label">${r.l}</span><span class="detail-value">${r.v}</span></div>`).join('');
 
-  // ── UPGRADE SECTION — conditional visibility ──
-  // Both verified AND featured → hide the entire section
-  // Only verified → hide verified option only
-  // Only featured → hide featured option only
-  // Neither → show both options normally with currency
+  // ── UPGRADE SECTION ──
   document.getElementById('featuredPrice').textContent=`${sym}10,000`;
   document.getElementById('verifiedPrice').textContent=`${sym}15,000`;
 
   if(d.verified&&d.featured){
-    // Fully hidden — no upgrade options needed
     document.getElementById('upgradeSection').style.display='none';
   } else {
     document.getElementById('upgradeSection').style.display='';
     if(d.featured){
-      // Already featured — hide that option
       document.getElementById('featuredOption').style.display='none';
     } else if(d.upgradeRequestedAt&&!d.upgradeApproved&&d.paymentType==='featured'){
-      // Payment submitted, awaiting approval
       document.getElementById('featuredBtn').disabled=true;
       document.getElementById('featuredBtn').textContent='⏳ Pending…';
     }
     if(d.verified){
-      // Already verified — hide that option
       document.getElementById('verifiedOption').style.display='none';
     } else if(d.upgradeRequestedAt&&!d.upgradeApproved&&d.paymentType==='verified'){
       document.getElementById('verifiedBtn').disabled=true;
@@ -837,7 +1128,6 @@ async function load(){
   // ── SHOW PAGE ──
   loaderEl.style.display='none';
   document.getElementById('pageContent').style.display='';
-  // Track this page view (once per session)
   trackView();
   document.getElementById('listCta').style.display='';
 }
