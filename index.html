@@ -3,8 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Biz Hub — The Digital Home for Every Business</title>
+
+<!-- ════════════════════════════════════════════════════════
+     SEO: HOMEPAGE META
+     The homepage targets broad/navigational queries ("business
+     directory", "Global Biz Hub", "list my business online").
+     Long-tail business-specific queries are owned by merchant.html
+     pages — this page's job is brand + category + "directory" intent.
+════════════════════════════════════════════════════════ -->
+<title>Global Biz Hub — Find & List Verified Businesses Worldwide | Business Directory</title>
+<meta name="description" content="Global Biz Hub is the digital home for every business — a global directory connecting customers to verified, local businesses across Africa and beyond. Search by category, location, or name. List your business free in under 5 minutes.">
+<meta name="keywords" content="business directory, find a business near me, local business listings, list my business free, verified businesses, Global Biz Hub, TEKNNUKU, African business directory, online business directory, business listing platform">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Global Biz Hub">
+<meta name="theme-color" content="#0D0D0D">
+<meta http-equiv="Content-Language" content="en">
+
+<link rel="canonical" href="https://globalbizhub.teknnuku.xyz/index.html">
+
+<!-- ════ HREFLANG — signals this is the global/default version.
+     Add language-specific alternates here as localized versions ship
+     (e.g. hreflang="fr" for a French build, "ar" for Arabic). ════ -->
+<link rel="alternate" hreflang="en" href="https://globalbizhub.teknnuku.xyz/index.html">
+<link rel="alternate" hreflang="x-default" href="https://globalbizhub.teknnuku.xyz/index.html">
+
+<!-- ════ OPEN GRAPH ════ -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Global Biz Hub — Find & List Verified Businesses Worldwide">
+<meta property="og:description" content="The digital home for every business. Discover verified local businesses or list yours free — go global in under 5 minutes.">
+<meta property="og:url" content="https://globalbizhub.teknnuku.xyz/index.html">
+<meta property="og:image" content="https://globalbizhub.teknnuku.xyz/assets/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Global Biz Hub">
+<meta property="og:locale" content="en_US">
+
+<!-- ════ TWITTER / X CARD ════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Global Biz Hub — Find & List Verified Businesses Worldwide">
+<meta name="twitter:description" content="The digital home for every business. Discover verified local businesses or list yours free.">
+<meta name="twitter:image" content="https://globalbizhub.teknnuku.xyz/assets/og-home.jpg">
+
+<!-- ════ PWA / favicon hints (mobile search result polish) ════ -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- ════ PERFORMANCE: preconnect to every third-party origin in use ════ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://gateway.pinata.cloud">
+<link rel="preconnect" href="https://firestore.googleapis.com">
+<link rel="dns-prefetch" href="https://www.gstatic.com">
+<link rel="dns-prefetch" href="https://images.unsplash.com">
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ════════════════════════════════════════════════════════
+     STRUCTURED DATA — site-wide, present on every load
+     1. Organization — establishes brand entity for Google's
+        Knowledge Graph and AI engines (who/what is "Global Biz Hub")
+     2. WebSite + SearchAction — unlocks the Google sitelinks
+        search box rich result directly in search listings
+     3. ItemList — populated dynamically once merchants load,
+        tells crawlers "this page lists N business entities"
+════════════════════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://globalbizhub.teknnuku.xyz/#organization",
+  "name": "Global Biz Hub",
+  "alternateName": "GBH",
+  "url": "https://globalbizhub.teknnuku.xyz/",
+  "logo": "https://globalbizhub.teknnuku.xyz/assets/logo.png",
+  "description": "Global Biz Hub is a global business directory connecting customers to verified local businesses across Africa and beyond.",
+  "brand": { "@type": "Brand", "name": "Global Biz Hub" },
+  "parentOrganization": { "@type": "Organization", "name": "TEKNNUKU" },
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://globalbizhub.teknnuku.xyz/#website",
+  "name": "Global Biz Hub",
+  "url": "https://globalbizhub.teknnuku.xyz/",
+  "description": "The digital home for every business — search, discover, and connect with verified businesses worldwide.",
+  "publisher": { "@id": "https://globalbizhub.teknnuku.xyz/#organization" },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://globalbizhub.teknnuku.xyz/index.html?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json" id="ldItemList">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Businesses on Global Biz Hub",
+  "itemListElement": []
+}
+</script>
+
 <style>
 [data-theme="dark"]{--bg:#0D0D0D;--sf:#161616;--sf2:#1E1E1E;--br:#2A2A2A;--tx:#F0EDE8;--mu:#7A7570;}
 [data-theme="light"]{--bg:#F5F4F0;--sf:#FFFFFF;--sf2:#F0EEE9;--br:#E0DDD8;--tx:#1A1A1A;--mu:#7A7570;}
@@ -13,6 +118,9 @@
 html,body{overflow-x:hidden;}
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s;}
 a{text-decoration:none;color:inherit;}
+
+/* Visually-hidden but crawlable text — used for the canonical H1 */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 /* NAV */
 .nav{position:sticky;top:0;z-index:400;background:var(--bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--br);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:background .3s;}
@@ -193,6 +301,20 @@ a{text-decoration:none;color:inherit;}
 .dots span:nth-child(3){animation-delay:.26s;}
 @keyframes bop{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
 
+/* SEO CONTENT BLOCK — visible, crawlable text explaining the platform's
+   purpose in natural language. Placed below the fold so it doesn't
+   compete visually with the product, but fully indexed by crawlers and
+   highly useful for AI search engines that prefer prose context over
+   pure UI chrome. */
+.seo-block{max-width:1200px;margin:0 auto;padding:8px 20px 8px;}
+.seo-block-inner{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:24px;}
+.seo-block h2{font-family:var(--fh);font-size:16px;font-weight:700;margin-bottom:10px;}
+.seo-block p{font-size:13px;color:var(--mu);line-height:1.75;margin-bottom:10px;}
+.seo-block p:last-child{margin-bottom:0;}
+.seo-cat-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.seo-cat-links a{font-size:11px;color:var(--mu);background:var(--sf2);border:1px solid var(--br);padding:4px 10px;border-radius:20px;transition:all .2s;}
+.seo-cat-links a:hover{color:var(--gold);border-color:var(--gold);}
+
 /* CTA */
 .cta-wrap{max-width:1200px;margin:0 auto;padding:0 20px 56px;}
 .cta-box{background:linear-gradient(135deg,rgba(245,166,35,.09),rgba(0,166,81,.05));border:1px solid rgba(245,166,35,.2);border-radius:14px;padding:32px 24px;text-align:center;}
@@ -302,6 +424,7 @@ footer{border-top:1px solid var(--br);padding:28px 20px 20px;background:var(--sf
   <div class="hero-bg-overlay" id="heroBgOv"></div>
   <div class="hero-content">
     <div class="hero-pill">🌍 The Digital Home for Every Business</div>
+    <!-- H1 — single most important on-page ranking signal for the homepage -->
     <h1>Your Business,<br><em>Gone Global.</em></h1>
     <p class="hero-sub">Build your presence, connect with customers, and take your business beyond borders — starting right here.</p>
     <span class="hero-tl">✦ Add Your Business. Go Global.</span>
@@ -374,13 +497,23 @@ footer{border-top:1px solid var(--br);padding:28px 20px 20px;background:var(--sf
   <div class="m-grid" id="bizList"><div class="dots"><span></span><span></span><span></span></div></div>
 </div>
 
+<!-- ════ SEO CONTENT BLOCK — visible prose, crawlable, AI-citable ════ -->
+<div class="seo-block">
+  <div class="seo-block-inner">
+    <h2>The Global Directory for Every Business</h2>
+    <p>Global Biz Hub is a free, global business directory built to connect customers with verified, local businesses — from neighborhood shops in Lagos and Nairobi to growing brands in London, Dubai, and New York. Whether you're searching for a fashion boutique, a restaurant, a logistics company, or a professional service near you, Global Biz Hub helps you find trustworthy businesses fast, with direct WhatsApp contact, verified badges, and real customer engagement.</p>
+    <p>Business owners can list their company for free in under five minutes, build a complete digital profile with photos, location, and contact details, and track real customer engagement through their own analytics dashboard. Verified and Featured upgrades help businesses stand out and reach more customers across every region the platform serves.</p>
+    <div class="seo-cat-links" id="seoCatLinks"></div>
+  </div>
+</div>
+
 <!-- CTA -->
 <div class="cta-wrap">
   <div class="cta-box">
     <span class="cta-tag">List Your Business. Go Global.</span>
     <h2>Your Business Deserves a Digital Home</h2>
     <p>Join businesses across Africa and beyond getting discovered every day. Free to start — go live in under 5 minutes.</p>
-    <a href="add_v2.html" class="btn-cta">Claim Your Digital Home →</a>
+    <a href="add.html" class="btn-cta">Claim Your Digital Home →</a>
   </div>
 </div>
 
@@ -396,6 +529,7 @@ footer{border-top:1px solid var(--br);padding:28px 20px 20px;background:var(--sf
         <button class="ft-link" onclick="openM('pm')">Privacy</button>
         <button class="ft-link" onclick="openM('cm')">Cookies</button>
         <button class="ft-link" onclick="openM('ctm')">Contact</button>
+        <a class="ft-link" href="sitemap.xml">Sitemap</a>
       </div>
     </div>
     <div class="ft-bot">
@@ -430,6 +564,8 @@ const db = getFirestore(initializeApp({
   appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
 }));
 
+const SITE_ORIGIN = "https://globalbizhub.teknnuku.xyz";
+
 /* ════════════════════════════════════════
    HARDCODED LOCATION DATA
    (custom locations from Admin are merged in at load)
@@ -448,12 +584,11 @@ const LOC={
    PLATFORM DEFAULTS
    (overridden by Firestore settings/platform)
 ════════════════════════════════════════ */
-// Mutable — overwritten by Firestore at load
 let ADS=[
-  {tag:'FREE LISTING',tagCol:'var(--gold)',title:'Claim Your Digital Home Today',desc:'List your business in minutes and reach customers everywhere.',cta:'List for Free →',href:'add_v2.html',ctaBg:'var(--gold)',ctaCol:'#000',media:{type:'image',src:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80&auto=format'}},
-  {tag:'FEATURED SLOTS',tagCol:'#4A9EFF',title:'Get Featured — Be Seen First',desc:'Featured businesses get 10× more profile views. Only ₦10,000 for 28 days.',cta:'Get Featured →',href:'add_v2.html',ctaBg:'#4A9EFF',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format'}},
-  {tag:'VERIFIED BADGE',tagCol:'var(--green)',title:'Build Trust — Get Verified',desc:'The holographic ✦ VERIFIED badge signals quality to every customer.',cta:'Get Verified →',href:'add_v2.html',ctaBg:'var(--green)',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format'}},
-  {tag:'GO GLOBAL',tagCol:'#9B59B6',title:'Your Business Has No Borders',desc:'Global Biz Hub connects you to customers across Africa and beyond.',cta:'Learn More →',href:'add_v2.html',ctaBg:'#9B59B6',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1526958097901-5e6d742d3371?w=700&q=80&auto=format'}},
+  {tag:'FREE LISTING',tagCol:'var(--gold)',title:'Claim Your Digital Home Today',desc:'List your business in minutes and reach customers everywhere.',cta:'List for Free →',href:'add.html',ctaBg:'var(--gold)',ctaCol:'#000',media:{type:'image',src:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80&auto=format'}},
+  {tag:'FEATURED SLOTS',tagCol:'#4A9EFF',title:'Get Featured — Be Seen First',desc:'Featured businesses get 10× more profile views. Only ₦10,000 for 28 days.',cta:'Get Featured →',href:'add.html',ctaBg:'#4A9EFF',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format'}},
+  {tag:'VERIFIED BADGE',tagCol:'var(--green)',title:'Build Trust — Get Verified',desc:'The holographic ✦ VERIFIED badge signals quality to every customer.',cta:'Get Verified →',href:'add.html',ctaBg:'var(--green)',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format'}},
+  {tag:'GO GLOBAL',tagCol:'#9B59B6',title:'Your Business Has No Borders',desc:'Global Biz Hub connects you to customers across Africa and beyond.',cta:'Learn More →',href:'add.html',ctaBg:'#9B59B6',ctaCol:'#fff',media:{type:'image',src:'https://images.unsplash.com/photo-1526958097901-5e6d742d3371?w=700&q=80&auto=format'}},
 ];
 let HERO_IMGS=[
   'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=75&auto=format&fit=crop',
@@ -469,7 +604,6 @@ let catEmojis={...DEFAULT_EMOJIS};
 
 /* ════════════════════════════════════════
    HERO BACKGROUND
-   Applied after platform settings load
 ════════════════════════════════════════ */
 function applyHero(){
   const img=HERO_IMGS[Math.floor(Math.random()*HERO_IMGS.length)];
@@ -502,7 +636,7 @@ function buildAds(){
         <div class="ad-tag" style="color:${a.tagCol||'var(--gold)'};">${a.tag}</div>
         <div class="ad-title">${a.title}</div>
         <div class="ad-desc">${a.desc}</div>
-        <a href="${a.href||'add_v2.html'}" class="ad-cta" style="background:${bg};color:${col};">${a.cta||'Learn More →'}</a>
+        <a href="${a.href||'add.html'}" class="ad-cta" style="background:${bg};color:${col};">${a.cta||'Learn More →'}</a>
       </div>
     </div>`;
   }).join('');
@@ -522,11 +656,9 @@ window.adMv=d=>adGo(adI+d);
 
 /* ════════════════════════════════════════
    CATEGORY CHIPS
-   Built from allCats + catEmojis (from Firestore)
 ════════════════════════════════════════ */
 function buildCategoryChips(){
   const row=document.getElementById('catRow');
-  // Clear all except the "All" button
   row.innerHTML='<button class="chip on" onclick="filterCat(\'\',this)">All</button>';
   allCats.forEach(cat=>{
     const emoji=catEmojis[cat]||'';
@@ -537,7 +669,6 @@ function buildCategoryChips(){
     row.appendChild(btn);
   });
 
-  // Also rebuild sticky bar chips
   const sbChips=document.getElementById('sbChips');
   sbChips.innerHTML='';
   ['All',...allCats].forEach((cat,i)=>{
@@ -547,11 +678,18 @@ function buildCategoryChips(){
     b.onclick=()=>filterCat(i===0?'':cat,null);
     sbChips.appendChild(b);
   });
+
+  // ── SEO category links — visible, crawlable anchor list in the
+  // footer-area SEO block. Every category becomes a real, indexable
+  // internal link target (id="" anchor on this same page).
+  const seoLinks=document.getElementById('seoCatLinks');
+  seoLinks.innerHTML = allCats.map(cat =>
+    `<a href="#${encodeURIComponent(cat)}" onclick="filterCat('${cat.replace(/'/g,"\\'")}',null)">${catEmojis[cat]||''} ${cat} businesses</a>`
+  ).join('');
 }
 
 /* ════════════════════════════════════════
    LOCATION CASCADE
-   (custom locs merged into LOC at load)
 ════════════════════════════════════════ */
 function initLocDropdowns(){
   const s=document.getElementById('selC');
@@ -609,6 +747,7 @@ window.filterCat=(cat,el)=>{
   document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',cat===''?c.textContent.trim()==='All':c.textContent.includes(cat)));
   document.querySelectorAll('.sfb-chip').forEach(c=>c.classList.toggle('on',cat===''?c.textContent.trim()==='All':c.textContent.includes(cat)));
   renderAll();
+  document.querySelector('.sort-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
 };
 
 /* SEARCH */
@@ -644,8 +783,6 @@ window.toggleSave=(id,e)=>{
    HELPERS
 ════════════════════════════════════════ */
 const ipfs=c=>`https://gateway.pinata.cloud/ipfs/${c}`;
-// Build clean slug+id URL — uses slug for branding, id for reliable lookup
-// Falls back to id-only for legacy records that predate slug system
 function merchantUrl(id,d){
   if(d.slug)return`merchant.html?slug=${d.slug}&id=${id}`;
   return`merchant.html?id=${id}`;
@@ -664,17 +801,19 @@ const vB=()=>`<span class="bv">✦ VERIFIED</span>`;
 const fB=()=>`<span class="bf">★ FEATURED</span>`;
 
 /* ════════════════════════════════════════
-   CARDS
+   CARDS — alt text + title attrs carry SEO weight for image search
+   and crawlers reading link context
 ════════════════════════════════════════ */
 function featCard(id,d){
   const img=d.images?.[0]?ipfs(d.images[0]):'';
   const ph=waNum(d.phone);
   const desc=(d.description||'').slice(0,100)+(d.description?.length>100?'…':'');
   const url=merchantUrl(id,d);
-  return `<a href="${url}" class="fc">
+  const altTxt=`${d.businessName} — ${d.category||'business'}${d.location?' in '+d.location:''}`;
+  return `<a href="${url}" class="fc" title="${altTxt}">
     <div class="fc-ribbon">★ FEATURED</div>
     <div class="fc-img">
-      ${img?`<img src="${img}" alt="${d.businessName}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
+      ${img?`<img src="${img}" alt="${altTxt}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
       <div class="engage">
         <button class="eb${likes[id]?' lk':''}" data-like="${id}" onclick="toggleLike('${id}',event)">❤️</button>
         <button class="eb${saves.includes(id)?' sv':''}" data-save="${id}" onclick="toggleSave('${id}',event)">🔖</button>
@@ -699,9 +838,10 @@ function bizCard(id,d){
   const ph=waNum(d.phone);
   const desc=(d.description||'').slice(0,80)+(d.description?.length>80?'…':'');
   const url=merchantUrl(id,d);
-  return `<a href="${url}" class="mc">
+  const altTxt=`${d.businessName} — ${d.category||'business'}${d.location?' in '+d.location:''}`;
+  return `<a href="${url}" class="mc" title="${altTxt}">
     <div class="mc-img">
-      ${img?`<img src="${img}" alt="${d.businessName}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
+      ${img?`<img src="${img}" alt="${altTxt}" loading="lazy" onerror="this.parentElement.innerHTML='🏪'">`:'🏪'}
       <div class="mc-cat">${d.category||'Business'}</div>
       <div class="engage">
         <button class="eb${likes[id]?' lk':''}" data-like="${id}" onclick="toggleLike('${id}',event)">❤️</button>
@@ -734,13 +874,33 @@ function sortList(list){
   return s;
 }
 
+// ── Update the ItemList JSON-LD to reflect what's currently visible.
+// This tells crawlers "here are the N specific business entities on
+// this page right now" — directly supporting rich list/carousel results.
+function updateItemListSchema(list){
+  const el=document.getElementById('ldItemList');
+  if(!el)return;
+  const items=list.slice(0,30).map((m,i)=>({
+    "@type":"ListItem",
+    "position":i+1,
+    "url":`${SITE_ORIGIN}/${merchantUrl(m.id,m.data)}`,
+    "name":m.data.businessName
+  }));
+  el.textContent=JSON.stringify({
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Businesses on Global Biz Hub",
+    "numberOfItems":list.length,
+    "itemListElement":items
+  });
+}
+
 window.renderAll=function(q){
   if(q===undefined)q=document.getElementById('searchInput').value.toLowerCase().trim();
   let list=allM.filter(m=>visible(m.data));
   if(activeCat)list=list.filter(m=>m.data.category===activeCat);
   const lp=getLoc();
   if(lp.length)list=list.filter(m=>{
-    // Search across both structured fields and legacy location string
     const locStr=(m.data.location||'').toLowerCase();
     const continent=(m.data.continent||'').toLowerCase();
     const country=(m.data.country||'').toLowerCase();
@@ -762,41 +922,37 @@ window.renderAll=function(q){
   document.getElementById('bizList').innerHTML=reg.length
     ?reg.map(m=>bizCard(m.id,m.data)).join('')
     :`<div class="empty"><div class="ico">${q||lp.length?'🔍':'🏪'}</div><h3>${q||lp.length?'No results found':'No businesses yet'}</h3><p>${q||lp.length?'Try a different search or clear filters.':'Be the first to list your business!'}</p></div>`;
+
+  // Keep ItemList schema in sync with the visible result set
+  updateItemListSchema(list);
 };
 
 /* ════════════════════════════════════════
    LOAD
-   1. Load platform settings from Firestore (ads, hero, categories, custom locs)
-   2. Apply hero, build ads, build category chips, init loc dropdowns
-   3. Load merchants and render
 ════════════════════════════════════════ */
 async function load(){
-  // ── Step 1: Fetch platform settings ──
+  // ── Pick up ?q= search param so shared/search-engine URLs work ──
+  const urlParams=new URLSearchParams(location.search);
+  const qParam=urlParams.get('q');
+  if(qParam)document.getElementById('searchInput').value=qParam;
+
   try{
     const settingsDoc=await getDoc(doc(db,'settings','platform'));
     if(settingsDoc.exists()){
       const s=settingsDoc.data();
-
-      // ADS from admin
       if(s.ads?.length)ADS=s.ads;
-
-      // HERO settings from admin
       if(s.hero){
         if(s.hero.images?.length)HERO_IMGS=s.hero.images;
         if(s.hero.blur!==undefined)HERO_BLUR=s.hero.blur;
         if(s.hero.overlay!==undefined)HERO_OVERLAY=s.hero.overlay;
         if(s.hero.scale!==undefined)HERO_SCALE=s.hero.scale;
       }
-
-      // CATEGORIES from admin — merge custom into default
       if(s.customCategories?.length){
         allCats=[...new Set([...DEFAULT_CATS,...s.customCategories])];
       }
       if(s.categoryEmojis){
         catEmojis={...DEFAULT_EMOJIS,...s.categoryEmojis};
       }
-
-      // CUSTOM LOCATIONS from admin — merge into LOC tree
       if(s.customLocations?.length){
         s.customLocations.forEach(l=>{
           if(!l.continent||!l.country)return;
@@ -812,16 +968,13 @@ async function load(){
     }
   }catch(e){
     console.warn('Could not load platform settings:',e.message);
-    // Non-fatal — falls back to hardcoded defaults
   }
 
-  // ── Step 2: Apply everything from settings ──
   applyHero();
   buildAds();
   buildCategoryChips();
   initLocDropdowns();
 
-  // ── Step 3: Load merchants ──
   try{
     const snap=await getDocs(collection(db,'merchants'));
     allM=snap.docs.map(d=>({id:d.id,data:d.data()}));
@@ -833,7 +986,7 @@ async function load(){
     document.getElementById('savCount').textContent=saves.length;
     document.getElementById('sbTot').textContent=tot;
     document.getElementById('sbVer').textContent=ver;
-    renderAll('');
+    renderAll(qParam?qParam.toLowerCase():'');
   }catch(err){
     document.getElementById('bizList').innerHTML=`<div class="empty"><div class="ico">⚠️</div><h3>Error loading</h3><p>${err.message}</p></div>`;
     document.getElementById('featList').innerHTML='';
