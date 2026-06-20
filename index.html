@@ -652,6 +652,7 @@ function adGo(i){
   document.querySelectorAll('.ad-dot').forEach((d,j)=>d.classList.toggle('on',j===adI));
   clearInterval(adTmr);adTmr=setInterval(()=>adGo(adI+1),6500);
 }
+window.adGo=adGo;
 window.adMv=d=>adGo(adI+d);
 
 /* ════════════════════════════════════════
