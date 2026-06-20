@@ -102,7 +102,8 @@ window.generate = async () => {
 
     // Static pages first
     STATIC_PAGES.forEach(p => {
-      urls.push(`  <url>\n    <loc>${SITE_ORIGIN}${p.loc}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`);
+      const locUrl = xmlEscape(`${SITE_ORIGIN}${p.loc}`);
+      urls.push(`  <url>\n    <loc>${locUrl}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`);
     });
 
     // One <url> per live business — canonical slug+id URL, featured/verified
@@ -110,16 +111,22 @@ window.generate = async () => {
     // priority is a weak signal in 2026 but costs nothing to set correctly)
     live.forEach(m => {
       const d = m.data;
-      const path = d.slug ? `/merchant.html?slug=${encodeURIComponent(d.slug)}&id=${m.id}` : `/merchant.html?id=${m.id}`;
+      // IMPORTANT: every "&" inside a URL must become "&amp;" in XML —
+      // even though it's a perfectly valid URL character, the sitemap
+      // file itself is XML and raw "&" breaks the parser (this was the
+      // bug: "EntityRef: expecting ';'"). encodeURIComponent does NOT
+      // do this for us, so we run xmlEscape() on the assembled URL too.
+      const rawPath = d.slug ? `/merchant.html?slug=${encodeURIComponent(d.slug)}&id=${m.id}` : `/merchant.html?id=${m.id}`;
+      const locUrl = xmlEscape(`${SITE_ORIGIN}${rawPath}`);
       const lastmod = isoDate(d.updatedAt || d.createdAt);
       const priority = d.featured ? '0.9' : d.verified ? '0.8' : '0.6';
-      let entry = `  <url>\n    <loc>${SITE_ORIGIN}${path}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>`;
+      let entry = `  <url>\n    <loc>${locUrl}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>`;
 
       // Image sitemap extension — helps Google Image Search index business
       // photos directly against the page they belong to
       if (d.images?.length) {
         d.images.slice(0, 5).forEach(cid => {
-          const imgUrl = `https://gateway.pinata.cloud/ipfs/${cid}`;
+          const imgUrl = xmlEscape(`https://gateway.pinata.cloud/ipfs/${cid}`);
           const imgTitle = xmlEscape(d.businessName || 'Business photo');
           entry += `\n    <image:image>\n      <image:loc>${imgUrl}</image:loc>\n      <image:title>${imgTitle}</image:title>\n    </image:image>`;
         });
