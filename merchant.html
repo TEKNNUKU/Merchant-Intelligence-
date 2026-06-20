@@ -503,6 +503,13 @@ function currSym(code){return CURRENCY_SYMBOLS[code]||(code?code+' ':'₦');}
 // Country → ISO 3166-1 alpha-2 (for geo.region meta + schema addressCountry)
 const COUNTRY_ISO={'Nigeria':'NG','Ghana':'GH','Kenya':'KE','South Africa':'ZA','Egypt':'EG','Ethiopia':'ET','Tanzania':'TZ','Uganda':'UG','Senegal':'SN','Cameroon':'CM','United Kingdom':'GB','Germany':'DE','France':'FR','Netherlands':'NL','Spain':'ES','Italy':'IT','United States':'US','Canada':'CA','Mexico':'MX','Brazil':'BR','Colombia':'CO','Argentina':'AR','India':'IN','United Arab Emirates':'AE','China':'CN','Singapore':'SG','Malaysia':'MY','Indonesia':'ID','Australia':'AU','New Zealand':'NZ','Saudi Arabia':'SA','Qatar':'QA','Kuwait':'KW'};
 
+// Country → international dialing code (the actual digits WhatsApp needs,
+// distinct from the ISO alpha-2 above). Used to correctly convert a local
+// "0..." number into international format for wa.me links — previously
+// this was hardcoded to 234 (Nigeria) for every business on the platform,
+// which silently broke WhatsApp links for businesses in every other country.
+const COUNTRY_DIAL={'Nigeria':'234','Ghana':'233','Kenya':'254','South Africa':'27','Egypt':'20','Ethiopia':'251','Tanzania':'255','Uganda':'256','Senegal':'221','Cameroon':'237','United Kingdom':'44','Germany':'49','France':'33','Netherlands':'31','Spain':'34','Italy':'39','United States':'1','Canada':'1','Mexico':'52','Brazil':'55','Colombia':'57','Argentina':'54','India':'91','United Arab Emirates':'971','China':'86','Singapore':'65','Malaysia':'60','Indonesia':'62','Australia':'61','New Zealand':'64','Saudi Arabia':'966','Qatar':'974','Kuwait':'965'};
+
 /* ════════════════════════════════════════
    URL PARAMS
    Supports both:
@@ -704,7 +711,27 @@ window.payForUpgrade=function(type){
    HELPERS
 ════════════════════════════════════════ */
 const ipfs=cid=>`https://gateway.pinata.cloud/ipfs/${cid}`;
-const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
+// Convert a locally-formatted phone number into the international digits
+// wa.me requires, using the business's own country to pick the correct
+// dialing code instead of assuming Nigeria (234) for everyone.
+// Handles numbers already in international format (leading "+" or already
+// starting with the country's dial code) without double-prefixing.
+function waNum(p, country){
+  if(!p) return '';
+  let n = p.replace(/[\s\-()]+/g,'').replace(/^\+/,'');
+  const dial = COUNTRY_DIAL[country] || '234'; // sensible fallback, not silently wrong for everyone
+  if (n.startsWith(dial)) return n; // already international
+  if (n.startsWith('0')) return dial + n.slice(1); // local format → international
+  return dial + n; // no leading 0, assume local subscriber number
+}
+
+// Build a wa.me link with a friendly, pre-filled opening message —
+// previously the WhatsApp button had no ?text= param at all, so tapping
+// it opened an empty chat with no context for the customer to send.
+function buildWaLink(phone, businessName){
+  const msg = `Hi ${businessName || 'there'}! I found your business on Global Biz Hub and I'd like to know more.`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
 
 function formatPrice(raw,currCode){
   if(!raw)return'';
@@ -719,6 +746,12 @@ function escAttr(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 
 /*
   ── ANALYTICS TRACKER ──
+  IMPORTANT: this script runs as a module (<script type="module">),
+  so top-level functions do NOT automatically attach to window.
+  Every function called from an inline onclick="..." handler in the
+  HTML MUST be explicitly assigned to window, or the call silently
+  fails with "X is not defined" and nothing happens — which was
+  exactly why WhatsApp/Call/Store/Direction clicks weren't counting.
 */
 async function track(field) {
   if (!merchantId) return;
@@ -728,12 +761,15 @@ async function track(field) {
     console.warn('GBH track error:', e.message);
   }
 }
+window.track = track;
+
 function trackView() {
   const key = `gbh_viewed_${merchantId}`;
   if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, '1');
   track('stat_views');
 }
+window.trackView = trackView;
 
 /* ════════════════════════════════════════════════════════
    ★★★ SEO ENGINE ★★★
@@ -1033,10 +1069,10 @@ async function load(){
   // ── ACTIONS ──
   const contacts=d.contacts||[];
   const waContact=contacts.find(c=>c.type==='whatsapp')||contacts[0];
-  const waPhone=waContact?waNum(waContact.number):(d.phone?waNum(d.phone):'');
+  const waPhone=waContact?waNum(waContact.number,d.country):(d.phone?waNum(d.phone,d.country):'');
   const callPhone=(contacts.find(c=>c.type==='call')?.number)||d.phone||'';
   let actions='';
-  if(waPhone)actions+=`<a href="https://wa.me/${waPhone}" class="btn-wa" target="_blank" onclick="track('stat_whatsapp')">💬 WhatsApp</a>`;
+  if(waPhone)actions+=`<a href="${buildWaLink(waPhone,d.businessName)}" class="btn-wa" target="_blank" rel="noopener" onclick="track('stat_whatsapp')">💬 WhatsApp</a>`;
   if(callPhone)actions+=`<a href="tel:${callPhone}" class="btn-action" onclick="track('stat_calls')">📞 Call</a>`;
   if(d.website){
     const href=d.website.startsWith('http')?d.website:'https://'+d.website;
