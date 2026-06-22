@@ -788,7 +788,21 @@ function merchantUrl(id,d){
   if(d.slug)return`merchant.html?slug=${d.slug}&id=${id}`;
   return`merchant.html?id=${id}`;
 }
-const waNum=p=>p?p.replace(/\s+/g,'').replace(/^0/,'234'):'';
+// Country dialing codes — same map as merchant.html so WhatsApp links
+// work correctly for every country, not just Nigeria
+const COUNTRY_DIAL={'Nigeria':'234','Ghana':'233','Kenya':'254','South Africa':'27','Egypt':'20','Ethiopia':'251','Tanzania':'255','Uganda':'256','Senegal':'221','Cameroon':'237','United Kingdom':'44','Germany':'49','France':'33','Netherlands':'31','Spain':'34','Italy':'39','United States':'1','Canada':'1','Mexico':'52','Brazil':'55','Colombia':'57','Argentina':'54','India':'91','United Arab Emirates':'971','China':'86','Singapore':'65','Malaysia':'60','Indonesia':'62','Australia':'61','New Zealand':'64','Saudi Arabia':'966','Qatar':'974','Kuwait':'965'};
+function waNum(p, country){
+  if(!p) return '';
+  let n = p.replace(/[\s\-()]+/g,'').replace(/^\+/,'');
+  const dial = COUNTRY_DIAL[country] || '234';
+  if(n.startsWith(dial)) return n;
+  if(n.startsWith('0')) return dial + n.slice(1);
+  return dial + n;
+}
+function buildWaLink(phone, businessName){
+  const msg = `Hi ${businessName||'there'}! I found your business on Global Biz Hub and I'd like to know more.`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
 function visible(d){
   if(d.status==='declined')return false;
   if(d.status==='approved'){
@@ -807,7 +821,7 @@ const fB=()=>`<span class="bf">★ FEATURED</span>`;
 ════════════════════════════════════════ */
 function featCard(id,d){
   const img=d.images?.[0]?ipfs(d.images[0]):'';
-  const ph=waNum(d.phone);
+  const ph=waNum(d.phone, d.country);
   const desc=(d.description||'').slice(0,100)+(d.description?.length>100?'…':'');
   const url=merchantUrl(id,d);
   const altTxt=`${d.businessName} — ${d.category||'business'}${d.location?' in '+d.location:''}`;
@@ -828,7 +842,7 @@ function featCard(id,d){
       <div class="fc-badges">${d.verified?vB():''}${(d.likes||0)>0?`<span class="lct">❤️ ${d.likes}</span>`:''}</div>
     </div>
     <div class="fc-foot">
-      ${ph?`<a href="https://wa.me/${ph}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
+      ${ph?`<a href="${buildWaLink(ph,d.businessName)}" class="btn-wa" target="_blank" rel="noopener" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
       <a href="${url}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
     </div>
   </a>`;
