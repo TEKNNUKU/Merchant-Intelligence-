@@ -288,10 +288,67 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
   .main-col{display:contents;}
   .cover{height:200px;}
 }
-@media(max-width:480px){
-  .btn-share span{display:none;}
-  .nav-logo{font-size:15px;}
-}
+/* ════════════════════════════════════════════════════════
+   REVIEWS SYSTEM
+════════════════════════════════════════════════════════ */
+
+/* Review card */
+.review-card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.review-card-title{font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.review-summary{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding:12px 14px;background:var(--sf2);border-radius:10px;}
+.review-avg-score{font-family:var(--fh);font-size:38px;font-weight:800;color:var(--gold);line-height:1;}
+.review-avg-meta{display:flex;flex-direction:column;gap:3px;}
+.review-stars-row{display:flex;gap:2px;}
+.review-star{font-size:16px;color:var(--br);transition:color .15s;}
+.review-star.on{color:var(--gold);}
+.review-count-lbl{font-size:11px;color:var(--mu);}
+
+/* Star bars */
+.star-bars{display:flex;flex-direction:column;gap:4px;flex:1;}
+.star-bar-row{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu);}
+.star-bar-track{flex:1;height:5px;background:var(--br);border-radius:3px;overflow:hidden;}
+.star-bar-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .5s ease;}
+.star-bar-count{min-width:16px;text-align:right;font-weight:700;color:var(--tx);}
+
+/* Individual review items */
+.reviews-list{display:flex;flex-direction:column;gap:12px;margin-bottom:14px;}
+.review-item{background:var(--sf2);border-radius:10px;padding:13px 14px;}
+.review-item-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+.review-author{display:flex;align-items:center;gap:8px;}
+.review-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#000;flex-shrink:0;}
+.review-name{font-size:13px;font-weight:700;}
+.review-date{font-size:11px;color:var(--mu);}
+.review-item-stars{display:flex;gap:2px;}
+.review-item-star{font-size:13px;color:var(--br);}
+.review-item-star.on{color:var(--gold);}
+.review-comment{font-size:13px;color:var(--mu);line-height:1.65;margin-top:3px;}
+.review-empty{text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;}
+
+/* Write review form */
+.write-review-toggle{width:100%;padding:11px;background:var(--gold);color:#000;font-family:var(--fh);font-size:13px;font-weight:800;border:none;border-radius:9px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.write-review-toggle:hover{background:#e09c1a;transform:translateY(-1px);}
+.write-review-form{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--br);}
+.write-review-form.open{display:block;}
+.form-field{margin-bottom:12px;}
+.form-label{display:block;font-size:12px;font-weight:700;color:var(--mu);margin-bottom:6px;}
+.form-input{width:100%;padding:10px 12px;background:var(--sf);border:1px solid var(--br);border-radius:8px;color:var(--tx);font-family:var(--fb);font-size:13px;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--gold);}
+.form-textarea{resize:vertical;min-height:72px;line-height:1.6;}
+.star-picker{display:flex;gap:6px;margin-top:4px;}
+.star-pick-btn{font-size:26px;cursor:pointer;color:var(--br);transition:color .15s,transform .15s;background:none;border:none;padding:0;line-height:1;}
+.star-pick-btn:hover,.star-pick-btn.selected{color:var(--gold);}
+.star-pick-btn:hover{transform:scale(1.15);}
+.anon-toggle{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--sf);border:1px solid var(--br);border-radius:8px;cursor:pointer;font-size:13px;transition:border-color .2s;user-select:none;}
+.anon-toggle:hover{border-color:var(--gold);}
+.anon-toggle input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;}
+.btn-submit-review{width:100%;padding:12px;background:var(--gold);color:#000;font-family:var(--fh);font-size:14px;font-weight:800;border:none;border-radius:9px;cursor:pointer;margin-top:10px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-submit-review:hover{background:#e09c1a;transform:translateY(-1px);}
+.btn-submit-review:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.review-err{font-size:12px;color:var(--red);margin-top:6px;display:none;}
+.review-err.show{display:block;}
+
+/* Responsive */
+@media(max-width:700px){.review-card{order:9;}}
 </style>
 </head>
 <body>
@@ -394,7 +451,74 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
           <h2 class="card-title">❓ Frequently Asked Questions</h2>
           <div id="faqListEl"></div>
         </div>
-      </div>
+
+        <!-- ════ REVIEWS CARD ════ -->
+        <div class="review-card" id="reviewCard">
+          <div class="review-card-title">
+            <span>⭐ Customer Reviews</span>
+            <span id="reviewSummaryBadge" style="font-size:12px;color:var(--mu);font-weight:400;"></span>
+          </div>
+
+          <!-- Average score + star distribution -->
+          <div class="review-summary" id="reviewSummary" style="display:none;">
+            <div>
+              <div class="review-avg-score" id="reviewAvgScore">0</div>
+              <div class="review-stars-row" id="reviewAvgStars"></div>
+              <div class="review-count-lbl" id="reviewAvgLabel"></div>
+            </div>
+            <div class="star-bars" id="starBars"></div>
+          </div>
+
+          <!-- Review list -->
+          <div class="reviews-list" id="reviewsList">
+            <div class="review-empty">No reviews yet — be the first to leave one!</div>
+          </div>
+
+          <!-- Load more -->
+          <button id="loadMoreReviewsBtn" onclick="loadMoreReviews()" style="display:none;width:100%;padding:9px;background:var(--sf2);border:1px solid var(--br);border-radius:8px;color:var(--mu);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;margin-bottom:14px;transition:all .2s;">Load more reviews</button>
+
+          <!-- Write a review -->
+          <button class="write-review-toggle" onclick="toggleReviewForm()">
+            ✍️ Write a Review
+          </button>
+          <div class="write-review-form" id="writeReviewForm">
+            <!-- Star rating picker -->
+            <div class="form-field">
+              <label class="form-label">Your Rating <span style="color:var(--gold)">*</span></label>
+              <div class="star-picker" id="starPicker">
+                <button class="star-pick-btn" data-star="1" onclick="pickStar(1)">★</button>
+                <button class="star-pick-btn" data-star="2" onclick="pickStar(2)">★</button>
+                <button class="star-pick-btn" data-star="3" onclick="pickStar(3)">★</button>
+                <button class="star-pick-btn" data-star="4" onclick="pickStar(4)">★</button>
+                <button class="star-pick-btn" data-star="5" onclick="pickStar(5)">★</button>
+              </div>
+            </div>
+            <!-- Name / anonymous -->
+            <div class="form-field">
+              <label class="form-label">Your Name or Nickname</label>
+              <input type="text" class="form-input" id="reviewerName" placeholder="e.g. Amina K. or leave blank to post anonymously" maxlength="40">
+            </div>
+            <!-- Anonymous toggle -->
+            <div class="form-field">
+              <label class="anon-toggle">
+                <input type="checkbox" id="anonCheck" onchange="toggleAnon()">
+                <span>Post anonymously (hides your name)</span>
+              </label>
+            </div>
+            <!-- Comment -->
+            <div class="form-field">
+              <label class="form-label">Comment <span style="color:var(--gold)">*</span></label>
+              <textarea class="form-input form-textarea" id="reviewComment" placeholder="Share your experience with this business…" maxlength="500"></textarea>
+              <div style="font-size:11px;color:var(--mu);margin-top:3px;">Max 500 characters</div>
+            </div>
+            <div class="review-err" id="reviewErr"></div>
+            <button class="btn-submit-review" id="submitReviewBtn" onclick="submitReview()">
+              ⭐ Submit Review
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /main-col -->
 
       <!-- SIDE COL -->
       <div class="side-col">
@@ -470,7 +594,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);backdrop-filter:blur(
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, getDocs, collection, query, where, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, collection, query, where, updateDoc, increment, addDoc, orderBy, limit, startAfter, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = getFirestore(initializeApp({
   apiKey:"AIzaSyCy5taBNr82BJkJyZJiVE0DjoTs6G9ON3U",
@@ -772,7 +896,278 @@ function trackView() {
 window.trackView = trackView;
 
 /* ════════════════════════════════════════════════════════
-   ★★★ SEO ENGINE ★★★
+   ★★★ REVIEWS SYSTEM ★★★
+   Collection: reviews/{reviewId}
+   Fields: merchantId, rating (1-5), comment, authorName,
+           anonymous (bool), createdAt (serverTimestamp)
+
+   Architecture: subcollection under merchants for clean
+   Firestore queries: reviews?where('merchantId','==',id)
+
+   - Public read: anyone can see reviews
+   - Public write CREATE only: anyone can leave a review
+   - No auth required — name/anonymous chosen by user
+   - Rating average stored on merchant doc for AggregateRating
+     schema and dashboard display (updated after each write)
+════════════════════════════════════════════════════════ */
+
+// ── State ──
+let reviewsLoaded = [];
+let reviewsLastDoc = null;
+let reviewPickedStar = 0;
+const REVIEWS_PAGE = 5; // how many to load at a time
+
+// ── Expose all review functions to window (required for inline onclick) ──
+window.toggleReviewForm = () => {
+  const form = document.getElementById('writeReviewForm');
+  form.classList.toggle('open');
+  if (form.classList.contains('open')) {
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+window.pickStar = (n) => {
+  reviewPickedStar = n;
+  document.querySelectorAll('.star-pick-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.star) <= n);
+  });
+};
+
+window.toggleAnon = () => {
+  const anon = document.getElementById('anonCheck').checked;
+  const nameField = document.getElementById('reviewerName');
+  nameField.disabled = anon;
+  nameField.style.opacity = anon ? '.35' : '1';
+  if (anon) nameField.value = '';
+};
+
+window.submitReview = async () => {
+  const errEl = document.getElementById('reviewErr');
+  errEl.classList.remove('show');
+  const btn = document.getElementById('submitReviewBtn');
+
+  // Validate
+  if (!reviewPickedStar) {
+    errEl.textContent = 'Please select a star rating.';
+    errEl.classList.add('show');
+    return;
+  }
+  const comment = document.getElementById('reviewComment').value.trim();
+  if (!comment || comment.length < 5) {
+    errEl.textContent = 'Please write a comment (at least 5 characters).';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const anon = document.getElementById('anonCheck').checked;
+  const rawName = document.getElementById('reviewerName').value.trim();
+  const authorName = anon ? 'Anonymous' : (rawName || 'Anonymous');
+
+  // Rate-limit: one review per session per business
+  const rlKey = `gbh_reviewed_${merchantId}`;
+  if (sessionStorage.getItem(rlKey)) {
+    errEl.textContent = 'You already left a review for this business in this session.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;animation:spin .8s linear infinite">⟳</span> Submitting…';
+
+  try {
+    // Write to top-level reviews collection with merchantId field
+    await addDoc(collection(db, 'reviews'), {
+      merchantId,
+      rating: reviewPickedStar,
+      comment,
+      authorName,
+      anonymous: anon,
+      createdAt: serverTimestamp()
+    });
+
+    // Update merchant doc with new aggregate rating
+    // We do this client-side since no Cloud Function exists yet.
+    // The approach: read current reviewCount + reviewTotal, increment both.
+    const mSnap = await getDoc(doc(db, 'merchants', merchantId));
+    if (mSnap.exists()) {
+      const d = mSnap.data();
+      const newCount = (d.reviewCount || 0) + 1;
+      const newTotal = (d.reviewTotal || 0) + reviewPickedStar;
+      const newAvg = Math.round((newTotal / newCount) * 10) / 10;
+      await updateDoc(doc(db, 'merchants', merchantId), {
+        reviewCount: newCount,
+        reviewTotal: newTotal,
+        reviewAvg: newAvg
+      });
+    }
+
+    sessionStorage.setItem(rlKey, '1');
+    toast('✓ Review submitted! Thank you.', 'var(--green)');
+
+    // Add review optimistically to the list without reload
+    const newReview = {
+      id: 'temp_' + Date.now(),
+      rating: reviewPickedStar,
+      comment,
+      authorName,
+      anonymous: anon,
+      createdAt: new Date()
+    };
+    reviewsLoaded.unshift(newReview);
+    renderReviewsList();
+    await loadReviewSummary();
+
+    // Reset form
+    document.getElementById('writeReviewForm').classList.remove('open');
+    document.getElementById('reviewComment').value = '';
+    document.getElementById('reviewerName').value = '';
+    document.getElementById('anonCheck').checked = false;
+    reviewPickedStar = 0;
+    document.querySelectorAll('.star-pick-btn').forEach(b => b.classList.remove('selected'));
+    btn.disabled = false;
+    btn.innerHTML = '⭐ Submit Review';
+
+  } catch (e) {
+    errEl.textContent = 'Error submitting review: ' + e.message;
+    errEl.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = '⭐ Submit Review';
+  }
+};
+
+window.loadMoreReviews = async () => {
+  await loadReviews(true);
+};
+
+// ── Load reviews from Firestore ──
+async function loadReviews(append = false) {
+  try {
+    let q;
+    if (append && reviewsLastDoc) {
+      q = query(
+        collection(db, 'reviews'),
+        where('merchantId', '==', merchantId),
+        orderBy('createdAt', 'desc'),
+        startAfter(reviewsLastDoc),
+        limit(REVIEWS_PAGE)
+      );
+    } else {
+      q = query(
+        collection(db, 'reviews'),
+        where('merchantId', '==', merchantId),
+        orderBy('createdAt', 'desc'),
+        limit(REVIEWS_PAGE)
+      );
+    }
+
+    const snap = await getDocs(q);
+    const newReviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    if (snap.docs.length > 0) {
+      reviewsLastDoc = snap.docs[snap.docs.length - 1];
+    }
+
+    if (append) {
+      reviewsLoaded = [...reviewsLoaded, ...newReviews];
+    } else {
+      reviewsLoaded = newReviews;
+    }
+
+    renderReviewsList();
+
+    // Show/hide load more
+    const loadMoreBtn = document.getElementById('loadMoreReviewsBtn');
+    if (snap.docs.length === REVIEWS_PAGE) {
+      loadMoreBtn.style.display = '';
+    } else {
+      loadMoreBtn.style.display = 'none';
+    }
+  } catch (e) {
+    // Query might fail if Firestore index not yet created — fail silently
+    // Index needed: reviews / merchantId ASC, createdAt DESC
+    console.warn('GBH reviews load error:', e.message);
+    // Show helpful index-creation link if it's an index error
+    if (e.message.includes('index') || e.message.includes('Index')) {
+      document.getElementById('reviewsList').innerHTML =
+        `<div class="review-empty" style="color:var(--gold);">⚠️ Reviews need a Firestore index. <a href="${e.message.match(/https:\/\/\S+/)?.[0] || '#'}" target="_blank" style="color:var(--gold);text-decoration:underline;">Create it here →</a></div>`;
+    }
+  }
+}
+
+// ── Load summary (avg + distribution) ──
+async function loadReviewSummary() {
+  const mSnap = await getDoc(doc(db, 'merchants', merchantId));
+  if (!mSnap.exists()) return;
+  const d = mSnap.data();
+  const count = d.reviewCount || 0;
+  const avg = d.reviewAvg || 0;
+
+  const badge = document.getElementById('reviewSummaryBadge');
+  badge.textContent = count > 0 ? `${avg} ★ · ${count} review${count !== 1 ? 's' : ''}` : 'No reviews yet';
+
+  if (count === 0) {
+    document.getElementById('reviewSummary').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('reviewSummary').style.display = 'flex';
+  document.getElementById('reviewAvgScore').textContent = avg.toFixed(1);
+
+  // Avg star display
+  const avgStarsEl = document.getElementById('reviewAvgStars');
+  avgStarsEl.innerHTML = [1,2,3,4,5].map(s =>
+    `<span class="review-star${avg >= s ? ' on' : (avg >= s - 0.5 ? ' on' : '')}">★</span>`
+  ).join('');
+  document.getElementById('reviewAvgLabel').textContent = `${count} review${count !== 1 ? 's' : ''}`;
+
+  // Distribution bars — fetch all to count per-star
+  try {
+    const allQ = query(collection(db, 'reviews'), where('merchantId', '==', merchantId));
+    const allSnap = await getDocs(allQ);
+    const dist = {1:0,2:0,3:0,4:0,5:0};
+    allSnap.forEach(d => { dist[d.data().rating] = (dist[d.data().rating]||0)+1; });
+    const maxDist = Math.max(...Object.values(dist), 1);
+    document.getElementById('starBars').innerHTML = [5,4,3,2,1].map(s => `
+      <div class="star-bar-row">
+        <span>${s}★</span>
+        <div class="star-bar-track">
+          <div class="star-bar-fill" style="width:${Math.round((dist[s]/maxDist)*100)}%"></div>
+        </div>
+        <span class="star-bar-count">${dist[s]}</span>
+      </div>`).join('');
+  } catch (e) { /* silent */ }
+}
+
+// ── Render review list items ──
+function renderReviewsList() {
+  const el = document.getElementById('reviewsList');
+  if (!reviewsLoaded.length) {
+    el.innerHTML = '<div class="review-empty">No reviews yet — be the first to leave one!</div>';
+    return;
+  }
+  el.innerHTML = reviewsLoaded.map(r => {
+    const d = r.createdAt?.toDate ? r.createdAt.toDate() : (r.createdAt instanceof Date ? r.createdAt : new Date());
+    const dateStr = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+    const initials = r.anonymous ? '?' : (r.authorName || 'A').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const stars = [1,2,3,4,5].map(s => `<span class="review-item-star${s<=r.rating?' on':''}">★</span>`).join('');
+    return `
+      <div class="review-item">
+        <div class="review-item-head">
+          <div class="review-author">
+            <div class="review-avatar">${initials}</div>
+            <div>
+              <div class="review-name">${escAttr(r.anonymous ? 'Anonymous' : (r.authorName || 'Anonymous'))}</div>
+              <div class="review-date">${dateStr}</div>
+            </div>
+          </div>
+          <div class="review-item-stars">${stars}</div>
+        </div>
+        <div class="review-comment">${escAttr(r.comment)}</div>
+      </div>`;
+  }).join('');
+}
+
+
    Rewrites every meta tag, the canonical link, breadcrumb,
    and the two JSON-LD blocks once merchant data is known.
    This is what makes each of the thousands of business pages
@@ -882,10 +1277,10 @@ function updateSEO(id, d, canonicalUrl){
     "areaServed": locFull || undefined,
     "knowsLanguage": "en",
     "additionalType": `https://schema.org/${cat.replace(/[^a-zA-Z]/g,'')}` || undefined,
-    "aggregateRating": (d.likes && d.likes > 0) ? {
+    "aggregateRating": (d.reviewCount && d.reviewCount > 0) ? {
       "@type": "AggregateRating",
-      "ratingValue": "4.7",
-      "reviewCount": String(Math.max(1, d.likes))
+      "ratingValue": String(d.reviewAvg || 0),
+      "reviewCount": String(d.reviewCount)
     } : undefined,
     "isAccessibleForFree": true,
     "publicAccess": true
@@ -1166,6 +1561,10 @@ async function load(){
   document.getElementById('pageContent').style.display='';
   trackView();
   document.getElementById('listCta').style.display='';
+
+  // ── LOAD REVIEWS (after page is visible so it doesn't block rendering) ──
+  loadReviews(false);
+  loadReviewSummary();
 }
 
 load();
