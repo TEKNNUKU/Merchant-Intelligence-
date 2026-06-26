@@ -2,45 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sitemap Generator — Global Biz Hub (Internal Tool)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitemap Generator — Global Biz Hub</title>
 <style>
-body{background:#0D0D0D;color:#F0EDE8;font-family:'Manrope',sans-serif;padding:32px;max-width:900px;margin:0 auto;}
-h1{font-family:'Syne',sans-serif;color:#F5A623;font-size:22px;margin-bottom:6px;}
-p{color:#7A7570;font-size:13px;line-height:1.7;margin-bottom:18px;}
-.box{background:#161616;border:1px solid #2A2A2A;border-radius:10px;padding:18px;margin-bottom:16px;}
-.stat{display:inline-block;background:#1E1E1E;padding:8px 14px;border-radius:8px;margin-right:8px;margin-bottom:8px;font-size:12px;}
-.stat b{color:#F5A623;}
-textarea{width:100%;height:420px;background:#0D0D0D;color:#00ff88;border:1px solid #2A2A2A;border-radius:8px;padding:14px;font-family:'SF Mono',Consolas,monospace;font-size:11px;line-height:1.6;resize:vertical;}
-button{padding:10px 18px;background:#F5A623;color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;margin-right:8px;margin-bottom:8px;}
-button:hover{background:#e09c1a;}
-button.o{background:transparent;border:1px solid #2A2A2A;color:#F0EDE8;}
-.warn{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:14px 16px;font-size:12px;line-height:1.7;color:#F5A623;margin-bottom:18px;}
-.warn strong{color:#fff;}
-.warn code{background:#1E1E1E;padding:1px 5px;border-radius:4px;}
-a{color:#F5A623;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0D0D0D;color:#F0EDE8;font-family:'Manrope',sans-serif;padding:24px;min-height:100vh;}
+  .wrap{max-width:860px;margin:0 auto;}
+  h1{font-size:20px;font-weight:800;color:#F5A623;margin-bottom:4px;}
+  .sub{font-size:13px;color:#7A7570;margin-bottom:24px;line-height:1.7;}
+  .warn{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:14px 18px;font-size:13px;color:#F5A623;margin-bottom:20px;line-height:1.75;}
+  .warn strong{color:#fff;}
+  .warn code{background:#1E1E1E;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px;}
+  .steps{background:#161616;border:1px solid #2A2A2A;border-radius:10px;padding:18px;margin-bottom:20px;}
+  .step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;font-size:13px;line-height:1.65;}
+  .step:last-child{margin-bottom:0;}
+  .step-num{width:24px;height:24px;border-radius:50%;background:#F5A623;color:#000;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .step-text{color:#7A7570;}
+  .step-text strong{color:#F0EDE8;}
+  .btn-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  button{padding:11px 20px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;}
+  .btn-primary{background:#F5A623;color:#000;}
+  .btn-primary:hover{background:#e09c1a;}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-outline{background:transparent;border:1px solid #2A2A2A;color:#F0EDE8;}
+  .btn-outline:hover{border-color:#F5A623;color:#F5A623;}
+  .btn-outline:disabled{opacity:.4;cursor:not-allowed;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .stat{background:#1E1E1E;padding:8px 14px;border-radius:8px;font-size:12px;}
+  .stat b{color:#F5A623;font-size:15px;display:block;}
+  #status{font-size:13px;color:#7A7570;margin-bottom:10px;min-height:20px;}
+  #status.ok{color:#00A651;}
+  #status.err{color:#E05A2B;}
+  #status.loading{color:#F5A623;}
+  textarea{width:100%;height:360px;background:#0A0A0A;border:1px solid #2A2A2A;border-radius:8px;color:#00ff88;font-family:monospace;font-size:11px;padding:14px;line-height:1.6;resize:vertical;outline:none;}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <h1>🗺️ GBH Sitemap Generator</h1>
+  <p class="sub">Internal admin tool — generates a valid <code style="background:#1E1E1E;padding:2px 6px;border-radius:4px;font-family:monospace">sitemap.xml</code> from all live businesses in Firestore. <strong style="color:#F5A623">Do not upload this page as sitemap.xml</strong> — use the Download button below and upload that file.</p>
 
-<h1>🗺️ Sitemap Generator</h1>
-<p>Internal tool — generates <code>sitemap.xml</code> from every approved business currently in Firestore, plus all static pages. This is <strong>not</strong> a public-facing page; it produces the file content you upload to your server as <code>/sitemap.xml</code>.</p>
+  <div class="warn">
+    ⚠️ <strong>Why Google says "Couldn't fetch":</strong> The file currently at <code>/sitemap.xml</code> on your server is this generator tool's HTML page — not the XML it produces. Google's XML parser immediately rejects HTML. <strong>Fix: click Generate → Download → upload the downloaded file to your server root as <code>sitemap.xml</code></strong>, replacing whatever is there now.
+  </div>
 
-<div class="warn">
-  ⚠️ <strong>Static hosting limitation:</strong> Since this platform runs as static HTML + client-side Firestore (no server/Cloud Functions), the live <code>sitemap.xml</code> file on your server <strong>cannot regenerate itself automatically</strong> on a schedule. Two ways to keep it fresh:
-  <br><br>
-  1. <strong>Manual refresh (works today, zero cost):</strong> Open this page periodically (e.g. weekly, or after a batch of new listings), click "Generate", download the file, and re-upload it to replace <code>/sitemap.xml</code> on your host.
-  <br><br>
-  2. <strong>Automated (recommended once volume grows):</strong> Add one small Firebase Cloud Function on a daily schedule (<code>functions.pubsub.schedule</code>) that runs this exact same logic server-side and writes the output to Cloud Storage or back into your static hosting bucket. This is the only piece of the whole platform that genuinely benefits from a Cloud Function — everything else can stay client-side.
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Click "Generate Sitemap"</strong> — reads all live businesses from Firestore</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Click "Download sitemap.xml"</strong> — saves a valid XML file to your device</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Upload that file to your server root</strong> as <code>sitemap.xml</code> — replacing the current file at <code>https://globalbizhub.teknnuku.xyz/sitemap.xml</code></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text"><strong>In Google Search Console</strong> → Sitemaps → click the three-dot menu on the existing sitemap → "Remove" → then re-submit <code>https://globalbizhub.teknnuku.xyz/sitemap.xml</code></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Repeat weekly</strong> or after a batch of new listings go live</div></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" id="genBtn" onclick="generate()">⚡ Generate Sitemap</button>
+    <button class="btn-outline" id="dlBtn" onclick="downloadFile()" disabled>⬇ Download sitemap.xml</button>
+    <button class="btn-outline" id="copyBtn" onclick="copyXML()" disabled>📋 Copy XML</button>
+  </div>
+
+  <div id="status">Click "Generate Sitemap" to start.</div>
+  <div class="stats" id="statsRow" style="display:none;"></div>
+  <textarea id="output" readonly placeholder="Generated XML will appear here…"></textarea>
 </div>
-
-<div class="box" id="statsBox">
-  <button onclick="generate()">⚡ Generate Sitemap Now</button>
-  <button class="o" onclick="downloadFile()">⬇ Download sitemap.xml</button>
-  <button class="o" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
-  <div id="stats" style="margin-top:10px;"></div>
-</div>
-
-<textarea id="output" readonly placeholder="Click 'Generate Sitemap Now' to build the XML…"></textarea>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -55,120 +78,159 @@ const db = getFirestore(initializeApp({
   appId:"1:1032906945513:web:245aec0df3dd87f0a0d178"
 }));
 
-const SITE_ORIGIN = "https://globalbizhub.teknnuku.xyz";
+const ORIGIN = "https://globalbizhub.teknnuku.xyz";
 
-// ── Static pages that always belong in the sitemap ──
-const STATIC_PAGES = [
-  { loc: '/index.html', priority: '1.0', changefreq: 'hourly' },
-  { loc: '/add.html', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/dashboard.html', priority: '0.3', changefreq: 'monthly' },
+const STATIC = [
+  { loc:'/index.html',     changefreq:'daily',   priority:'1.0' },
+  { loc:'/add.html',       changefreq:'monthly',  priority:'0.7' },
+  { loc:'/dashboard.html', changefreq:'monthly',  priority:'0.3' },
 ];
 
-function xmlEscape(s){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+// XML-escape: MUST be applied to every value placed inside an XML element
+// including URLs (& in ?slug=x&id=y MUST become &amp; or the parser breaks)
+function xe(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
+
+function isoDate(ts){
+  try{ const d=ts?.toDate?ts.toDate():new Date(ts||Date.now()); return d.toISOString().split('T')[0]; }
+  catch{ return new Date().toISOString().split('T')[0]; }
 }
 
-function isoDate(d){
-  try{
-    const date = d?.toDate ? d.toDate() : new Date(d || Date.now());
-    return date.toISOString().split('T')[0];
-  }catch{ return new Date().toISOString().split('T')[0]; }
-}
-
-function visible(d){
-  // Same visibility rule used on the homepage: approved, or pending
-  // for 48h+ (auto-listed), and never declined.
-  if (d.status === 'declined') return false;
-  if (d.status === 'approved') return true;
-  if (d.status === 'pending') {
-    const t = d.createdAt?.toDate ? d.createdAt.toDate() : new Date(d.createdAt || 0);
-    return (Date.now() - t.getTime()) >= 172800000;
+function isVisible(d){
+  if(d.status==='declined') return false;
+  if(d.status==='approved') return true;
+  if(d.status==='pending'){
+    const t=d.createdAt?.toDate?d.createdAt.toDate():new Date(d.createdAt||0);
+    return (Date.now()-t.getTime())>=172800000;
   }
   return true;
 }
 
+let generatedXML = '';
+
 window.generate = async () => {
+  const btn = document.getElementById('genBtn');
+  const dlBtn = document.getElementById('dlBtn');
+  const copyBtn = document.getElementById('copyBtn');
   const out = document.getElementById('output');
-  const stats = document.getElementById('stats');
-  out.value = 'Fetching merchants from Firestore…';
-  stats.innerHTML = '';
+  const statusEl = document.getElementById('status');
+  const statsRow = document.getElementById('statsRow');
+
+  btn.disabled = true;
+  btn.textContent = '⟳ Fetching…';
+  dlBtn.disabled = true;
+  copyBtn.disabled = true;
+  statusEl.className = 'loading';
+  statusEl.textContent = 'Connecting to Firestore…';
+  out.value = '';
+  statsRow.style.display = 'none';
 
   try {
-    const snap = await getDocs(collection(db, 'merchants'));
-    const all = snap.docs.map(d => ({ id: d.id, data: d.data() }));
-    const live = all.filter(m => visible(m.data));
+    const snap = await getDocs(collection(db,'merchants'));
+    const all = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const live = all.filter(m=>isVisible(m));
+    const featured = live.filter(m=>m.featured);
+    const verified = live.filter(m=>m.verified);
+    const excluded = all.length - live.length;
 
-    const urls = [];
+    statusEl.textContent = `Building XML for ${live.length} businesses…`;
 
-    // Static pages first
-    STATIC_PAGES.forEach(p => {
-      const locUrl = xmlEscape(`${SITE_ORIGIN}${p.loc}`);
-      urls.push(`  <url>\n    <loc>${locUrl}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`);
+    const urlNodes = [];
+
+    // Static pages
+    STATIC.forEach(p=>{
+      urlNodes.push(
+        `  <url>\n    <loc>${xe(ORIGIN+p.loc)}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`
+      );
     });
 
-    // One <url> per live business — canonical slug+id URL, featured/verified
-    // businesses get a slightly higher priority signal (still modest —
-    // priority is a weak signal in 2026 but costs nothing to set correctly)
-    live.forEach(m => {
-      const d = m.data;
-      // IMPORTANT: every "&" inside a URL must become "&amp;" in XML —
-      // even though it's a perfectly valid URL character, the sitemap
-      // file itself is XML and raw "&" breaks the parser (this was the
-      // bug: "EntityRef: expecting ';'"). encodeURIComponent does NOT
-      // do this for us, so we run xmlEscape() on the assembled URL too.
-      const rawPath = d.slug ? `/merchant.html?slug=${encodeURIComponent(d.slug)}&id=${m.id}` : `/merchant.html?id=${m.id}`;
-      const locUrl = xmlEscape(`${SITE_ORIGIN}${rawPath}`);
-      const lastmod = isoDate(d.updatedAt || d.createdAt);
-      const priority = d.featured ? '0.9' : d.verified ? '0.8' : '0.6';
-      let entry = `  <url>\n    <loc>${locUrl}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>`;
+    // One <url> per live business
+    live.forEach(m=>{
+      // Build canonical URL — & in query string MUST be &amp; inside XML
+      const rawPath = m.slug
+        ? `/merchant.html?slug=${encodeURIComponent(m.slug)}&id=${m.id}`
+        : `/merchant.html?id=${m.id}`;
+      const loc = xe(ORIGIN + rawPath);   // xe() turns & → &amp;
+      const lastmod = isoDate(m.updatedAt||m.createdAt);
+      const priority = m.featured ? '0.9' : m.verified ? '0.8' : '0.6';
 
-      // Image sitemap extension — helps Google Image Search index business
-      // photos directly against the page they belong to
-      if (d.images?.length) {
-        d.images.slice(0, 5).forEach(cid => {
-          const imgUrl = xmlEscape(`https://gateway.pinata.cloud/ipfs/${cid}`);
-          const imgTitle = xmlEscape(d.businessName || 'Business photo');
-          entry += `\n    <image:image>\n      <image:loc>${imgUrl}</image:loc>\n      <image:title>${imgTitle}</image:title>\n    </image:image>`;
+      let node = `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>`;
+
+      // Image sitemap extension for photo-indexed businesses
+      if(m.images?.length){
+        m.images.slice(0,5).forEach(cid=>{
+          const imgLoc = xe(`https://gateway.pinata.cloud/ipfs/${cid}`);
+          const imgTitle = xe(m.businessName||'Business photo');
+          node += `\n    <image:image>\n      <image:loc>${imgLoc}</image:loc>\n      <image:title>${imgTitle}</image:title>\n    </image:image>`;
         });
       }
-      entry += `\n  </url>`;
-      urls.push(entry);
+      node += `\n  </url>`;
+      urlNodes.push(node);
     });
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join('\n')}\n</urlset>`;
+    const xml = [
+      `<?xml version="1.0" encoding="UTF-8"?>`,
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+      `        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
+      ...urlNodes,
+      `</urlset>`
+    ].join('\n');
 
+    // Validate that the generated XML is actually parseable
+    // (catches any escaping bugs before the file gets submitted to Google)
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(xml, 'application/xml');
+    const parseErr = parsed.querySelector('parsererror');
+    if(parseErr){
+      throw new Error('Generated XML has a parse error — please report this. Details: ' + parseErr.textContent.slice(0,200));
+    }
+
+    generatedXML = xml;
     out.value = xml;
-    stats.innerHTML = `
-      <span class="stat"><b>${live.length}</b> live businesses</span>
-      <span class="stat"><b>${all.length - live.length}</b> excluded (pending/declined)</span>
-      <span class="stat"><b>${STATIC_PAGES.length}</b> static pages</span>
-      <span class="stat"><b>${live.length + STATIC_PAGES.length}</b> total URLs</span>
+
+    statusEl.className = 'ok';
+    statusEl.textContent = `✓ Valid XML generated — ${live.length + STATIC.length} URLs total. Now download and upload to your server.`;
+
+    statsRow.style.display = 'flex';
+    statsRow.innerHTML = `
+      <div class="stat"><b>${live.length + STATIC.length}</b>Total URLs</div>
+      <div class="stat"><b>${live.length}</b>Live businesses</div>
+      <div class="stat"><b>${featured.length}</b>Featured (priority 0.9)</div>
+      <div class="stat"><b>${verified.length}</b>Verified (priority 0.8)</div>
+      <div class="stat"><b>${excluded}</b>Excluded</div>
     `;
-  } catch (e) {
-    out.value = `Error: ${e.message}\n\nCheck Firestore rules allow read access to the 'merchants' collection from this origin.`;
+
+    dlBtn.disabled = false;
+    copyBtn.disabled = false;
+    btn.textContent = '🔄 Regenerate';
+
+  } catch(e){
+    statusEl.className = 'err';
+    statusEl.textContent = '✗ Error: ' + e.message;
+    out.value = 'Error: ' + e.message;
   }
+  btn.disabled = false;
 };
 
 window.downloadFile = () => {
-  const content = document.getElementById('output').value;
-  if (!content || content.startsWith('Click')) { alert('Generate the sitemap first.'); return; }
-  const blob = new Blob([content], { type: 'application/xml' });
+  if(!generatedXML){ alert('Generate first.'); return; }
+  const blob = new Blob([generatedXML], {type:'application/xml'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = 'sitemap.xml';
-  a.click();
+  a.href = url; a.download = 'sitemap.xml'; a.click();
   URL.revokeObjectURL(url);
 };
 
-window.copyToClipboard = () => {
-  const content = document.getElementById('output').value;
-  if (!content || content.startsWith('Click')) { alert('Generate the sitemap first.'); return; }
-  navigator.clipboard.writeText(content).then(() => alert('✓ Copied! Paste into sitemap.xml on your server.'));
+window.copyXML = () => {
+  if(!generatedXML){ alert('Generate first.'); return; }
+  navigator.clipboard.writeText(generatedXML).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent='📋 Copy XML',2500);
+  });
 };
 
-// Auto-generate on load for convenience
-generate();
+// Auto-generate on load
+window.generate();
 </script>
 </body>
 </html>
