@@ -850,7 +850,7 @@ function featCard(id,d){
 
 function bizCard(id,d){
   const img=d.images?.[0]?ipfs(d.images[0]):'';
-  const ph=waNum(d.phone);
+  const ph=waNum(d.phone, d.country);
   const desc=(d.description||'').slice(0,80)+(d.description?.length>80?'…':'');
   const url=merchantUrl(id,d);
   const altTxt=`${d.businessName} — ${d.category||'business'}${d.location?' in '+d.location:''}`;
@@ -870,7 +870,7 @@ function bizCard(id,d){
       <div class="mc-badges">${d.verified?vB():''}${d.featured?fB():''}${(d.likes||0)>0?`<span class="lct">❤️ ${d.likes}</span>`:''}</div>
     </div>
     <div class="mc-foot">
-      ${ph?`<a href="https://wa.me/${ph}" class="btn-wa" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
+      ${ph?`<a href="${buildWaLink(ph,d.businessName)}" class="btn-wa" target="_blank" rel="noopener" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
       <a href="${url}" class="btn-view${!ph?' btn-full':''}" onclick="event.stopPropagation()">View →</a>
     </div>
   </a>`;
