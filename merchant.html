@@ -1359,33 +1359,66 @@ window.toggleFAQ = (i) => document.getElementById(`faqItem${i}`).classList.toggl
 /* ════════════════════════════════════════
    LOAD
    Priority: ID lookup (fast) → slug lookup (fallback)
+   Timeout: 12s — if Firestore doesn't respond, show a clear
+   error instead of spinning forever (common on Vercel edge
+   network cold starts or when Firebase SDK fails to init)
 ════════════════════════════════════════ */
 async function load(){
   const loaderEl=document.getElementById('pageLoader');
 
+  // Timeout wrapper — prevents infinite spinner on network failure
+  function withTimeout(promise, ms, label){
+    const timeout = new Promise((_,reject)=>
+      setTimeout(()=>reject(new Error(`Timeout after ${ms/1000}s loading ${label}. Check your internet connection and try refreshing.`)), ms)
+    );
+    return Promise.race([promise, timeout]);
+  }
+
   let snap=null;
   try{
     if(urlId){
-      snap=await getDoc(doc(db,'merchants',urlId));
+      snap = await withTimeout(getDoc(doc(db,'merchants',urlId)), 12000, 'business profile');
       if(snap.exists()){merchantId=urlId;}
       else if(urlSlug){
         const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
-        const results=await getDocs(q);
+        const results = await withTimeout(getDocs(q), 12000, 'business by slug');
         if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
       }
     } else if(urlSlug){
       const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
-      const results=await getDocs(q);
+      const results = await withTimeout(getDocs(q), 12000, 'business by slug');
       if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
+    } else {
+      // No ID or slug in URL — show helpful message
+      loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+        <p style="color:var(--mu);font-size:14px;">No business specified. <a href="index.html" style="color:var(--gold);">Browse the directory →</a></p>
+      </div>`;
+      return;
     }
   }catch(err){
-    loaderEl.innerHTML=`<p style="color:var(--mu)">Error loading profile: ${err.message}</p>`;
+    // Show a clear, actionable error — not a silent forever-spinner
+    const isTimeout = err.message.includes('Timeout');
+    const isFirebase = err.message.includes('permission') || err.message.includes('Firebase') || err.message.includes('firestore');
+    loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;max-width:480px;margin:0 auto;">
+      <div style="font-size:32px;margin-bottom:12px;">${isTimeout?'⏱️':'⚠️'}</div>
+      <p style="color:var(--tx);font-size:15px;font-weight:700;margin-bottom:8px;">${isTimeout?'Taking too long to load':'Error loading profile'}</p>
+      <p style="color:var(--mu);font-size:13px;line-height:1.6;margin-bottom:16px;">${isTimeout?'The server took too long to respond. This can happen on slow connections or when the platform is starting up.':err.message}</p>
+      ${isFirebase?'<p style="color:var(--gold);font-size:12px;margin-bottom:12px;">⚠️ Database permission error — check Firestore Rules are published.</p>':''}
+      <button onclick="location.reload()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;">Try Again</button>
+      <a href="index.html" style="display:block;margin-top:10px;color:var(--mu);font-size:12px;">← Back to Directory</a>
+    </div>`;
+    console.error('GBH load error:', err);
     return;
   }
 
   if(!snap||!snap.exists()){
-    loaderEl.innerHTML='<p style="color:var(--mu)">Business not found or may have been removed.</p>';
-    // Even on 404, tell search engines clearly via robots meta
+    loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;">
+      <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+      <p style="color:var(--tx);font-size:15px;font-weight:700;margin-bottom:8px;">Business not found</p>
+      <p style="color:var(--mu);font-size:13px;margin-bottom:16px;">This listing may have been removed or the link may be incorrect.</p>
+      <a href="index.html" style="padding:10px 20px;background:var(--gold);color:#000;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;">Browse Directory →</a>
+    </div>`;
     const r = document.createElement('meta'); r.name='robots'; r.content='noindex, follow';
     document.head.appendChild(r);
     return;
