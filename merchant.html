@@ -1357,69 +1357,87 @@ function renderFAQCard(faqs){
 window.toggleFAQ = (i) => document.getElementById(`faqItem${i}`).classList.toggle('open');
 
 /* ════════════════════════════════════════
-   LOAD
-   Priority: ID lookup (fast) → slug lookup (fallback)
-   Timeout: 12s — if Firestore doesn't respond, show a clear
-   error instead of spinning forever (common on Vercel edge
-   network cold starts or when Firebase SDK fails to init)
+   LOAD — with fast-fail error detection
+   Firestore permission denials manifest as
+   hanging promises, not thrown errors, on
+   the web SDK. We detect them via a short
+   timeout and show a clear diagnosis.
 ════════════════════════════════════════ */
 async function load(){
-  const loaderEl=document.getElementById('pageLoader');
+  const loaderEl = document.getElementById('pageLoader');
 
-  // Timeout wrapper — prevents infinite spinner on network failure
-  function withTimeout(promise, ms, label){
-    const timeout = new Promise((_,reject)=>
-      setTimeout(()=>reject(new Error(`Timeout after ${ms/1000}s loading ${label}. Check your internet connection and try refreshing.`)), ms)
-    );
-    return Promise.race([promise, timeout]);
+  function showError(icon, title, body, extra=''){
+    loaderEl.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;max-width:500px;margin:0 auto;">
+        <div style="font-size:36px;margin-bottom:14px;">${icon}</div>
+        <p style="color:var(--tx);font-family:var(--fh);font-size:16px;font-weight:800;margin-bottom:10px;">${title}</p>
+        <p style="color:var(--mu);font-size:13px;line-height:1.7;margin-bottom:18px;">${body}</p>
+        ${extra}
+        <button onclick="location.reload()" style="padding:11px 22px;background:var(--gold);color:#000;border:none;border-radius:9px;cursor:pointer;font-weight:800;font-size:13px;margin-right:8px;">🔄 Try Again</button>
+        <a href="index.html" style="padding:11px 22px;background:var(--sf2);color:var(--mu);border:1px solid var(--br);border-radius:9px;font-weight:700;font-size:13px;text-decoration:none;display:inline-block;margin-top:8px;">← Directory</a>
+      </div>`;
   }
 
-  let snap=null;
-  try{
-    if(urlId){
-      snap = await withTimeout(getDoc(doc(db,'merchants',urlId)), 12000, 'business profile');
-      if(snap.exists()){merchantId=urlId;}
-      else if(urlSlug){
-        const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
-        const results = await withTimeout(getDocs(q), 12000, 'business by slug');
-        if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
-      }
-    } else if(urlSlug){
-      const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
-      const results = await withTimeout(getDocs(q), 12000, 'business by slug');
-      if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
-    } else {
-      // No ID or slug in URL — show helpful message
-      loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;">
-        <div style="font-size:32px;margin-bottom:12px;">🔍</div>
-        <p style="color:var(--mu);font-size:14px;">No business specified. <a href="index.html" style="color:var(--gold);">Browse the directory →</a></p>
-      </div>`;
-      return;
-    }
-  }catch(err){
-    // Show a clear, actionable error — not a silent forever-spinner
-    const isTimeout = err.message.includes('Timeout');
-    const isFirebase = err.message.includes('permission') || err.message.includes('Firebase') || err.message.includes('firestore');
-    loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;max-width:480px;margin:0 auto;">
-      <div style="font-size:32px;margin-bottom:12px;">${isTimeout?'⏱️':'⚠️'}</div>
-      <p style="color:var(--tx);font-size:15px;font-weight:700;margin-bottom:8px;">${isTimeout?'Taking too long to load':'Error loading profile'}</p>
-      <p style="color:var(--mu);font-size:13px;line-height:1.6;margin-bottom:16px;">${isTimeout?'The server took too long to respond. This can happen on slow connections or when the platform is starting up.':err.message}</p>
-      ${isFirebase?'<p style="color:var(--gold);font-size:12px;margin-bottom:12px;">⚠️ Database permission error — check Firestore Rules are published.</p>':''}
-      <button onclick="location.reload()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;">Try Again</button>
-      <a href="index.html" style="display:block;margin-top:10px;color:var(--mu);font-size:12px;">← Back to Directory</a>
-    </div>`;
-    console.error('GBH load error:', err);
+  // Fast-fail timeout — 8 seconds. Firestore permission errors
+  // don't throw; they silently hang. This converts a silent hang
+  // into a clear error message the business owner can act on.
+  function withTimeout(promise, ms){
+    return Promise.race([
+      promise,
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('__TIMEOUT__')), ms))
+    ]);
+  }
+
+  // No params at all
+  if(!urlId && !urlSlug){
+    showError('🔍','No business specified','Use a full link from the directory to view a business profile.');
     return;
   }
 
-  if(!snap||!snap.exists()){
-    loaderEl.innerHTML=`<div style="text-align:center;padding:40px 20px;">
-      <div style="font-size:32px;margin-bottom:12px;">🔍</div>
-      <p style="color:var(--tx);font-size:15px;font-weight:700;margin-bottom:8px;">Business not found</p>
-      <p style="color:var(--mu);font-size:13px;margin-bottom:16px;">This listing may have been removed or the link may be incorrect.</p>
-      <a href="index.html" style="padding:10px 20px;background:var(--gold);color:#000;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;">Browse Directory →</a>
-    </div>`;
-    const r = document.createElement('meta'); r.name='robots'; r.content='noindex, follow';
+  let snap = null;
+  try {
+    if(urlId){
+      snap = await withTimeout(getDoc(doc(db,'merchants',urlId)), 8000);
+      if(snap.exists()){ merchantId = urlId; }
+      else if(urlSlug){
+        const q = query(collection(db,'merchants'), where('slug','==',urlSlug));
+        const r = await withTimeout(getDocs(q), 8000);
+        if(!r.empty){ snap = r.docs[0]; merchantId = snap.id; }
+      }
+    } else {
+      const q = query(collection(db,'merchants'), where('slug','==',urlSlug));
+      const r = await withTimeout(getDocs(q), 8000);
+      if(!r.empty){ snap = r.docs[0]; merchantId = snap.id; }
+    }
+  } catch(err){
+    if(err.message === '__TIMEOUT__'){
+      showError('⏱️','Loading timed out',
+        'The database didn\'t respond in time. This usually means the Firestore security rules haven\'t been published yet, or there\'s a temporary connection issue.',
+        `<div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--gold);text-align:left;">
+          <strong>Most likely fix:</strong> Go to Firebase Console → Firestore → Rules → paste the v4.0 rules → click Publish. Then refresh this page.
+        </div>`
+      );
+    } else if(err.code === 'permission-denied' || err.message?.includes('permission')){
+      showError('🔒','Permission denied',
+        'Firestore rejected the read request. The security rules need to allow public reads on the merchants collection.',
+        `<div style="background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.25);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--red);text-align:left;">
+          Firebase Console → Firestore → Rules → confirm <code style="background:var(--sf2);padding:1px 4px;border-radius:3px">allow read: if true</code> is published for the merchants collection.
+        </div>`
+      );
+    } else {
+      showError('⚠️','Error loading profile', err.message);
+    }
+    console.error('[GBH] load() error:', err);
+    return;
+  }
+
+  if(!snap || !snap.exists()){
+    showError('🔍','Business not found',
+      'This listing may have been removed or the link may be incorrect.',
+      `<a href="index.html" style="display:inline-block;padding:11px 22px;background:var(--gold);color:#000;border-radius:9px;font-weight:800;font-size:13px;text-decoration:none;margin-bottom:16px;">Browse Directory →</a><br>`
+    );
+    const r = document.createElement('meta');
+    r.name='robots'; r.content='noindex, follow';
     document.head.appendChild(r);
     return;
   }
