@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+l<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -985,21 +985,19 @@ window.submitReview = async () => {
       createdAt: serverTimestamp()
     });
 
-    // Update merchant doc with new aggregate rating + per-star distribution
+    // Update merchant doc with new aggregate rating
+    // We do this client-side since no Cloud Function exists yet.
+    // The approach: read current reviewCount + reviewTotal, increment both.
     const mSnap = await getDoc(doc(db, 'merchants', merchantId));
     if (mSnap.exists()) {
       const d = mSnap.data();
       const newCount = (d.reviewCount || 0) + 1;
       const newTotal = (d.reviewTotal || 0) + reviewPickedStar;
       const newAvg = Math.round((newTotal / newCount) * 10) / 10;
-      // Update per-star distribution so summary renders without any extra query
-      const dist = d.reviewDistribution || {1:0,2:0,3:0,4:0,5:0};
-      dist[reviewPickedStar] = (dist[reviewPickedStar] || 0) + 1;
       await updateDoc(doc(db, 'merchants', merchantId), {
         reviewCount: newCount,
         reviewTotal: newTotal,
-        reviewAvg: newAvg,
-        reviewDistribution: dist
+        reviewAvg: newAvg
       });
     }
 
@@ -1085,99 +1083,59 @@ async function loadReviews(append = false) {
       loadMoreBtn.style.display = 'none';
     }
   } catch (e) {
-    // Silent fail for index-not-ready errors (index IS created but Firebase
-    // occasionally returns an index error on the very first query after a
-    // cold start or during index propagation). Retrying once after a short
-    // delay resolves it without showing a confusing error to the user.
-    console.warn('[GBH] reviews load error:', e.message);
-    if (e.message.includes('index') || e.message.includes('Index') || e.message.includes('FAILED_PRECONDITION')) {
-      // Retry once after 2 seconds silently
-      if (!append) {
-        setTimeout(async () => {
-          try {
-            const q2 = query(
-              collection(db, 'reviews'),
-              where('merchantId', '==', merchantId),
-              orderBy('createdAt', 'desc'),
-              limit(REVIEWS_PAGE)
-            );
-            const snap2 = await getDocs(q2);
-            reviewsLoaded = snap2.docs.map(d => ({ id: d.id, ...d.data() }));
-            if (snap2.docs.length > 0) reviewsLastDoc = snap2.docs[snap2.docs.length - 1];
-            renderReviewsList();
-            if (snap2.docs.length === REVIEWS_PAGE) document.getElementById('loadMoreReviewsBtn').style.display = '';
-          } catch (e2) {
-            // Second attempt failed — show empty state, not error
-            console.warn('[GBH] reviews retry failed:', e2.message);
-            document.getElementById('reviewsList').innerHTML =
-              '<div class="review-empty">No reviews yet — be the first to leave one!</div>';
-          }
-        }, 2000);
-      }
-    } else {
-      // Non-index error — show empty state gracefully, not a technical error
+    // Query might fail if Firestore index not yet created — fail silently
+    // Index needed: reviews / merchantId ASC, createdAt DESC
+    console.warn('GBH reviews load error:', e.message);
+    // Show helpful index-creation link if it's an index error
+    if (e.message.includes('index') || e.message.includes('Index')) {
       document.getElementById('reviewsList').innerHTML =
-        '<div class="review-empty">No reviews yet — be the first to leave one!</div>';
+        `<div class="review-empty" style="color:var(--gold);">⚠️ Reviews need a Firestore index. <a href="${e.message.match(/https:\/\/\S+/)?.[0] || '#'}" target="_blank" style="color:var(--gold);text-decoration:underline;">Create it here →</a></div>`;
     }
   }
 }
 
 // ── Load summary (avg + distribution) ──
-// Reads from the merchant doc's stored aggregate fields (reviewCount, reviewAvg,
-// reviewDistribution) instead of re-querying all reviews. This avoids a second
-// Firestore query entirely and can't trigger index errors.
 async function loadReviewSummary() {
+  const mSnap = await getDoc(doc(db, 'merchants', merchantId));
+  if (!mSnap.exists()) return;
+  const d = mSnap.data();
+  const count = d.reviewCount || 0;
+  const avg = d.reviewAvg || 0;
+
+  const badge = document.getElementById('reviewSummaryBadge');
+  badge.textContent = count > 0 ? `${avg} ★ · ${count} review${count !== 1 ? 's' : ''}` : 'No reviews yet';
+
+  if (count === 0) {
+    document.getElementById('reviewSummary').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('reviewSummary').style.display = 'flex';
+  document.getElementById('reviewAvgScore').textContent = avg.toFixed(1);
+
+  // Avg star display
+  const avgStarsEl = document.getElementById('reviewAvgStars');
+  avgStarsEl.innerHTML = [1,2,3,4,5].map(s =>
+    `<span class="review-star${avg >= s ? ' on' : (avg >= s - 0.5 ? ' on' : '')}">★</span>`
+  ).join('');
+  document.getElementById('reviewAvgLabel').textContent = `${count} review${count !== 1 ? 's' : ''}`;
+
+  // Distribution bars — fetch all to count per-star
   try {
-    const mSnap = await getDoc(doc(db, 'merchants', merchantId));
-    if (!mSnap.exists()) return;
-    const d = mSnap.data();
-    const count = d.reviewCount || 0;
-    const avg = d.reviewAvg || 0;
-
-    const badge = document.getElementById('reviewSummaryBadge');
-    badge.textContent = count > 0
-      ? `${avg.toFixed(1)} ★ · ${count} review${count !== 1 ? 's' : ''}`
-      : '';
-
-    if (count === 0) {
-      document.getElementById('reviewSummary').style.display = 'none';
-      return;
-    }
-
-    document.getElementById('reviewSummary').style.display = 'flex';
-    document.getElementById('reviewAvgScore').textContent = avg.toFixed(1);
-
-    // Star display (half-star aware)
-    document.getElementById('reviewAvgStars').innerHTML = [1,2,3,4,5].map(s =>
-      `<span class="review-star${avg >= s - 0.25 ? ' on' : ''}">★</span>`
-    ).join('');
-    document.getElementById('reviewAvgLabel').textContent =
-      `${count} review${count !== 1 ? 's' : ''}`;
-
-    // Distribution bars — use stored per-star counts on merchant doc if available,
-    // otherwise derive from the already-loaded reviewsLoaded array (no extra query)
-    const dist = d.reviewDistribution || {1:0,2:0,3:0,4:0,5:0};
-
-    // If no stored distribution but we have loaded reviews, compute from them
-    if (!d.reviewDistribution && reviewsLoaded.length > 0) {
-      reviewsLoaded.forEach(r => {
-        const star = r.rating;
-        if (star >= 1 && star <= 5) dist[star] = (dist[star] || 0) + 1;
-      });
-    }
-
+    const allQ = query(collection(db, 'reviews'), where('merchantId', '==', merchantId));
+    const allSnap = await getDocs(allQ);
+    const dist = {1:0,2:0,3:0,4:0,5:0};
+    allSnap.forEach(d => { dist[d.data().rating] = (dist[d.data().rating]||0)+1; });
     const maxDist = Math.max(...Object.values(dist), 1);
     document.getElementById('starBars').innerHTML = [5,4,3,2,1].map(s => `
       <div class="star-bar-row">
         <span>${s}★</span>
         <div class="star-bar-track">
-          <div class="star-bar-fill" style="width:${Math.round(((dist[s]||0)/maxDist)*100)}%"></div>
+          <div class="star-bar-fill" style="width:${Math.round((dist[s]/maxDist)*100)}%"></div>
         </div>
-        <span class="star-bar-count">${dist[s]||0}</span>
+        <span class="star-bar-count">${dist[s]}</span>
       </div>`).join('');
-  } catch (e) {
-    console.warn('[GBH] loadReviewSummary error:', e.message);
-  }
+  } catch (e) { /* silent */ }
 }
 
 // ── Render review list items ──
@@ -1209,7 +1167,7 @@ function renderReviewsList() {
   }).join('');
 }
 
-
+/* ════════════════════════════════════════════════════════
    Rewrites every meta tag, the canonical link, breadcrumb,
    and the two JSON-LD blocks once merchant data is known.
    This is what makes each of the thousands of business pages
@@ -1399,87 +1357,36 @@ function renderFAQCard(faqs){
 window.toggleFAQ = (i) => document.getElementById(`faqItem${i}`).classList.toggle('open');
 
 /* ════════════════════════════════════════
-   LOAD — with fast-fail error detection
-   Firestore permission denials manifest as
-   hanging promises, not thrown errors, on
-   the web SDK. We detect them via a short
-   timeout and show a clear diagnosis.
+   LOAD
+   Priority: ID lookup (fast) → slug lookup (fallback)
 ════════════════════════════════════════ */
 async function load(){
-  const loaderEl = document.getElementById('pageLoader');
+  const loaderEl=document.getElementById('pageLoader');
 
-  function showError(icon, title, body, extra=''){
-    loaderEl.innerHTML = `
-      <div style="text-align:center;padding:40px 20px;max-width:500px;margin:0 auto;">
-        <div style="font-size:36px;margin-bottom:14px;">${icon}</div>
-        <p style="color:var(--tx);font-family:var(--fh);font-size:16px;font-weight:800;margin-bottom:10px;">${title}</p>
-        <p style="color:var(--mu);font-size:13px;line-height:1.7;margin-bottom:18px;">${body}</p>
-        ${extra}
-        <button onclick="location.reload()" style="padding:11px 22px;background:var(--gold);color:#000;border:none;border-radius:9px;cursor:pointer;font-weight:800;font-size:13px;margin-right:8px;">🔄 Try Again</button>
-        <a href="index.html" style="padding:11px 22px;background:var(--sf2);color:var(--mu);border:1px solid var(--br);border-radius:9px;font-weight:700;font-size:13px;text-decoration:none;display:inline-block;margin-top:8px;">← Directory</a>
-      </div>`;
-  }
-
-  // Fast-fail timeout — 8 seconds. Firestore permission errors
-  // don't throw; they silently hang. This converts a silent hang
-  // into a clear error message the business owner can act on.
-  function withTimeout(promise, ms){
-    return Promise.race([
-      promise,
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error('__TIMEOUT__')), ms))
-    ]);
-  }
-
-  // No params at all
-  if(!urlId && !urlSlug){
-    showError('🔍','No business specified','Use a full link from the directory to view a business profile.');
-    return;
-  }
-
-  let snap = null;
-  try {
+  let snap=null;
+  try{
     if(urlId){
-      snap = await withTimeout(getDoc(doc(db,'merchants',urlId)), 8000);
-      if(snap.exists()){ merchantId = urlId; }
+      snap=await getDoc(doc(db,'merchants',urlId));
+      if(snap.exists()){merchantId=urlId;}
       else if(urlSlug){
-        const q = query(collection(db,'merchants'), where('slug','==',urlSlug));
-        const r = await withTimeout(getDocs(q), 8000);
-        if(!r.empty){ snap = r.docs[0]; merchantId = snap.id; }
+        const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
+        const results=await getDocs(q);
+        if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
       }
-    } else {
-      const q = query(collection(db,'merchants'), where('slug','==',urlSlug));
-      const r = await withTimeout(getDocs(q), 8000);
-      if(!r.empty){ snap = r.docs[0]; merchantId = snap.id; }
+    } else if(urlSlug){
+      const q=query(collection(db,'merchants'),where('slug','==',urlSlug));
+      const results=await getDocs(q);
+      if(!results.empty){snap=results.docs[0];merchantId=snap.id;}
     }
-  } catch(err){
-    if(err.message === '__TIMEOUT__'){
-      showError('⏱️','Loading timed out',
-        'The database didn\'t respond in time. This usually means the Firestore security rules haven\'t been published yet, or there\'s a temporary connection issue.',
-        `<div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--gold);text-align:left;">
-          <strong>Most likely fix:</strong> Go to Firebase Console → Firestore → Rules → paste the v4.0 rules → click Publish. Then refresh this page.
-        </div>`
-      );
-    } else if(err.code === 'permission-denied' || err.message?.includes('permission')){
-      showError('🔒','Permission denied',
-        'Firestore rejected the read request. The security rules need to allow public reads on the merchants collection.',
-        `<div style="background:rgba(224,90,43,.08);border:1px solid rgba(224,90,43,.25);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--red);text-align:left;">
-          Firebase Console → Firestore → Rules → confirm <code style="background:var(--sf2);padding:1px 4px;border-radius:3px">allow read: if true</code> is published for the merchants collection.
-        </div>`
-      );
-    } else {
-      showError('⚠️','Error loading profile', err.message);
-    }
-    console.error('[GBH] load() error:', err);
+  }catch(err){
+    loaderEl.innerHTML=`<p style="color:var(--mu)">Error loading profile: ${err.message}</p>`;
     return;
   }
 
-  if(!snap || !snap.exists()){
-    showError('🔍','Business not found',
-      'This listing may have been removed or the link may be incorrect.',
-      `<a href="index.html" style="display:inline-block;padding:11px 22px;background:var(--gold);color:#000;border-radius:9px;font-weight:800;font-size:13px;text-decoration:none;margin-bottom:16px;">Browse Directory →</a><br>`
-    );
-    const r = document.createElement('meta');
-    r.name='robots'; r.content='noindex, follow';
+  if(!snap||!snap.exists()){
+    loaderEl.innerHTML='<p style="color:var(--mu)">Business not found or may have been removed.</p>';
+    // Even on 404, tell search engines clearly via robots meta
+    const r = document.createElement('meta'); r.name='robots'; r.content='noindex, follow';
     document.head.appendChild(r);
     return;
   }
